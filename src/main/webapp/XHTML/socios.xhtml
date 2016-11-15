@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelSocios" header="Socios">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgSocCod" value="SocCod"/>
+						 	<p:inputText id="txtSocCod" binding="#{sociosView.txtSocCod}">
+						 		<p:ajax update="panelSocios,msg,panelBotones" listener="#{sociosView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgSocApe1" value=" SocApe1"/>
+							<p:inputText id="txtSocApe1" disabled="true" binding="#{sociosView.txtSocApe1}"/>
+													<h:outputText id="msgSocApe2" value=" SocApe2"/>
+							<p:inputText id="txtSocApe2" disabled="true" binding="#{sociosView.txtSocApe2}"/>
+													<h:outputText id="msgSocDes" value=" SocDes"/>
+							<p:inputText id="txtSocDes" disabled="true" binding="#{sociosView.txtSocDes}"/>
+													<h:outputText id="msgSocDir" value=" SocDir"/>
+							<p:inputText id="txtSocDir" disabled="true" binding="#{sociosView.txtSocDir}"/>
+													<h:outputText id="msgSocFax" value=" SocFax"/>
+							<p:inputText id="txtSocFax" disabled="true" binding="#{sociosView.txtSocFax}"/>
+													<h:outputText id="msgSocMail" value=" SocMail"/>
+							<p:inputText id="txtSocMail" disabled="true" binding="#{sociosView.txtSocMail}"/>
+													<h:outputText id="msgSocNit" value=" SocNit"/>
+							<p:inputText id="txtSocNit" disabled="true" binding="#{sociosView.txtSocNit}"/>
+													<h:outputText id="msgSocNom" value=" SocNom"/>
+							<p:inputText id="txtSocNom" disabled="true" binding="#{sociosView.txtSocNom}"/>
+													<h:outputText id="msgSocTel" value=" SocTel"/>
+							<p:inputText id="txtSocTel" disabled="true" binding="#{sociosView.txtSocTel}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{sociosView.btnSave}" disabled="true" value="Save" action="#{sociosView.action_save()}" update="panelSocios,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{sociosView.btnDelete}" disabled="true" value="Delete" action="#{sociosView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelSocios,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{sociosView.action_clear()}" update="panelSocios,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

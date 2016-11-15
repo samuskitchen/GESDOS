@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false" position="center top">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="frm">
+					<p:messages id="msgTabla" />
+					<p:growl id="menTabla" />
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator />
+							<p:commandButton id="btnSave" binding="#{empresasView.btnSave}"
+							    value="Nuevo" icon="ui-icon-document"
+								action="#{empresasView.cargarEmpresaDialog('0')}"
+								update="msgTabla,panelBotones,:frm:idDataTableEmpresas" >
+							</p:commandButton>
+							<p:separator />
+							<p:commandButton id="btnModificar"
+							    value="Modificar" icon="ui-icon-pencil"
+								action="#{empresasView.cargarEmpresaDialog('1')}"
+								update="msgTabla,panelBotones,:frm:idDataTableEmpresas" >
+							</p:commandButton>
+							<p:separator />
+							<p:commandButton id="btnDelete"
+								binding="#{empresasView.btnDelete}"
+								value="Borrar" icon="ui-icon-trash" 
+								action="#{empresasView.action_delete_datatable()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="msgTabla,panelBotones,:frm:idDataTableEmpresas" />
+							<p:separator />
+							<p:commandButton id="btnVisualizar" value="Visualizar"
+								icon="ui-icon-circle-zoomin" 
+								action="#{empresasView.cargarEmpresaDialog('2')}"
+								update="msgTabla,panelBotones" />
+							<p:separator />
+							<p:commandButton id="btnDosimetro" value="Dosimetro"
+								icon="ui-icon-note" 
+								actionListener="#{empresasView.cargarDosimetrosDialog(null)}"
+								update="msgTabla,panelBotones" />
+							<p:separator />
+							<p:commandButton id="btnTrabajadores" value="Trabajadores"
+								icon="ui-icon-person" 
+								actionListener="#{empresasView.cargarTrabajadoresDialog(null)}"
+								update="msgTabla,panelBotones" />
+							<p:separator />
+							<p:commandButton id="btnRefrescar" value="Refrescar"
+								icon="ui-icon-bookmark"
+								onclick="javascript:location.reload();"
+								update="msgTabla,panelBotones :frm:idDataTableEmpresas" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					<br/>
+					<p:panel id="panelDataTableEmpresas" header="Trabajar con Empresas">
+						<p:growl id="men" />
+						<p:dataTable id="idDataTableEmpresas" value="#{empresasView.data}" var="empresas"
+							paginator="true" rows="10" paginatorPosition="bottom" 
+			             	scrollable="true" scrollHeight="120" 
+							emptyMessage="No se encontrarón archivos."
+							selectionMode="single" rowKey="#{empresas.empCod}"
+							selection="#{empresasView.selectedEmpresa}">
+
+							<p:column filterBy="#{empresas.empCod}"
+								sortBy="#{empresas.empCod}">
+								<f:facet name="header">
+									<h:outputText value="Codigo" />
+								</f:facet>
+								<h:outputText value="#{empresas.empCod}" />
+							</p:column>
+
+							<p:column filterBy="#{empresas.empNit}"
+								sortBy="#{empresas.empNit}">
+								<f:facet name="header">
+									<h:outputText value="Nit" />
+								</f:facet>
+								<h:outputText value="#{empresas.empNit}" />
+							</p:column>
+							
+							<p:column filterBy="#{empresas.empRazSoc}"
+								sortBy="#{empresas.empRazSoc}">
+								<f:facet name="header">
+									<h:outputText value="Razón Social" />
+								</f:facet>
+								<h:outputText value="#{empresas.empRazSoc}" />
+							</p:column>
+							
+							<p:column filterBy="#{empresas.empEst}"
+								sortBy="#{empresas.empEst}">
+								<f:facet name="header">
+									<h:outputText value="Estado" />
+								</f:facet>
+								<h:outputText value="#{empresas.empEst}" />
+							</p:column>
+							
+							<p:column filterBy="#{empresas.empMail}"
+								sortBy="#{empresas.empMail}">
+								<f:facet name="header">
+									<h:outputText value="Empresa Mail" />
+								</f:facet>
+								<h:outputText value="#{empresas.empMail}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

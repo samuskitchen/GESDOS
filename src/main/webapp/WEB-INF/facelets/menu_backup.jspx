@@ -1,0 +1,358 @@
+<jsp:root jsfc="f:view" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<html>
+<body>
+	<f:view>
+		<ui:composition>
+			<!-- Beging Menu -->
+			<h:form>
+				<p:menu style="margin-top:10px" toggleable="true">
+					<p:submenu label="Master" icon="ui-icon-pencil">
+							<p:submenu label="Cargo">
+								<p:menuitem value="Master Cargo"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/cargo.xhtml" />
+							</p:submenu>
+							<p:submenu label="Ciuda">
+								<p:menuitem value="Master Ciuda"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/ciuda.xhtml" />
+							</p:submenu>
+							<p:submenu label="ContratoDosimetro">
+								<p:menuitem value="Master ContratoDosimetro"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/contratoDosimetro.xhtml" />
+							</p:submenu>
+							<p:submenu label="Contratos">
+								<p:menuitem value="Master Contratos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/contratos.xhtml" />
+							</p:submenu>
+							<p:submenu label="Depar">
+								<p:menuitem value="Master Depar"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/depar.xhtml" />
+							</p:submenu>
+							<p:submenu label="DetalleContrato">
+								<p:menuitem value="Master DetalleContrato"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/detalleContrato.xhtml" />
+							</p:submenu>
+							<p:submenu label="Dosimetro">
+								<p:menuitem value="Master Dosimetro"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/dosimetro.xhtml" />
+							</p:submenu>
+							<p:submenu label="Empresas">
+								<p:menuitem value="Master Empresas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/empresas.xhtml" />
+							</p:submenu>
+							<p:submenu label="Estudios">
+								<p:menuitem value="Master Estudios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/estudios.xhtml" />
+							</p:submenu>
+							<p:submenu label="Factura">
+								<p:menuitem value="Master Factura"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/factura.xhtml" />
+							</p:submenu>
+							<p:submenu label="Facturapago">
+								<p:menuitem value="Master Facturapago"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/facturapago.xhtml" />
+							</p:submenu>
+							<p:submenu label="Geominas">
+								<p:menuitem value="Master Geominas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/geominas.xhtml" />
+							</p:submenu>
+							<p:submenu label="Grupdet">
+								<p:menuitem value="Master Grupdet"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/grupdet.xhtml" />
+							</p:submenu>
+							<p:submenu label="Grupos">
+								<p:menuitem value="Master Grupos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/grupos.xhtml" />
+							</p:submenu>
+							<p:submenu label="Numer">
+								<p:menuitem value="Master Numer"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/numer.xhtml" />
+							</p:submenu>
+							<p:submenu label="Observa">
+								<p:menuitem value="Master Observa"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/observa.xhtml" />
+							</p:submenu>
+							<p:submenu label="Permisos">
+								<p:menuitem value="Master Permisos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/permisos.xhtml" />
+							</p:submenu>
+							<p:submenu label="Practica">
+								<p:menuitem value="Master Practica"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/practica.xhtml" />
+							</p:submenu>
+							<p:submenu label="Programa1">
+								<p:menuitem value="Master Programa1"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/programa1.xhtml" />
+							</p:submenu>
+							<p:submenu label="Programas">
+								<p:menuitem value="Master Programas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/programas.xhtml" />
+							</p:submenu>
+							<p:submenu label="Radiacion">
+								<p:menuitem value="Master Radiacion"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/radiacion.xhtml" />
+							</p:submenu>
+							<p:submenu label="Revelado">
+								<p:menuitem value="Master Revelado"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/revelado.xhtml" />
+							</p:submenu>
+							<p:submenu label="Socios">
+								<p:menuitem value="Master Socios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/socios.xhtml" />
+							</p:submenu>
+							<p:submenu label="Traba">
+								<p:menuitem value="Master Traba"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/traba.xhtml" />
+							</p:submenu>
+							<p:submenu label="Ubicacion">
+								<p:menuitem value="Master Ubicacion"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/ubicacion.xhtml" />
+							</p:submenu>
+							<p:submenu label="Usuarios">
+								<p:menuitem value="Master Usuarios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/usuarios.xhtml" />
+							</p:submenu>
+					</p:submenu>
+
+
+
+					<p:submenu label="Data Table" icon="ui-icon-document">
+						<p:column>
+							<p:submenu label="Cargo">
+								<p:menuitem value="Cargo"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/cargoListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Ciuda">
+								<p:menuitem value="Ciuda"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/ciudaListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="ContratoDosimetro">
+								<p:menuitem value="ContratoDosimetro"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/contratoDosimetroListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Contratos">
+								<p:menuitem value="Contratos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/contratosListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Depar">
+								<p:menuitem value="Depar"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/deparListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="DetalleContrato">
+								<p:menuitem value="DetalleContrato"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/detalleContratoListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Dosimetro">
+								<p:menuitem value="Dosimetro"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/dosimetroListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Empresas">
+								<p:menuitem value="Empresas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/empresasListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Estudios">
+								<p:menuitem value="Estudios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/estudiosListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Factura">
+								<p:menuitem value="Factura"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/facturaListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Facturapago">
+								<p:menuitem value="Facturapago"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/facturapagoListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Geominas">
+								<p:menuitem value="Geominas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/geominasListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Grupdet">
+								<p:menuitem value="Grupdet"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/grupdetListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Grupos">
+								<p:menuitem value="Grupos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gruposListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Numer">
+								<p:menuitem value="Numer"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/numerListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Observa">
+								<p:menuitem value="Observa"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/observaListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Permisos">
+								<p:menuitem value="Permisos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/permisosListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Practica">
+								<p:menuitem value="Practica"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/practicaListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Programa1">
+								<p:menuitem value="Programa1"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/programa1ListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Programas">
+								<p:menuitem value="Programas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/programasListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Radiacion">
+								<p:menuitem value="Radiacion"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/radiacionListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Revelado">
+								<p:menuitem value="Revelado"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/reveladoListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Socios">
+								<p:menuitem value="Socios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/sociosListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Traba">
+								<p:menuitem value="Traba"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/trabaListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Ubicacion">
+								<p:menuitem value="Ubicacion"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/ubicacionListDataTable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Usuarios">
+								<p:menuitem value="Usuarios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/usuariosListDataTable.xhtml" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+
+
+
+
+					<p:submenu label="Edit Data Table" icon="ui-icon-contact">
+						<p:column>
+							<p:submenu label="Cargo">
+								<p:menuitem value="Cargo"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/cargoListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Ciuda">
+								<p:menuitem value="Ciuda"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/ciudaListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="ContratoDosimetro">
+								<p:menuitem value="ContratoDosimetro"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/contratoDosimetroListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Contratos">
+								<p:menuitem value="Contratos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/contratosListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Depar">
+								<p:menuitem value="Depar"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/deparListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="DetalleContrato">
+								<p:menuitem value="DetalleContrato"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/detalleContratoListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Dosimetro">
+								<p:menuitem value="Dosimetro"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/dosimetroListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Empresas">
+								<p:menuitem value="Empresas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/empresasListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Estudios">
+								<p:menuitem value="Estudios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/estudiosListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Factura">
+								<p:menuitem value="Factura"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/facturaListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Facturapago">
+								<p:menuitem value="Facturapago"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/facturapagoListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Geominas">
+								<p:menuitem value="Geominas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/geominasListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Grupdet">
+								<p:menuitem value="Grupdet"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/grupdetListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Grupos">
+								<p:menuitem value="Grupos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gruposListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Numer">
+								<p:menuitem value="Numer"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/numerListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Observa">
+								<p:menuitem value="Observa"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/observaListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Permisos">
+								<p:menuitem value="Permisos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/permisosListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Practica">
+								<p:menuitem value="Practica"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/practicaListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Programa1">
+								<p:menuitem value="Programa1"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/programa1ListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Programas">
+								<p:menuitem value="Programas"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/programasListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Radiacion">
+								<p:menuitem value="Radiacion"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/radiacionListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Revelado">
+								<p:menuitem value="Revelado"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/reveladoListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Socios">
+								<p:menuitem value="Socios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/sociosListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Traba">
+								<p:menuitem value="Traba"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/trabaListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Ubicacion">
+								<p:menuitem value="Ubicacion"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/ubicacionListDataTableEditable.xhtml" />
+							</p:submenu>
+							<p:submenu label="Usuarios">
+								<p:menuitem value="Usuarios"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/usuariosListDataTableEditable.xhtml" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+
+					<p:menuitem value="Quit"
+						url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"
+						icon="ui-icon-close" />
+
+				</p:menu>
+			</h:form>
+
+			<!-- end menu -->
+		</ui:composition>
+	</f:view>
+</body>
+	</html>
+</jsp:root>

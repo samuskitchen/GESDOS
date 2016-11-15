@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableGeominas" header="GeominasData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{geominasView.data}" var="geominas"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{geominas.geoCod}" sortBy="#{geominas.geoCod}" >
+										 <f:facet name="header">
+										<h:outputText value="geoCod"/>
+										</f:facet>
+										 <h:outputText value="#{geominas.geoCod}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{geominas.geoDes}" sortBy="#{geominas.geoDes}" >
+										 <f:facet name="header">
+										<h:outputText value="GeoDes"/>
+										</f:facet>
+										 <h:outputText value="#{geominas.geoDes}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogGeominas"
+										actionListener="#{geominasView.action_edit}">
+										<f:attribute name="selectedGeominas" value="#{geominas}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{geominasView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedGeominas" value="#{geominas}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{geominasView.action_new()}" update=":dialogGeominas" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogGeominas" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{geominasView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelGeominas" header="Geominas">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgGeoCod" value="GeoCod"/>
+									 <p:inputText id="txtGeoCod" binding="#{geominasView.txtGeoCod}">
+									 <p:ajax update=":dialogGeominas" listener="#{geominasView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgGeoDes" value=" GeoDes"/>
+									<p:inputText id="txtGeoDes" disabled="true" binding="#{geominasView.txtGeoDes}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{geominasView.btnSave}" value="Save" action="#{geominasView.action_save()}" update=":dialogGeominas :frm:panelDataTableGeominas" />
+									<p:commandButton id="btnClear" value="Clear" action="#{geominasView.action_clear()}" update=":dialogGeominas" />
+									<p:commandButton id="btnExit" value="Exit" action="#{geominasView.action_closeDialog()}" update=":dialogGeominas" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

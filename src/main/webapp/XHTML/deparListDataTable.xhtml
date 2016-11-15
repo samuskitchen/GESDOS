@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableDepar" header="DeparData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{deparView.data}" var="depar"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{depar.depCod}" sortBy="#{depar.depCod}" >
+										 <f:facet name="header">
+										<h:outputText value="depCod"/>
+										</f:facet>
+										 <h:outputText value="#{depar.depCod}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{depar.depNom}" sortBy="#{depar.depNom}" >
+										 <f:facet name="header">
+										<h:outputText value="DepNom"/>
+										</f:facet>
+										 <h:outputText value="#{depar.depNom}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogDepar"
+										actionListener="#{deparView.action_edit}">
+										<f:attribute name="selectedDepar" value="#{depar}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{deparView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedDepar" value="#{depar}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{deparView.action_new()}" update=":dialogDepar" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogDepar" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{deparView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelDepar" header="Depar">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgDepCod" value="DepCod"/>
+									 <p:inputText id="txtDepCod" binding="#{deparView.txtDepCod}">
+									 <p:ajax update=":dialogDepar" listener="#{deparView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDepNom" value=" DepNom"/>
+									<p:inputText id="txtDepNom" disabled="true" binding="#{deparView.txtDepNom}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{deparView.btnSave}" value="Save" action="#{deparView.action_save()}" update=":dialogDepar :frm:panelDataTableDepar" />
+									<p:commandButton id="btnClear" value="Clear" action="#{deparView.action_clear()}" update=":dialogDepar" />
+									<p:commandButton id="btnExit" value="Exit" action="#{deparView.action_closeDialog()}" update=":dialogDepar" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

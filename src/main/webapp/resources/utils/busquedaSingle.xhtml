@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<!-- tabla -->
+	<composite:attribute name="idTable" />
+	<composite:attribute name="valueTable" type="java.util.List" />
+	<composite:attribute name="selectedTable" />
+	<composite:attribute name="rowKeyTable" />
+	<composite:attribute name="rowsTable" default="10" />
+	<composite:attribute name="columnTableCodigo" />
+	<composite:attribute name="columnTableNombre" />
+	<composite:attribute name="headerTextColumnTableCodigo"	default="Código" />
+	<composite:attribute name="headerTextColumnTableNombre"	default="Descripción" />
+	<composite:attribute name="filterByColumnTableCodigo" />
+	<composite:attribute name="filterByColumnTableNombre" />
+	<composite:attribute name="filterMatchModeColumnTableCodigo" default="contains" />
+	<composite:attribute name="filterMatchModeColumnTableNombre" default="contains" />
+	<composite:attribute name="widthColumnTableCodigo" default="3" />
+	<composite:attribute name="widthColumnTableNombre" default="100" />
+	<composite:attribute name="ajaxUpdate"/>
+	<composite:attribute name="elementFocusRowSelection" default="txtFocusRowSelectionSindefinir"/>
+	
+	<!-- dialogo -->
+	<composite:attribute name="idDialog" />	
+	<composite:attribute name="headerDialog" />
+	<composite:attribute name="widgetVarDialog" />
+	<composite:attribute name="heightDialog" default="430" />
+	<composite:attribute name="widthDialog" default="600" />
+	
+	<!-- acciones -->
+	<composite:attribute name="accionCerrar" method-signature="java.lang.String action()" />
+	
+	<!-- eventos -->
+	<composite:attribute name="ajaxListener" method-signature="void listener()" required="true"/>
+		
+</composite:interface>
+
+<composite:implementation>
+	<p:dialog 
+		id="#{cc.attrs.idDialog}"
+		header="#{cc.attrs.headerDialog}"
+		widgetVar="#{cc.attrs.widgetVarDialog}" styleClass="form"
+        closable="false" closeOnEscape="true"
+		height="#{cc.attrs.heightDialog}" width="#{cc.attrs.widthDialog}"
+		resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+
+		<p:dataTable id="#{cc.attrs.idTable}" var="dataTable" 
+			value="#{cc.attrs.valueTable}" paginator="true"
+			rows="#{cc.attrs.rowsTable}" selection="#{cc.attrs.selectedTable}"
+			rowKey="#{cc.attrs.rowKeyTable}" selectionMode="single"
+			emptyMessage="No hay registros para mostrar" resizableColumns="true" scrollable="true" scrollHeight="285" >
+			
+			<p:column headerText="#{cc.attrs.headerTextColumnTableCodigo}" 
+				width="#{cc.attrs.widthColumnTableCodigo}"
+				filterMatchMode="#{cc.attrs.filterMatchModeColumnTableCodigo}"
+				filterBy="#{cc.attrs.filterByColumnTableCodigo}">
+				<h:outputText value="#{cc.attrs.columnTableCodigo}" />
+			</p:column>
+			
+			<p:column headerText="#{cc.attrs.headerTextColumnTableNombre}"
+				width="#{cc.attrs.widthColumnTableNombre}"
+				filterMatchMode="#{cc.attrs.filterMatchModeColumnTableNombre}"
+				filterBy="#{cc.attrs.filterByColumnTableNombre}">
+				<h:outputText value="#{cc.attrs.columnTableNombre}" />
+			</p:column>
+			
+			<p:ajax event="rowSelect" 
+			listener="#{cc.attrs.ajaxListener}"
+			update="#{cc.attrs.ajaxUpdate}" oncomplete="PF('#{cc.attrs.widgetVarDialog}').hide(); 
+			if(document.getElementById('#{cc.attrs.elementFocusRowSelection}') !=null) document.getElementById('#{cc.attrs.elementFocusRowSelection}').focus();"/>
+			
+			<composite:insertChildren />
+		</p:dataTable>
+		<h:panelGrid columns="2" border="0" id="panelGridComponentesBtn">
+			<p:commandButton value="Cerrar" action="#{cc.attrs.accionCerrar}"
+				onclick="PF('#{cc.attrs.widgetVarDialog}').hide();"
+				icon="ui-icon-close"
+				process="@this" />
+		</h:panelGrid>
+	</p:dialog>
+</composite:implementation>
+</html>

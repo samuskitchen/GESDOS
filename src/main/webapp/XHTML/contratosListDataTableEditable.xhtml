@@ -1,0 +1,276 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="ContratosData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{contratosView.data}" var="contratos"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{contratosView.rowEventListener}" />
+					
+															<p:column filterBy="#{contratos.conNro}" sortBy="#{contratos.conNro}" headerText="conNro">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{contratos.conNro}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{contratos.conNro}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{contratos.empCod}" sortBy="#{contratos.empCod}" headerText="empCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{contratos.empCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{contratos.empCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{contratos.conDosi}" sortBy="#{contratos.conDosi}" 
+							headerText="conDosi">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conDosi}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conDosi}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conDura}" sortBy="#{contratos.conDura}" 
+							headerText="conDura">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conDura}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conDura}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conEst}" sortBy="#{contratos.conEst}" 
+							headerText="conEst">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conEst}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conEst}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conNroFac}" sortBy="#{contratos.conNroFac}" 
+							headerText="conNroFac">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conNroFac}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conNroFac}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conObser}" sortBy="#{contratos.conObser}" 
+							headerText="conObser">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conObser}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conObser}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conTipo}" sortBy="#{contratos.conTipo}" 
+							headerText="conTipo">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conTipo}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conTipo}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conUsu}" sortBy="#{contratos.conUsu}" 
+							headerText="conUsu">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conUsu}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conUsu}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.conVal}" sortBy="#{contratos.conVal}" 
+							headerText="conVal">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conVal}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.conVal}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.detConCod}" sortBy="#{contratos.detConCod}" 
+							headerText="detConCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.detConCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.detConCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{contratos.socCod}" sortBy="#{contratos.socCod}" 
+							headerText="socCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.socCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{contratos.socCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{contratos.conFec}" sortBy="#{contratos.conFec}" 
+							headerText="conFec">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conFec}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{contratos.conFec}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{contratosView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{contratos.conFecFac}" sortBy="#{contratos.conFecFac}" 
+							headerText="conFecFac">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{contratos.conFecFac}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{contratos.conFecFac}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{contratosView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{contratosView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedContratos" value="#{contratos}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

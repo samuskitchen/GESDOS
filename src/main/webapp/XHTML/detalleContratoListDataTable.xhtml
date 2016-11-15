@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableDetalleContrato" header="DetalleContratoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{detalleContratoView.data}" var="detalleContrato"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{detalleContrato.detConCod}" sortBy="#{detalleContrato.detConCod}" >
+										 <f:facet name="header">
+										<h:outputText value="detConCod"/>
+										</f:facet>
+										 <h:outputText value="#{detalleContrato.detConCod}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{detalleContrato.conNro}" sortBy="#{detalleContrato.conNro}" >
+										 <f:facet name="header">
+										<h:outputText value="conNro"/>
+										</f:facet>
+										 <h:outputText value="#{detalleContrato.conNro}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{detalleContrato.detEst}" sortBy="#{detalleContrato.detEst}" >
+										 <f:facet name="header">
+										<h:outputText value="DetEst"/>
+										</f:facet>
+										 <h:outputText value="#{detalleContrato.detEst}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detalleContrato.detNumUsu}" sortBy="#{detalleContrato.detNumUsu}" >
+										 <f:facet name="header">
+										<h:outputText value="DetNumUsu"/>
+										</f:facet>
+										 <h:outputText value="#{detalleContrato.detNumUsu}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detalleContrato.detObs}" sortBy="#{detalleContrato.detObs}" >
+										 <f:facet name="header">
+										<h:outputText value="DetObs"/>
+										</f:facet>
+										 <h:outputText value="#{detalleContrato.detObs}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogDetalleContrato"
+										actionListener="#{detalleContratoView.action_edit}">
+										<f:attribute name="selectedDetalleContrato" value="#{detalleContrato}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{detalleContratoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedDetalleContrato" value="#{detalleContrato}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{detalleContratoView.action_new()}" update=":dialogDetalleContrato" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogDetalleContrato" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{detalleContratoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelDetalleContrato" header="DetalleContrato">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgDetConCod" value="DetConCod"/>
+									 <p:inputText id="txtDetConCod" binding="#{detalleContratoView.txtDetConCod}">
+									 <p:ajax update=":dialogDetalleContrato" listener="#{detalleContratoView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgConNro" value="ConNro"/>
+									 <p:inputText id="txtConNro" binding="#{detalleContratoView.txtConNro}">
+									 <p:ajax update=":dialogDetalleContrato" listener="#{detalleContratoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDetEst" value=" DetEst"/>
+									<p:inputText id="txtDetEst" disabled="true" binding="#{detalleContratoView.txtDetEst}"/>
+																		<h:outputText id="msgDetNumUsu" value=" DetNumUsu"/>
+									<p:inputText id="txtDetNumUsu" disabled="true" binding="#{detalleContratoView.txtDetNumUsu}"/>
+																		<h:outputText id="msgDetObs" value=" DetObs"/>
+									<p:inputText id="txtDetObs" disabled="true" binding="#{detalleContratoView.txtDetObs}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{detalleContratoView.btnSave}" value="Save" action="#{detalleContratoView.action_save()}" update=":dialogDetalleContrato :frm:panelDataTableDetalleContrato" />
+									<p:commandButton id="btnClear" value="Clear" action="#{detalleContratoView.action_clear()}" update=":dialogDetalleContrato" />
+									<p:commandButton id="btnExit" value="Exit" action="#{detalleContratoView.action_closeDialog()}" update=":dialogDetalleContrato" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

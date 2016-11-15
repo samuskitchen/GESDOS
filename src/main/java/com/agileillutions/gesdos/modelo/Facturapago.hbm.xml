@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 5, 2016 11:07:00 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.agileillutions.gesdos.modelo.Facturapago" table="facturapago" schema="admgesdos">
+        <composite-id name="id" class="com.agileillutions.gesdos.modelo.FacturapagoId">
+            <key-property name="conNro" type="java.lang.Long">
+                <column name="ConNro" precision="22" scale="0" />
+            </key-property>
+            <key-property name="empCod" type="java.lang.Long">
+                <column name="EmpCod" precision="22" scale="0" />
+            </key-property>
+            <key-property name="facNro" type="java.lang.Long">
+                <column name="FacNro" precision="22" scale="0" />
+            </key-property>
+            <key-property name="facPagNro" type="java.lang.Long">
+                <column name="FacPagNro" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+        <property name="facPagFec" type="java.util.Date">
+            <column name="FacPagFec" length="7" not-null="true" />
+        </property>
+        <property name="facPagVal" type="java.lang.Double">
+            <column name="FacPagVal" precision="15" not-null="true" />
+        </property>
+        <property name="facPagRet" type="java.lang.Double">
+            <column name="FacPagRet" precision="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,334 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialog">
+					<script type="text/javascript">
+						//<![CDATA[
+							function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator rendered="#{empresasView.botonGuardar}" />
+							<p:commandButton id="btnSave" binding="#{empresasView.btnSave}"
+								value="Guardar" icon="ui-icon-document"
+								rendered="#{empresasView.botonGuardar}"
+								action="#{empresasView.action_save()}"
+								update="panelEmpresas,msg,panelBotones" />
+							<p:separator rendered="#{empresasView.botonModificar}" />
+							<p:commandButton id="btnModificar"
+								rendered="#{empresasView.botonModificar}"
+								binding="#{empresasView.btnModify}" value="Modificar"
+								icon="ui-icon-pencil" action="#{empresasView.action_modify()}"
+								update="panelEmpresas,msg,panelBotones" />
+							<p:separator rendered="#{empresasView.botonBorrar}" />
+							<p:commandButton id="btnDelete"
+								rendered="#{empresasView.botonBorrar}"
+								binding="#{empresasView.btnDelete}" value="Borrar"
+								icon="ui-icon-trash"
+								action="#{empresasView.action_delete_master()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="panelEmpresas,msg,panelBotones" />
+							<p:separator rendered="#{empresasView.botonVisualizar}" />
+							<p:commandButton id="btnVisualizar" value="Visualizar"
+								icon="ui-icon-circle-zoomin"
+								rendered="#{empresasView.botonVisualizar}"
+								action="#{empresasView.listener_txtId()}"
+								update=":formDialog:, panelEmpresas,msg,panelBotones" />
+							<p:separator rendered="#{empresasView.botonDosimetros}" />
+							<p:commandButton id="btnDosimetro" value="Dosimetro"
+								icon="ui-icon-note" rendered="#{empresasView.botonDosimetros}"
+								update="panelEmpresas,msg,panelBotones" />
+							<p:separator rendered="#{empresasView.botonTrabajadores}" />
+							<p:commandButton id="btnTrabajadores" value="Trabajadores"
+								icon="ui-icon-person"
+								rendered="#{empresasView.botonTrabajadores}"
+								update="panelEmpresas,msg,panelBotones" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<utils:busquedaSingle headerDialog="Departamento"
+						idTable="tableBusquedaDepartamento" idDialog="dialogDepartamento"
+						id="CBPDepartamento" valueTable="#{empresasView.departamentos}"
+						selectedTable="#{empresasView.selectedDepartamento}"
+						rowKeyTable="#{dataTable.depCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.depCod}"
+						columnTableNombre="#{dataTable.depNom}"
+						filterByColumnTableCodigo="#{dataTable.depCod}"
+						filterByColumnTableNombre="#{dataTable.depNom}"
+						widgetVarDialog="busquedaDeapartamentoSingle"
+						accionCerrar="#{empresasView.actionCerrarBusqueda()}"
+						ajaxListener="#{empresasView.onRowSelectDepartamento}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Ciudad"
+						idTable="tableBusquedaCiudad" idDialog="dialogCiudad"
+						id="CBPCiudad" valueTable="#{empresasView.ciudades}"
+						selectedTable="#{empresasView.selectedCiuda}"
+						rowKeyTable="#{dataTable.id.ciuCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.id.ciuCod}"
+						columnTableNombre="#{dataTable.ciuNom}"
+						filterByColumnTableCodigo="#{dataTable.id.ciuCod}"
+						filterByColumnTableNombre="#{dataTable.ciuNom}"
+						widgetVarDialog="busquedaCiudadSingle"
+						accionCerrar="#{empresasView.actionCerrarBusqueda()}"
+						ajaxListener="#{empresasView.onRowSelectCiudad}">
+					</utils:busquedaSingle>
+
+
+					<br />
+					<p:messages id="msg" />
+					<p:growl id="men" />
+					<p:panel id="panelEmpresas" header="Empresas">
+						<!-- Codigo del espacio &#160; -->
+						<p:panelGrid columns="2">
+							<h:outputText id="msgEmpCod" value="Codigo" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtEmpCod" binding="#{empresasView.txtEmpCod}"
+									onkeypress="return isNumberKey(event)" 
+									requiredMessage="El Codigo es requerido"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+							</p:panelGrid>
+
+							<h:outputText id="msgEmpNit" value="Nit" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtEmpNit" binding="#{empresasView.txtEmpNit}"
+									onkeypress="return isNumberKey(event)" 
+									requiredMessage="El Nit es requerido"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+							</p:panelGrid>
+
+							<h:outputText id="msgEmpRazSoc" value="Razón Social" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtEmpRazSoc"
+									binding="#{empresasView.txtEmpRazSoc}"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+							</p:panelGrid>
+
+							<h:outputText id="msgEmpDir" value="Dirección" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtEmpDir" binding="#{empresasView.txtEmpDir}"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+							</p:panelGrid>
+
+							<h:outputText id="msgEmpTel" value="Teléfono" />
+							<p:panelGrid columns="5">
+								<p:inputText id="txtEmpTel" binding="#{empresasView.txtEmpTel}"
+									onkeypress="return isNumberKey(event)"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+								<h:outputText id="msgEmpFax" value="Fax" />
+								<p:inputText id="txtEmpFax" binding="#{empresasView.txtEmpFax}"
+									onkeypress="return isNumberKey(event)"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+								<h:outputText id="msgEmpCel" value="Celular" />
+								<p:inputText id="txtEmpCel" binding="#{empresasView.txtEmpCel}"
+									onkeypress="return isNumberKey(event)"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+							</p:panelGrid>
+
+							<h:outputText id="msgEmpMail" value="Correo Electronico" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtEmpMail"
+									binding="#{empresasView.txtEmpMail}"
+									disabled="#{empresasView.disableBotonesBusqueda}" />
+							</p:panelGrid>
+
+							<h:outputText id="msgDepCod" value="Departamento" />
+							<p:panelGrid columns="2" id="idPanelDepartamento">
+								<p:panelGrid>
+									<p:inputText binding="#{empresasView.txtDepCod}"
+										id="txtDepCod" size="10"
+										onkeypress="return isNumberKey(event)" 
+										requiredMessage="El Departamento es requerido"
+										disabled="#{empresasView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{empresasView.consultarDepartamentos}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialog:CBPDepartamento:dialogDepartamento, :formDialog:txtDepCod, :formDialog:txtDepNombre"
+										actionListener="#{empresasView.consultarDepartamentos}"
+										oncomplete="PF('busquedaDeapartamentoSingle').show();"
+										title="Búsqueda..."
+										process="@this"
+										disabled="#{empresasView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{empresasView.txtDepNombre}"
+										id="txtDepNombre" style="width:260px"
+										disabled="#{empresasView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialog:CBPDepartamento:dialogDepartamento, :formDialog:txtDepCod, :formDialog:txtDepNombre"
+										actionListener="#{empresasView.limpiarControlBusquedaDepartamento}"
+										process="@this"
+										title="Limpiar..."
+										disabled="#{empresasView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgCiuCod" value="Ciudad" />
+							<p:panelGrid columns="2" id="idPanelCiudad">
+								<p:panelGrid>
+									<p:inputText binding="#{empresasView.txtCiuCod}"
+										id="txtCiuCod" size="10"
+										onkeypress="return isNumberKey(event)" 
+										requiredMessage="La Ciudad es requerida"
+										disabled="#{empresasView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{empresasView.consultarCiudades}" />
+									</p:inputText>
+									<p:commandLink update=":formDialog:CBPCiudad:dialogCiudad"
+										actionListener="#{empresasView.consultarCiudades}"
+										oncomplete="PF('busquedaCiudadSingle').show();"
+										title="Búsqueda..."
+										process="@this"
+										disabled="#{empresasView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{empresasView.txtCiudaNombre}"
+										id="txtCiudaNombre" style="width:260px"
+										disabled="#{empresasView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialog:CBPCiudad:dialogCiudad, :formDialog:txtCiuCod, :formDialog:txtCiudaNombre"
+										actionListener="#{empresasView.limpiarControlBusquedaCiudad}"
+										process="@this"
+										title="Limpiar..."
+										disabled="#{empresasView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+							
+							<h:outputText id="msgEmpFecVin" value="Fecha Vinculación" />
+							<p:panelGrid columns="3">
+								<p:calendar id="idFechaVinculacion" showOn="button"
+									navigator="true" binding="#{empresasView.txtEmpFecVin}"
+									
+									requiredMessage="La Fecha Vinculacion es requerida"
+									disabled="#{empresasView.disableBotonesBusqueda}"
+									pattern="dd/MM/yyyy" mask="true"/>
+
+								<h:outputText id="msgEmpEst" value="Estado" />
+								<p:selectOneMenu id="estado" value="#{empresasView.txtEmpEst}"
+									binding="#{empresasView.cbOpcionEstado}" 
+									requiredMessage="El estado es requerido"
+									disabled="#{empresasView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Activo" itemValue="A" />
+									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+									<f:selectItem itemLabel="Suspendida" itemValue="S" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+						</p:panelGrid>
+
+						<div align="left">
+							<p:panelGrid>
+								<f:facet name="header">
+									<p:row>
+										<p:column colspan="7">Información de Contactos</p:column>
+									</p:row>
+									<p:row>
+										<p:column colspan="1">Nombre</p:column>
+										<p:column colspan="1">Apellido</p:column>
+										<p:column colspan="1">Cargo</p:column>
+										<p:column colspan="1">Celular</p:column>
+										<p:column colspan="1">Mail</p:column>
+									</p:row>
+								</f:facet>
+
+								<p:row>
+									<p:column>
+										<p:inputText id="txtEmpNomCon"
+											binding="#{empresasView.txtEmpNomCon}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpApe1con"
+											binding="#{empresasView.txtEmpApe1con}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpCarCon"
+											binding="#{empresasView.txtEmpCarCon}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpCel1"
+											binding="#{empresasView.txtEmpCel1}"
+											onkeypress="return isNumberKey(event)"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpConMail"
+											binding="#{empresasView.txtEmpConMail}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<p:inputText id="txtEmpNomCom2"
+											binding="#{empresasView.txtEmpNomCom2}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpApe1con2"
+											binding="#{empresasView.txtEmpApe1con2}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpCarCon2"
+											binding="#{empresasView.txtEmpCarCon2}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpCel2"
+											binding="#{empresasView.txtEmpCel2}"
+											onkeypress="return isNumberKey(event)"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtEmpConMail2"
+											binding="#{empresasView.txtEmpConMail2}"
+											disabled="#{empresasView.disableBotonesBusqueda}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</div>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

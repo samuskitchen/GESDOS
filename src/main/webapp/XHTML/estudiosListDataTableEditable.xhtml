@@ -1,0 +1,206 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="EstudiosData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{estudiosView.data}" var="estudios"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{estudiosView.rowEventListener}" />
+					
+															<p:column filterBy="#{estudios.traCed}" sortBy="#{estudios.traCed}" headerText="traCed">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{estudios.traCed}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{estudios.traCed}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{estudios.empCod}" sortBy="#{estudios.empCod}" headerText="empCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{estudios.empCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{estudios.empCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{estudios.dosCod}" sortBy="#{estudios.dosCod}" headerText="dosCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{estudios.dosCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{estudios.dosCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{estudios.estAni}" sortBy="#{estudios.estAni}" headerText="estAni">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{estudios.estAni}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{estudios.estAni}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{estudios.estMes}" sortBy="#{estudios.estMes}" headerText="estMes">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{estudios.estMes}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{estudios.estMes}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{estudios.estDos}" sortBy="#{estudios.estDos}" 
+							headerText="estDos">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{estudios.estDos}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{estudios.estDos}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{estudios.estMesAct}" sortBy="#{estudios.estMesAct}" 
+							headerText="estMesAct">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{estudios.estMesAct}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{estudios.estMesAct}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{estudios.estRec}" sortBy="#{estudios.estRec}" 
+							headerText="estRec">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{estudios.estRec}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{estudios.estRec}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{estudios.obsCod}" sortBy="#{estudios.obsCod}" 
+							headerText="obsCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{estudios.obsCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{estudios.obsCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{estudios.revNro}" sortBy="#{estudios.revNro}" 
+							headerText="revNro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{estudios.revNro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{estudios.revNro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{estudios.estFecRec}" sortBy="#{estudios.estFecRec}" 
+							headerText="estFecRec">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{estudios.estFecRec}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{estudios.estFecRec}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{estudiosView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{estudiosView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedEstudios" value="#{estudios}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

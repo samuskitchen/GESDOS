@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelPrograma1" header="Programa1">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgProgCodigo" value="ProgCodigo"/>
+						 	<p:inputText id="txtProgCodigo" binding="#{programa1View.txtProgCodigo}">
+						 		<p:ajax update="panelPrograma1,msg,panelBotones" listener="#{programa1View.listener_txtId}"/>
+						 	</p:inputText>	
+												 	<h:outputText id="msgEvenCodigo" value="EvenCodigo"/>
+						 	<p:inputText id="txtEvenCodigo" binding="#{programa1View.txtEvenCodigo}">
+						 		<p:ajax update="panelPrograma1,msg,panelBotones" listener="#{programa1View.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgEvenDescri" value=" EvenDescri"/>
+							<p:inputText id="txtEvenDescri" disabled="true" binding="#{programa1View.txtEvenDescri}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{programa1View.btnSave}" disabled="true" value="Save" action="#{programa1View.action_save()}" update="panelPrograma1,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{programa1View.btnDelete}" disabled="true" value="Delete" action="#{programa1View.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelPrograma1,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{programa1View.action_clear()}" update="panelPrograma1,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

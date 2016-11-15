@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			<h:form id="formDialog">
+			<!-- panel para el toolbar -->
+			<p:panel>
+				<p:toolbar id="panelBotones">
+					<p:toolbarGroup align="left">
+						<p:separator />
+						<p:commandButton id="btnSave" binding="#{usuariosView.btnSave}" disabled="true" value="Save" action="#{usuariosView.action_save()}" update="panelUsuarios,msg,panelBotones" />
+						<p:separator />
+						<p:commandButton id="btnDelete" binding="#{usuariosView.btnDelete}" disabled="true" value="Delete" action="#{usuariosView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelUsuarios,msg,panelBotones" />
+						<p:separator />
+						<p:commandButton id="btnClear" value="Clear" action="#{usuariosView.action_clear()}" update="panelUsuarios,msg,panelBotones" />
+		        	</p:toolbarGroup>
+				</p:toolbar>			
+			</p:panel>
+			<br/>
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelUsuarios" header="Usuarios">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgUsuaCodigo" value="UsuaCodigo"/>
+						 	<p:inputText id="txtUsuaCodigo" binding="#{usuariosView.txtUsuaCodigo}">
+						 		<p:ajax update="panelUsuarios,msg,panelBotones" listener="#{usuariosView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgUsuaApeNom" value=" UsuaApeNom"/>
+							<p:inputText id="txtUsuaApeNom" disabled="true" binding="#{usuariosView.txtUsuaApeNom}"/>
+													<h:outputText id="msgUsuaDias" value=" UsuaDias"/>
+							<p:inputText id="txtUsuaDias" disabled="true" binding="#{usuariosView.txtUsuaDias}"/>
+													<h:outputText id="msgUsuaPassw1" value=" UsuaPassw1"/>
+							<p:inputText id="txtUsuaPassw1" disabled="true" binding="#{usuariosView.txtUsuaPassw1}"/>
+													<h:outputText id="msgUsuaPassw2" value=" UsuaPassw2"/>
+							<p:inputText id="txtUsuaPassw2" disabled="true" binding="#{usuariosView.txtUsuaPassw2}"/>
+													<h:outputText id="msgUsuaPasswo" value=" UsuaPasswo"/>
+							<p:inputText id="txtUsuaPasswo" disabled="true" binding="#{usuariosView.txtUsuaPasswo}"/>
+												
+																				<h:outputText id="msgUsuafecha" value=" Usuafecha"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{usuariosView.txtUsuafecha}" >
+								<p:ajax event="dateSelect" listener="#{usuariosView.listener_txtUsuafecha}"  />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

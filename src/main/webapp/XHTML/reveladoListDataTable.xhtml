@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableRevelado" header="ReveladoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{reveladoView.data}" var="revelado"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{revelado.revNro}" sortBy="#{revelado.revNro}" >
+										 <f:facet name="header">
+										<h:outputText value="revNro"/>
+										</f:facet>
+										 <h:outputText value="#{revelado.revNro}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{revelado.revDes}" sortBy="#{revelado.revDes}" >
+										 <f:facet name="header">
+										<h:outputText value="RevDes"/>
+										</f:facet>
+										 <h:outputText value="#{revelado.revDes}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{revelado.revFec}" sortBy="#{revelado.revFec}" >
+										 <f:facet name="header">
+										<h:outputText value="RevFec"/>
+										</f:facet>
+										 <h:outputText value="#{revelado.revFec}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogRevelado"
+										actionListener="#{reveladoView.action_edit}">
+										<f:attribute name="selectedRevelado" value="#{revelado}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{reveladoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedRevelado" value="#{revelado}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{reveladoView.action_new()}" update=":dialogRevelado" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogRevelado" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{reveladoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelRevelado" header="Revelado">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgRevNro" value="RevNro"/>
+									 <p:inputText id="txtRevNro" binding="#{reveladoView.txtRevNro}">
+									 <p:ajax update=":dialogRevelado" listener="#{reveladoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgRevDes" value=" RevDes"/>
+									<p:inputText id="txtRevDes" disabled="true" binding="#{reveladoView.txtRevDes}"/>
+																		
+																													<h:outputText id="msgRevFec" value=" RevFec"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{reveladoView.txtRevFec}" >
+										<p:ajax event="dateSelect" listener="#{reveladoView.listener_txtRevFec}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{reveladoView.btnSave}" value="Save" action="#{reveladoView.action_save()}" update=":dialogRevelado :frm:panelDataTableRevelado" />
+									<p:commandButton id="btnClear" value="Clear" action="#{reveladoView.action_clear()}" update=":dialogRevelado" />
+									<p:commandButton id="btnExit" value="Exit" action="#{reveladoView.action_closeDialog()}" update=":dialogRevelado" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

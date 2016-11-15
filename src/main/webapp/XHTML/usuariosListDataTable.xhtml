@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableUsuarios" header="UsuariosData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{usuariosView.data}" var="usuarios"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{usuarios.usuaCodigo}" sortBy="#{usuarios.usuaCodigo}" >
+										 <f:facet name="header">
+										<h:outputText value="usuaCodigo"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuaCodigo}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{usuarios.usuaApeNom}" sortBy="#{usuarios.usuaApeNom}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaApeNom"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuaApeNom}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuarios.usuaDias}" sortBy="#{usuarios.usuaDias}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaDias"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuaDias}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuarios.usuaPassw1}" sortBy="#{usuarios.usuaPassw1}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaPassw1"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuaPassw1}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuarios.usuaPassw2}" sortBy="#{usuarios.usuaPassw2}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaPassw2"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuaPassw2}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuarios.usuaPasswo}" sortBy="#{usuarios.usuaPasswo}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaPasswo"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuaPasswo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuarios.usuafecha}" sortBy="#{usuarios.usuafecha}" >
+										 <f:facet name="header">
+										<h:outputText value="Usuafecha"/>
+										</f:facet>
+										 <h:outputText value="#{usuarios.usuafecha}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogUsuarios"
+										actionListener="#{usuariosView.action_edit}">
+										<f:attribute name="selectedUsuarios" value="#{usuarios}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{usuariosView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedUsuarios" value="#{usuarios}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{usuariosView.action_new()}" update=":dialogUsuarios" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogUsuarios" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{usuariosView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelUsuarios" header="Usuarios">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgUsuaCodigo" value="UsuaCodigo"/>
+									 <p:inputText id="txtUsuaCodigo" binding="#{usuariosView.txtUsuaCodigo}">
+									 <p:ajax update=":dialogUsuarios" listener="#{usuariosView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgUsuaApeNom" value=" UsuaApeNom"/>
+									<p:inputText id="txtUsuaApeNom" disabled="true" binding="#{usuariosView.txtUsuaApeNom}"/>
+																		<h:outputText id="msgUsuaDias" value=" UsuaDias"/>
+									<p:inputText id="txtUsuaDias" disabled="true" binding="#{usuariosView.txtUsuaDias}"/>
+																		<h:outputText id="msgUsuaPassw1" value=" UsuaPassw1"/>
+									<p:inputText id="txtUsuaPassw1" disabled="true" binding="#{usuariosView.txtUsuaPassw1}"/>
+																		<h:outputText id="msgUsuaPassw2" value=" UsuaPassw2"/>
+									<p:inputText id="txtUsuaPassw2" disabled="true" binding="#{usuariosView.txtUsuaPassw2}"/>
+																		<h:outputText id="msgUsuaPasswo" value=" UsuaPasswo"/>
+									<p:inputText id="txtUsuaPasswo" disabled="true" binding="#{usuariosView.txtUsuaPasswo}"/>
+																		
+																													<h:outputText id="msgUsuafecha" value=" Usuafecha"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{usuariosView.txtUsuafecha}" >
+										<p:ajax event="dateSelect" listener="#{usuariosView.listener_txtUsuafecha}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{usuariosView.btnSave}" value="Save" action="#{usuariosView.action_save()}" update=":dialogUsuarios :frm:panelDataTableUsuarios" />
+									<p:commandButton id="btnClear" value="Clear" action="#{usuariosView.action_clear()}" update=":dialogUsuarios" />
+									<p:commandButton id="btnExit" value="Exit" action="#{usuariosView.action_closeDialog()}" update=":dialogUsuarios" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

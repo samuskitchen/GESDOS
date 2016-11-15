@@ -1,0 +1,180 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableEstudios" header="EstudiosData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{estudiosView.data}" var="estudios"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{estudios.traCed}" sortBy="#{estudios.traCed}" >
+										 <f:facet name="header">
+										<h:outputText value="traCed"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.traCed}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{estudios.empCod}" sortBy="#{estudios.empCod}" >
+										 <f:facet name="header">
+										<h:outputText value="empCod"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.empCod}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{estudios.dosCod}" sortBy="#{estudios.dosCod}" >
+										 <f:facet name="header">
+										<h:outputText value="dosCod"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.dosCod}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{estudios.estAni}" sortBy="#{estudios.estAni}" >
+										 <f:facet name="header">
+										<h:outputText value="estAni"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.estAni}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{estudios.estMes}" sortBy="#{estudios.estMes}" >
+										 <f:facet name="header">
+										<h:outputText value="estMes"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.estMes}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{estudios.estDos}" sortBy="#{estudios.estDos}" >
+										 <f:facet name="header">
+										<h:outputText value="EstDos"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.estDos}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{estudios.estFecRec}" sortBy="#{estudios.estFecRec}" >
+										 <f:facet name="header">
+										<h:outputText value="EstFecRec"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.estFecRec}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{estudios.estMesAct}" sortBy="#{estudios.estMesAct}" >
+										 <f:facet name="header">
+										<h:outputText value="EstMesAct"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.estMesAct}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{estudios.estRec}" sortBy="#{estudios.estRec}" >
+										 <f:facet name="header">
+										<h:outputText value="EstRec"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.estRec}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{estudios.obsCod}" sortBy="#{estudios.obsCod}" >
+										 <f:facet name="header">
+										<h:outputText value="ObsCod"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.obsCod}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{estudios.revNro}" sortBy="#{estudios.revNro}" >
+										 <f:facet name="header">
+										<h:outputText value="RevNro"/>
+										</f:facet>
+										 <h:outputText value="#{estudios.revNro}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogEstudios"
+										actionListener="#{estudiosView.action_edit}">
+										<f:attribute name="selectedEstudios" value="#{estudios}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{estudiosView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedEstudios" value="#{estudios}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{estudiosView.action_new()}" update=":dialogEstudios" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogEstudios" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{estudiosView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelEstudios" header="Estudios">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTraCed" value="TraCed"/>
+									 <p:inputText id="txtTraCed" binding="#{estudiosView.txtTraCed}">
+									 <p:ajax update=":dialogEstudios" listener="#{estudiosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgEmpCod" value="EmpCod"/>
+									 <p:inputText id="txtEmpCod" binding="#{estudiosView.txtEmpCod}">
+									 <p:ajax update=":dialogEstudios" listener="#{estudiosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgDosCod" value="DosCod"/>
+									 <p:inputText id="txtDosCod" binding="#{estudiosView.txtDosCod}">
+									 <p:ajax update=":dialogEstudios" listener="#{estudiosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgEstAni" value="EstAni"/>
+									 <p:inputText id="txtEstAni" binding="#{estudiosView.txtEstAni}">
+									 <p:ajax update=":dialogEstudios" listener="#{estudiosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgEstMes" value="EstMes"/>
+									 <p:inputText id="txtEstMes" binding="#{estudiosView.txtEstMes}">
+									 <p:ajax update=":dialogEstudios" listener="#{estudiosView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgEstDos" value=" EstDos"/>
+									<p:inputText id="txtEstDos" disabled="true" binding="#{estudiosView.txtEstDos}"/>
+																		<h:outputText id="msgEstMesAct" value=" EstMesAct"/>
+									<p:inputText id="txtEstMesAct" disabled="true" binding="#{estudiosView.txtEstMesAct}"/>
+																		<h:outputText id="msgEstRec" value=" EstRec"/>
+									<p:inputText id="txtEstRec" disabled="true" binding="#{estudiosView.txtEstRec}"/>
+																		<h:outputText id="msgObsCod" value=" ObsCod"/>
+									<p:inputText id="txtObsCod" disabled="true" binding="#{estudiosView.txtObsCod}"/>
+																		<h:outputText id="msgRevNro" value=" RevNro"/>
+									<p:inputText id="txtRevNro" disabled="true" binding="#{estudiosView.txtRevNro}"/>
+																		
+																													<h:outputText id="msgEstFecRec" value=" EstFecRec"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{estudiosView.txtEstFecRec}" >
+										<p:ajax event="dateSelect" listener="#{estudiosView.listener_txtEstFecRec}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{estudiosView.btnSave}" value="Save" action="#{estudiosView.action_save()}" update=":dialogEstudios :frm:panelDataTableEstudios" />
+									<p:commandButton id="btnClear" value="Clear" action="#{estudiosView.action_clear()}" update=":dialogEstudios" />
+									<p:commandButton id="btnExit" value="Exit" action="#{estudiosView.action_closeDialog()}" update=":dialogEstudios" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

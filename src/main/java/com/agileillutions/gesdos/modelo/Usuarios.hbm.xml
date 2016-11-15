@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 5, 2016 11:07:00 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.agileillutions.gesdos.modelo.Usuarios" table="usuarios" schema="admgesdos">
+        <id name="usuaCodigo" type="java.lang.String">
+            <column name="UsuaCodigo" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="usuaApeNom" type="java.lang.String">
+            <column name="UsuaApeNom" length="30" not-null="true" />
+        </property>
+        <property name="usuaPasswo" type="java.lang.String">
+            <column name="UsuaPasswo" length="6" not-null="true" />
+        </property>
+        <property name="usuaPassw1" type="java.lang.String">
+            <column name="UsuaPassw1" length="6" not-null="true" />
+        </property>
+        <property name="usuaPassw2" type="java.lang.String">
+            <column name="UsuaPassw2" length="6" not-null="true" />
+        </property>
+        <property name="usuaDias" type="java.lang.Long">
+            <column name="UsuaDias" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="usuafecha" type="java.util.Date">
+            <column name="Usuafecha" length="7" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

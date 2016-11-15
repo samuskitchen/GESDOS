@@ -1,0 +1,230 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="DosimetroData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{dosimetroView.data}" var="dosimetro"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{dosimetroView.rowEventListener}" />
+					
+															<p:column filterBy="#{dosimetro.traCed}" sortBy="#{dosimetro.traCed}" headerText="traCed">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{dosimetro.traCed}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{dosimetro.traCed}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{dosimetro.dosCod}" sortBy="#{dosimetro.dosCod}" headerText="dosCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{dosimetro.dosCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{dosimetro.dosCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{dosimetro.empCod}" sortBy="#{dosimetro.empCod}" headerText="empCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{dosimetro.empCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{dosimetro.empCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{dosimetro.carCod}" sortBy="#{dosimetro.carCod}" 
+							headerText="carCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.carCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.carCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.dosConNro}" sortBy="#{dosimetro.dosConNro}" 
+							headerText="dosConNro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.dosConNro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.dosConNro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.dosEst}" sortBy="#{dosimetro.dosEst}" 
+							headerText="dosEst">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.dosEst}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.dosEst}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.dosPerRec}" sortBy="#{dosimetro.dosPerRec}" 
+							headerText="dosPerRec">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.dosPerRec}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.dosPerRec}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.dosTipo}" sortBy="#{dosimetro.dosTipo}" 
+							headerText="dosTipo">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.dosTipo}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.dosTipo}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.geoCod}" sortBy="#{dosimetro.geoCod}" 
+							headerText="geoCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.geoCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.geoCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.praCod}" sortBy="#{dosimetro.praCod}" 
+							headerText="praCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.praCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.praCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.radCod}" sortBy="#{dosimetro.radCod}" 
+							headerText="radCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.radCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.radCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{dosimetro.ubiCod}" sortBy="#{dosimetro.ubiCod}" 
+							headerText="ubiCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{dosimetro.ubiCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{dosimetro.ubiCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{dosimetroView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedDosimetro" value="#{dosimetro}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

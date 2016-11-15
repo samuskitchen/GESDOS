@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTablePermisos" header="PermisosData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{permisosView.data}" var="permisos"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{permisos.grupCodigo}" sortBy="#{permisos.grupCodigo}" >
+										 <f:facet name="header">
+										<h:outputText value="grupCodigo"/>
+										</f:facet>
+										 <h:outputText value="#{permisos.grupCodigo}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{permisos.progCodigo}" sortBy="#{permisos.progCodigo}" >
+										 <f:facet name="header">
+										<h:outputText value="progCodigo"/>
+										</f:facet>
+										 <h:outputText value="#{permisos.progCodigo}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{permisos.evenCodigo}" sortBy="#{permisos.evenCodigo}" >
+										 <f:facet name="header">
+										<h:outputText value="evenCodigo"/>
+										</f:facet>
+										 <h:outputText value="#{permisos.evenCodigo}"/>
+										 </p:column>
+			                    																			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogPermisos"
+										actionListener="#{permisosView.action_edit}">
+										<f:attribute name="selectedPermisos" value="#{permisos}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{permisosView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedPermisos" value="#{permisos}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{permisosView.action_new()}" update=":dialogPermisos" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogPermisos" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{permisosView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelPermisos" header="Permisos">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgGrupCodigo" value="GrupCodigo"/>
+									 <p:inputText id="txtGrupCodigo" binding="#{permisosView.txtGrupCodigo}">
+									 <p:ajax update=":dialogPermisos" listener="#{permisosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgProgCodigo" value="ProgCodigo"/>
+									 <p:inputText id="txtProgCodigo" binding="#{permisosView.txtProgCodigo}">
+									 <p:ajax update=":dialogPermisos" listener="#{permisosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgEvenCodigo" value="EvenCodigo"/>
+									 <p:inputText id="txtEvenCodigo" binding="#{permisosView.txtEvenCodigo}">
+									 <p:ajax update=":dialogPermisos" listener="#{permisosView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{permisosView.btnSave}" value="Save" action="#{permisosView.action_save()}" update=":dialogPermisos :frm:panelDataTablePermisos" />
+									<p:commandButton id="btnClear" value="Clear" action="#{permisosView.action_clear()}" update=":dialogPermisos" />
+									<p:commandButton id="btnExit" value="Exit" action="#{permisosView.action_closeDialog()}" update=":dialogPermisos" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

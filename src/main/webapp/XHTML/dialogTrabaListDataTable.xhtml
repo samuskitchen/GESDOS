@@ -1,0 +1,163 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="frmEmpleado">
+					<p:messages id="msgTablaTraba" />
+					<p:growl id="menTablaTraba" />
+					<script type="text/javascript">
+						//<![CDATA[
+						//Funcion para dar nuevamente el tamaño del iframe
+						$(function() {
+							$(window).resize(function() {
+								parent.$("iframe").css({
+									'height' : '600px'
+								});
+								parent.$("iframe").css({
+									'width' : '1300px'
+								});
+							});
+						});
+						//]]>
+					</script>
+
+					<utils:busquedaSingle headerDialog="Empresa"
+						idTable="tableEmpresaDepartamento" idDialog="dialogEmpresa"
+						id="CBPEmpresa" valueTable="#{trabaView.empresas}"
+						selectedTable="#{trabaView.selectedTraba}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaSingle"
+						accionCerrar="#{trabaView.actionCerrarBusqueda()}"
+						ajaxListener="#{trabaView.onRowSelectEmpresa}">
+					</utils:busquedaSingle>
+
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator />
+							<p:commandButton id="btnSave" binding="#{trabaView.btnSave}"
+								value="Nuevo" icon="ui-icon-document"
+								action="#{trabaView.cargarTrabaDialog('0')}"
+								update="msgTablaTraba,panelBotones,:frmEmpleado:idDataTableTraba">
+							</p:commandButton>
+							<p:separator />
+							<p:commandButton id="btnModificar" value="Modificar"
+								icon="ui-icon-pencil"
+								actionListener="#{trabaView.cargarTrabaDialog('1')}"
+								update="msgTablaTraba,panelBotones,:frmEmpleado:idDataTableTraba">
+								<p:ajax event="dialogReturn" oncomplete="remoteCloseDialog()"
+									update="@form" />
+							</p:commandButton>
+							<p:separator />
+							<p:commandButton id="btnDelete" binding="#{trabaView.btnDelete}"
+								value="Borrar" icon="ui-icon-trash"
+								action="#{trabaView.action_delete_datatable()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="msgTablaTraba,panelBotones,:frmEmpleado:idDataTableTraba" />
+							<p:separator />
+							<p:commandButton id="btnVisualizar" value="Visualizar"
+								icon="ui-icon-circle-zoomin"
+								action="#{trabaView.cargarTrabaDialog('2')}"
+								update="msgTablaTraba,panelBotones" />
+							<p:separator />
+							<p:commandButton id="btnDosimetro" value="Dosimetro"
+								icon="ui-icon-note" update="msgTablaTraba,panelBotones" />
+							<p:separator />
+							<p:commandButton id="btnRefrescar" value="Refrescar"
+								icon="ui-icon-bookmark"
+								onclick="javascript:location.reload();"
+								update="msgTablaTraba,panelBotones :frmEmpleado:panelDataTableTraba" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<p:remoteCommand id="idRemoteCommandDialog"
+						name="remoteCloseDialog" actionListener="#{trabaView.closeDialog}" />
+
+					<br />
+					<p:panel id="panelDataTableTraba" header="Trabajar con Trabajadores">
+						<p:growl id="men" />
+						<p:panelGrid columns="2" id="idPanelEmpresa"
+							rendered="#{trabaView.renderedEmpresa}">
+							<h:outputText id="msgEmpresa" value="Empresa"
+								rendered="#{trabaView.renderedEmpresa}" />
+							<p:panelGrid>
+								<p:commandLink update=":frmEmpleado:CBPEmpresa:dialogEmpresa"
+									actionListener="#{trabaView.consultarEmpresas}"
+									oncomplete="PF('busquedaEmpresaSingle').show();"
+									title="Búsqueda..."
+									disabled="#{trabaView.disableBotonesBusqueda}">
+									<h:graphicImage value="../images/buscar.png"
+										style="vertical-align: middle; width:25px;" />
+								</p:commandLink>
+								<p:inputText binding="#{trabaView.razonSocialEmpresa}"
+									id="txtRazonSocialEmpresa" style="width:260px"
+									disabled="#{trabaView.disableBotonesBusqueda}" />
+								<p:commandLink
+									update=":frmEmpleado:CBPEmpresa:dialogEmpresa, :frmEmpleado:txtRazonSocialEmpresa"
+									actionListener="#{trabaView.limpiarControlBusquedaEmpresa}"
+									title="Limpiar..."
+									disabled="#{trabaView.disableBotonesBusqueda}">
+									<h:graphicImage value="../images/limpiar.png"
+										style="vertical-align: middle; width:21px;" />
+								</p:commandLink>
+							</p:panelGrid>
+						</p:panelGrid>
+
+						<p:dataTable id="idDataTableTraba" value="#{trabaView.data}"
+							var="traba" paginator="true" rows="10" paginatorPosition="bottom"
+							scrollable="true" scrollHeight="120"
+							emptyMessage="No se encontrarón archivos." selectionMode="single"
+							rowKey="#{traba.traCed}" selection="#{trabaView.selectedTraba}">
+
+							<p:column filterBy="#{traba.traCed}" sortBy="#{traba.traCed}">
+								<f:facet name="header">
+									<h:outputText value="Cedula" />
+								</f:facet>
+								<h:outputText value="#{traba.traCed}" />
+							</p:column>
+
+							<p:column filterBy="#{traba.traNom}" sortBy="#{traba.traNom}">
+								<f:facet name="header">
+									<h:outputText value="Nombre Trabajador" />
+								</f:facet>
+								<h:outputText
+									value="#{traba.traNom} #{traba.traApe1} #{traba.traApe2 == null ? '' : traba.traApe2}" />
+							</p:column>
+
+							<p:column filterBy="#{traba.traEst}" sortBy="#{traba.traEst}">
+								<f:facet name="header">
+									<h:outputText value="Estado" />
+								</f:facet>
+								<h:outputText value="#{traba.traEst}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

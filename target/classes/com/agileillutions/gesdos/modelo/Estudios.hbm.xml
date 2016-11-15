@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 5, 2016 11:07:00 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.agileillutions.gesdos.modelo.Estudios" table="estudios" schema="admgesdos">
+        <composite-id name="id" class="com.agileillutions.gesdos.modelo.EstudiosId">
+            <key-property name="traCed" type="java.lang.Long">
+                <column name="TraCed" precision="22" scale="0" />
+            </key-property>
+            <key-property name="empCod" type="java.lang.Long">
+                <column name="EmpCod" precision="22" scale="0" />
+            </key-property>
+            <key-property name="dosCod" type="java.lang.Long">
+                <column name="DosCod" precision="22" scale="0" />
+            </key-property>
+            <key-property name="estAni" type="java.lang.Long">
+                <column name="EstAni" precision="22" scale="0" />
+            </key-property>
+            <key-property name="estMes" type="java.lang.Long">
+                <column name="EstMes" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+        <property name="estFecRec" type="java.util.Date">
+            <column name="EstFecRec" length="7" />
+        </property>
+        <property name="revNro" type="java.lang.Long">
+            <column name="RevNro" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="estDos" type="java.lang.Double">
+            <column name="EstDos" precision="4" not-null="true" />
+        </property>
+        <property name="estMesAct" type="java.lang.Long">
+            <column name="EstMesAct" precision="22" scale="0" />
+        </property>
+        <property name="estRec" type="java.lang.String">
+            <column name="EstRec" length="1" />
+        </property>
+        <property name="obsCod" type="java.lang.String">
+            <column name="ObsCod" length="4" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

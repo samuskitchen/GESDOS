@@ -1,0 +1,210 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="SociosData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{sociosView.data}" var="socios"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{sociosView.rowEventListener}" />
+					
+															<p:column filterBy="#{socios.socCod}" sortBy="#{socios.socCod}" headerText="socCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{socios.socCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{socios.socCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{socios.socApe1}" sortBy="#{socios.socApe1}" 
+							headerText="socApe1">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socApe1}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socApe1}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socApe2}" sortBy="#{socios.socApe2}" 
+							headerText="socApe2">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socApe2}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socApe2}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socDes}" sortBy="#{socios.socDes}" 
+							headerText="socDes">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socDes}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socDes}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socDir}" sortBy="#{socios.socDir}" 
+							headerText="socDir">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socDir}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socDir}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socFax}" sortBy="#{socios.socFax}" 
+							headerText="socFax">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socFax}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socFax}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socMail}" sortBy="#{socios.socMail}" 
+							headerText="socMail">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socMail}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socMail}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socNit}" sortBy="#{socios.socNit}" 
+							headerText="socNit">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socNit}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socNit}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socNom}" sortBy="#{socios.socNom}" 
+							headerText="socNom">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socNom}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socNom}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{socios.socTel}" sortBy="#{socios.socTel}" 
+							headerText="socTel">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{socios.socTel}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{socios.socTel}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{sociosView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedSocios" value="#{socios}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

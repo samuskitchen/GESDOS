@@ -1,0 +1,36 @@
+<jsp:root jsfc="f:view" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<html>
+<body>
+	<f:view>
+		<ui:composition>
+			<!-- Beging Menu -->
+			<h:form>
+				<p:panelMenu style="margin-top:10px; width:180px;" toggleable="true">
+					<p:submenu label="Afiliaciones">
+						<p:menuitem value="Empresas"
+							url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/empresasListDataTable.xhtml" />
+						<p:menuitem value="Trabajadores"
+							url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/trabaListDataTable.xhtml" />
+					</p:submenu>
+					<p:separator />
+					<p:submenu label="Cerrar">
+						<p:menuitem value="Cerrar Sesion"
+							url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"
+							icon="ui-icon-close" />
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+
+			<!-- end menu -->
+		</ui:composition>
+	</f:view>
+</body>
+	</html>
+</jsp:root>

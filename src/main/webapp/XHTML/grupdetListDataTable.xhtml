@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableGrupdet" header="GrupdetData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{grupdetView.data}" var="grupdet"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{grupdet.grupCodigo}" sortBy="#{grupdet.grupCodigo}" >
+										 <f:facet name="header">
+										<h:outputText value="grupCodigo"/>
+										</f:facet>
+										 <h:outputText value="#{grupdet.grupCodigo}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{grupdet.usuaCodigo}" sortBy="#{grupdet.usuaCodigo}" >
+										 <f:facet name="header">
+										<h:outputText value="usuaCodigo"/>
+										</f:facet>
+										 <h:outputText value="#{grupdet.usuaCodigo}"/>
+										 </p:column>
+			                    																			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogGrupdet"
+										actionListener="#{grupdetView.action_edit}">
+										<f:attribute name="selectedGrupdet" value="#{grupdet}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{grupdetView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedGrupdet" value="#{grupdet}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{grupdetView.action_new()}" update=":dialogGrupdet" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogGrupdet" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{grupdetView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelGrupdet" header="Grupdet">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgGrupCodigo" value="GrupCodigo"/>
+									 <p:inputText id="txtGrupCodigo" binding="#{grupdetView.txtGrupCodigo}">
+									 <p:ajax update=":dialogGrupdet" listener="#{grupdetView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgUsuaCodigo" value="UsuaCodigo"/>
+									 <p:inputText id="txtUsuaCodigo" binding="#{grupdetView.txtUsuaCodigo}">
+									 <p:ajax update=":dialogGrupdet" listener="#{grupdetView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{grupdetView.btnSave}" value="Save" action="#{grupdetView.action_save()}" update=":dialogGrupdet :frm:panelDataTableGrupdet" />
+									<p:commandButton id="btnClear" value="Clear" action="#{grupdetView.action_clear()}" update=":dialogGrupdet" />
+									<p:commandButton id="btnExit" value="Exit" action="#{grupdetView.action_closeDialog()}" update=":dialogGrupdet" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 5, 2016 11:07:00 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.agileillutions.gesdos.modelo.ContratoDosimetro" table="contratoDosimetro" schema="admgesdos">
+        <id name="conDosi" type="java.lang.Long">
+            <column name="ConDosi" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="dosCod" type="java.lang.Long">
+            <column name="DosCod" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="conNro" type="java.lang.Long">
+            <column name="ConNro" precision="22" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

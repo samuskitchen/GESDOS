@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 5, 2016 11:07:00 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.agileillutions.gesdos.modelo.Socios" table="socios" schema="admgesdos">
+        <id name="socCod" type="java.lang.String">
+            <column name="SocCod" length="4" />
+            <generator class="assigned" />
+        </id>
+        <property name="socDes" type="java.lang.String">
+            <column name="SocDes" length="50" not-null="true" />
+        </property>
+        <property name="socNit" type="java.lang.Long">
+            <column name="SocNit" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="socNom" type="java.lang.String">
+            <column name="SocNom" length="20" not-null="true" />
+        </property>
+        <property name="socApe1" type="java.lang.String">
+            <column name="SocApe1" length="20" not-null="true" />
+        </property>
+        <property name="socApe2" type="java.lang.String">
+            <column name="SocApe2" length="20" not-null="true" />
+        </property>
+        <property name="socDir" type="java.lang.String">
+            <column name="SocDir" length="20" not-null="true" />
+        </property>
+        <property name="socTel" type="java.lang.String">
+            <column name="SocTel" length="11" not-null="true" />
+        </property>
+        <property name="socFax" type="java.lang.String">
+            <column name="SocFax" length="15" not-null="true" />
+        </property>
+        <property name="socMail" type="java.lang.String">
+            <column name="SocMail" length="60" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

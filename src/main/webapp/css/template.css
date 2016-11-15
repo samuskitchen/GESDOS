@@ -1,0 +1,87 @@
+div.container {
+	width: 100%;
+	border: 1px solid gray;
+}
+
+header, footer {
+	padding: 1em;
+	color: white;
+	background-color: #5882FA;
+	clear: left;
+	text-align: center;
+}
+
+nav {
+	float: left;
+	max-width: 200px;
+	margin: 0;
+	padding: 1em;
+}
+
+nav ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+nav ul a {
+	text-decoration: none;
+}
+
+article {
+	margin-left: 170px;
+	border-left: 1px solid gray;
+	padding: 1em;
+	overflow: hidden;
+}
+
+/* Main Layout Styles */
+body {
+	background: #EBEBEB;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666;
+}
+
+/*  Para que se vean pequenos los componentes*/
+/* th,td {
+	font-size: 12px;
+}
+
+.emp1 .fc-event-skin {
+	background: red;
+}
+
+.emp2 .fc-event-skin {
+	background: green;
+}
+
+.canceled div {
+	border-color: red !important;
+	background-color: red !important;
+	width: 100%;
+}
+
+.ui-menubar {
+	border: 1px solid #aed0ea !important;
+	mouseover: #ff0000; 
+	background-color: #EBEBEB !important; 
+	width: 930px;
+} */
+
+.ui-panelgrid tr, .ui-panelgrid td {
+	border: none !important;
+}
+
+.ui-panelgrid td {
+	vertical-align: middle;
+}
+
+.ui-menu .ui-separator { 
+   background: #A8A8A8; 
+   border: none; 
+   width: 1px; 
+   clear: none; 
+   height: 22px; 
+   margin: 4px 6px 0; 
+   box-shadow: none; 
+}

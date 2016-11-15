@@ -1,0 +1,32 @@
+<jsp:root jsfc="f:view" xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+   
+   <html>
+		<body>
+			<f:view>
+				<ui:composition>
+					<!-- Beging header -->
+						<div class="jumbotron">	
+					      <div class="container">
+						      <div>
+						       	 <div align="left" style="width:10px; height:45px; padding:0px 0px 0px 20px;">
+									<img src="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/logo.png" />
+								 </div>
+								 <div>
+								 	<h1>GESDOS</h1>
+					        	 	<p>Sistema de Gestion de Dosimetria</p>
+								 </div>
+							  </div>
+					      </div>
+    					</div>
+					<!-- end header -->
+				</ui:composition>
+			</f:view>
+		</body>
+	</html>
+</jsp:root>

@@ -1,0 +1,122 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="FacturaData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{facturaView.data}" var="factura"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{facturaView.rowEventListener}" />
+					
+															<p:column filterBy="#{factura.conNro}" sortBy="#{factura.conNro}" headerText="conNro">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{factura.conNro}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{factura.conNro}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{factura.empCod}" sortBy="#{factura.empCod}" headerText="empCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{factura.empCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{factura.empCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    					<p:column filterBy="#{factura.facNro}" sortBy="#{factura.facNro}" headerText="facNro">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{factura.facNro}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{factura.facNro}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{factura.facVal}" sortBy="#{factura.facVal}" 
+							headerText="facVal">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{factura.facVal}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{factura.facVal}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{factura.facFech}" sortBy="#{factura.facFech}" 
+							headerText="facFech">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{factura.facFech}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{factura.facFech}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{facturaView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{facturaView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedFactura" value="#{factura}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

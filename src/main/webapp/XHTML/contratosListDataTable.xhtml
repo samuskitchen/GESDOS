@@ -1,0 +1,207 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableContratos" header="ContratosData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{contratosView.data}" var="contratos"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{contratos.conNro}" sortBy="#{contratos.conNro}" >
+										 <f:facet name="header">
+										<h:outputText value="conNro"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conNro}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{contratos.empCod}" sortBy="#{contratos.empCod}" >
+										 <f:facet name="header">
+										<h:outputText value="empCod"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.empCod}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{contratos.conDosi}" sortBy="#{contratos.conDosi}" >
+										 <f:facet name="header">
+										<h:outputText value="ConDosi"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conDosi}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conDura}" sortBy="#{contratos.conDura}" >
+										 <f:facet name="header">
+										<h:outputText value="ConDura"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conDura}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conEst}" sortBy="#{contratos.conEst}" >
+										 <f:facet name="header">
+										<h:outputText value="ConEst"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conEst}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conFec}" sortBy="#{contratos.conFec}" >
+										 <f:facet name="header">
+										<h:outputText value="ConFec"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conFec}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conFecFac}" sortBy="#{contratos.conFecFac}" >
+										 <f:facet name="header">
+										<h:outputText value="ConFecFac"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conFecFac}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conNroFac}" sortBy="#{contratos.conNroFac}" >
+										 <f:facet name="header">
+										<h:outputText value="ConNroFac"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conNroFac}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conObser}" sortBy="#{contratos.conObser}" >
+										 <f:facet name="header">
+										<h:outputText value="ConObser"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conObser}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conTipo}" sortBy="#{contratos.conTipo}" >
+										 <f:facet name="header">
+										<h:outputText value="ConTipo"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conTipo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conUsu}" sortBy="#{contratos.conUsu}" >
+										 <f:facet name="header">
+										<h:outputText value="ConUsu"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conUsu}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.conVal}" sortBy="#{contratos.conVal}" >
+										 <f:facet name="header">
+										<h:outputText value="ConVal"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.conVal}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.detConCod}" sortBy="#{contratos.detConCod}" >
+										 <f:facet name="header">
+										<h:outputText value="DetConCod"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.detConCod}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{contratos.socCod}" sortBy="#{contratos.socCod}" >
+										 <f:facet name="header">
+										<h:outputText value="SocCod"/>
+										</f:facet>
+										 <h:outputText value="#{contratos.socCod}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogContratos"
+										actionListener="#{contratosView.action_edit}">
+										<f:attribute name="selectedContratos" value="#{contratos}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{contratosView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedContratos" value="#{contratos}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{contratosView.action_new()}" update=":dialogContratos" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogContratos" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{contratosView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelContratos" header="Contratos">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgConNro" value="ConNro"/>
+									 <p:inputText id="txtConNro" binding="#{contratosView.txtConNro}">
+									 <p:ajax update=":dialogContratos" listener="#{contratosView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgEmpCod" value="EmpCod"/>
+									 <p:inputText id="txtEmpCod" binding="#{contratosView.txtEmpCod}">
+									 <p:ajax update=":dialogContratos" listener="#{contratosView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgConDosi" value=" ConDosi"/>
+									<p:inputText id="txtConDosi" disabled="true" binding="#{contratosView.txtConDosi}"/>
+																		<h:outputText id="msgConDura" value=" ConDura"/>
+									<p:inputText id="txtConDura" disabled="true" binding="#{contratosView.txtConDura}"/>
+																		<h:outputText id="msgConEst" value=" ConEst"/>
+									<p:inputText id="txtConEst" disabled="true" binding="#{contratosView.txtConEst}"/>
+																		<h:outputText id="msgConNroFac" value=" ConNroFac"/>
+									<p:inputText id="txtConNroFac" disabled="true" binding="#{contratosView.txtConNroFac}"/>
+																		<h:outputText id="msgConObser" value=" ConObser"/>
+									<p:inputText id="txtConObser" disabled="true" binding="#{contratosView.txtConObser}"/>
+																		<h:outputText id="msgConTipo" value=" ConTipo"/>
+									<p:inputText id="txtConTipo" disabled="true" binding="#{contratosView.txtConTipo}"/>
+																		<h:outputText id="msgConUsu" value=" ConUsu"/>
+									<p:inputText id="txtConUsu" disabled="true" binding="#{contratosView.txtConUsu}"/>
+																		<h:outputText id="msgConVal" value=" ConVal"/>
+									<p:inputText id="txtConVal" disabled="true" binding="#{contratosView.txtConVal}"/>
+																		<h:outputText id="msgDetConCod" value=" DetConCod"/>
+									<p:inputText id="txtDetConCod" disabled="true" binding="#{contratosView.txtDetConCod}"/>
+																		<h:outputText id="msgSocCod" value=" SocCod"/>
+									<p:inputText id="txtSocCod" disabled="true" binding="#{contratosView.txtSocCod}"/>
+																		
+																													<h:outputText id="msgConFec" value=" ConFec"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{contratosView.txtConFec}" >
+										<p:ajax event="dateSelect" listener="#{contratosView.listener_txtConFec}" />
+										</p:calendar>
+																				<h:outputText id="msgConFecFac" value=" ConFecFac"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{contratosView.txtConFecFac}" >
+										<p:ajax event="dateSelect" listener="#{contratosView.listener_txtConFecFac}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{contratosView.btnSave}" value="Save" action="#{contratosView.action_save()}" update=":dialogContratos :frm:panelDataTableContratos" />
+									<p:commandButton id="btnClear" value="Clear" action="#{contratosView.action_clear()}" update=":dialogContratos" />
+									<p:commandButton id="btnExit" value="Exit" action="#{contratosView.action_closeDialog()}" update=":dialogContratos" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

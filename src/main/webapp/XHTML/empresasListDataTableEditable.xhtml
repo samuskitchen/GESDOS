@@ -1,0 +1,422 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="EmpresasData">
+					<p:messages id="msg" />
+				<p:dataTable id ="tabla" value="#{empresasView.data}" var="empresas"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{empresasView.rowEventListener}" />
+					
+															<p:column filterBy="#{empresas.empCod}" sortBy="#{empresas.empCod}" headerText="empCod">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{empresas.empCod}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{empresas.empCod}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{empresas.ciuCod}" sortBy="#{empresas.ciuCod}" 
+							headerText="ciuCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.ciuCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.ciuCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.depCod}" sortBy="#{empresas.depCod}" 
+							headerText="depCod">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.depCod}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.depCod}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empApe1con}" sortBy="#{empresas.empApe1con}" 
+							headerText="empApe1con">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empApe1con}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empApe1con}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empApe1con2}" sortBy="#{empresas.empApe1con2}" 
+							headerText="empApe1con2">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empApe1con2}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empApe1con2}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empCarCon}" sortBy="#{empresas.empCarCon}" 
+							headerText="empCarCon">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empCarCon}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empCarCon}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empCarCon2}" sortBy="#{empresas.empCarCon2}" 
+							headerText="empCarCon2">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empCarCon2}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empCarCon2}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empCel}" sortBy="#{empresas.empCel}" 
+							headerText="empCel">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empCel}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empCel}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empCel1}" sortBy="#{empresas.empCel1}" 
+							headerText="empCel1">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empCel1}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empCel1}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empCel2}" sortBy="#{empresas.empCel2}" 
+							headerText="empCel2">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empCel2}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empCel2}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empConMail}" sortBy="#{empresas.empConMail}" 
+							headerText="empConMail">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empConMail}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empConMail}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empConMail2}" sortBy="#{empresas.empConMail2}" 
+							headerText="empConMail2">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empConMail2}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empConMail2}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empDir}" sortBy="#{empresas.empDir}" 
+							headerText="empDir">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empDir}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empDir}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empEst}" sortBy="#{empresas.empEst}" 
+							headerText="empEst">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empEst}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empEst}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empFax}" sortBy="#{empresas.empFax}" 
+							headerText="empFax">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empFax}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empFax}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empMail}" sortBy="#{empresas.empMail}" 
+							headerText="empMail">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empMail}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empMail}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empNit}" sortBy="#{empresas.empNit}" 
+							headerText="empNit">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empNit}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empNit}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empNomCom2}" sortBy="#{empresas.empNomCom2}" 
+							headerText="empNomCom2">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empNomCom2}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empNomCom2}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empNomCon}" sortBy="#{empresas.empNomCon}" 
+							headerText="empNomCon">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empNomCon}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empNomCon}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empObs}" sortBy="#{empresas.empObs}" 
+							headerText="empObs">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empObs}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empObs}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empRazSoc}" sortBy="#{empresas.empRazSoc}" 
+							headerText="empRazSoc">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empRazSoc}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empRazSoc}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{empresas.empTel}" sortBy="#{empresas.empTel}" 
+							headerText="empTel">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empTel}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{empresas.empTel}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{empresas.empFecVin}" sortBy="#{empresas.empFecVin}" 
+							headerText="empFecVin">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{empresas.empFecVin}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{empresas.empFecVin}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{empresasView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{empresasView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedEmpresas" value="#{empresas}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

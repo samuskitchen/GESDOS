@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableCiuda" header="CiudaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{ciudaView.data}" var="ciuda"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{ciuda.depCod}" sortBy="#{ciuda.depCod}" >
+										 <f:facet name="header">
+										<h:outputText value="depCod"/>
+										</f:facet>
+										 <h:outputText value="#{ciuda.depCod}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{ciuda.ciuCod}" sortBy="#{ciuda.ciuCod}" >
+										 <f:facet name="header">
+										<h:outputText value="ciuCod"/>
+										</f:facet>
+										 <h:outputText value="#{ciuda.ciuCod}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{ciuda.ciuNom}" sortBy="#{ciuda.ciuNom}" >
+										 <f:facet name="header">
+										<h:outputText value="CiuNom"/>
+										</f:facet>
+										 <h:outputText value="#{ciuda.ciuNom}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogCiuda"
+										actionListener="#{ciudaView.action_edit}">
+										<f:attribute name="selectedCiuda" value="#{ciuda}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{ciudaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedCiuda" value="#{ciuda}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{ciudaView.action_new()}" update=":dialogCiuda" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogCiuda" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{ciudaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelCiuda" header="Ciuda">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgDepCod" value="DepCod"/>
+									 <p:inputText id="txtDepCod" binding="#{ciudaView.txtDepCod}">
+									 <p:ajax update=":dialogCiuda" listener="#{ciudaView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgCiuCod" value="CiuCod"/>
+									 <p:inputText id="txtCiuCod" binding="#{ciudaView.txtCiuCod}">
+									 <p:ajax update=":dialogCiuda" listener="#{ciudaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCiuNom" value=" CiuNom"/>
+									<p:inputText id="txtCiuNom" disabled="true" binding="#{ciudaView.txtCiuNom}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{ciudaView.btnSave}" value="Save" action="#{ciudaView.action_save()}" update=":dialogCiuda :frm:panelDataTableCiuda" />
+									<p:commandButton id="btnClear" value="Clear" action="#{ciudaView.action_clear()}" update=":dialogCiuda" />
+									<p:commandButton id="btnExit" value="Exit" action="#{ciudaView.action_closeDialog()}" update=":dialogCiuda" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

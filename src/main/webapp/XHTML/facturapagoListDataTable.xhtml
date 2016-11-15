@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableFacturapago" header="FacturapagoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{facturapagoView.data}" var="facturapago"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{facturapago.conNro}" sortBy="#{facturapago.conNro}" >
+										 <f:facet name="header">
+										<h:outputText value="conNro"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.conNro}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{facturapago.empCod}" sortBy="#{facturapago.empCod}" >
+										 <f:facet name="header">
+										<h:outputText value="empCod"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.empCod}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{facturapago.facNro}" sortBy="#{facturapago.facNro}" >
+										 <f:facet name="header">
+										<h:outputText value="facNro"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.facNro}"/>
+										 </p:column>
+			                    										<p:column filterBy="#{facturapago.facPagNro}" sortBy="#{facturapago.facPagNro}" >
+										 <f:facet name="header">
+										<h:outputText value="facPagNro"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.facPagNro}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{facturapago.facPagFec}" sortBy="#{facturapago.facPagFec}" >
+										 <f:facet name="header">
+										<h:outputText value="FacPagFec"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.facPagFec}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{facturapago.facPagRet}" sortBy="#{facturapago.facPagRet}" >
+										 <f:facet name="header">
+										<h:outputText value="FacPagRet"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.facPagRet}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{facturapago.facPagVal}" sortBy="#{facturapago.facPagVal}" >
+										 <f:facet name="header">
+										<h:outputText value="FacPagVal"/>
+										</f:facet>
+										 <h:outputText value="#{facturapago.facPagVal}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogFacturapago"
+										actionListener="#{facturapagoView.action_edit}">
+										<f:attribute name="selectedFacturapago" value="#{facturapago}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{facturapagoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedFacturapago" value="#{facturapago}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{facturapagoView.action_new()}" update=":dialogFacturapago" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogFacturapago" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{facturapagoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelFacturapago" header="Facturapago">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgConNro" value="ConNro"/>
+									 <p:inputText id="txtConNro" binding="#{facturapagoView.txtConNro}">
+									 <p:ajax update=":dialogFacturapago" listener="#{facturapagoView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgEmpCod" value="EmpCod"/>
+									 <p:inputText id="txtEmpCod" binding="#{facturapagoView.txtEmpCod}">
+									 <p:ajax update=":dialogFacturapago" listener="#{facturapagoView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgFacNro" value="FacNro"/>
+									 <p:inputText id="txtFacNro" binding="#{facturapagoView.txtFacNro}">
+									 <p:ajax update=":dialogFacturapago" listener="#{facturapagoView.listener_txtId}"/>
+									 </p:inputText>	
+																		 <h:outputText id="msgFacPagNro" value="FacPagNro"/>
+									 <p:inputText id="txtFacPagNro" binding="#{facturapagoView.txtFacPagNro}">
+									 <p:ajax update=":dialogFacturapago" listener="#{facturapagoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgFacPagRet" value=" FacPagRet"/>
+									<p:inputText id="txtFacPagRet" disabled="true" binding="#{facturapagoView.txtFacPagRet}"/>
+																		<h:outputText id="msgFacPagVal" value=" FacPagVal"/>
+									<p:inputText id="txtFacPagVal" disabled="true" binding="#{facturapagoView.txtFacPagVal}"/>
+																		
+																													<h:outputText id="msgFacPagFec" value=" FacPagFec"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{facturapagoView.txtFacPagFec}" >
+										<p:ajax event="dateSelect" listener="#{facturapagoView.listener_txtFacPagFec}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{facturapagoView.btnSave}" value="Save" action="#{facturapagoView.action_save()}" update=":dialogFacturapago :frm:panelDataTableFacturapago" />
+									<p:commandButton id="btnClear" value="Clear" action="#{facturapagoView.action_clear()}" update=":dialogFacturapago" />
+									<p:commandButton id="btnExit" value="Exit" action="#{facturapagoView.action_closeDialog()}" update=":dialogFacturapago" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	
