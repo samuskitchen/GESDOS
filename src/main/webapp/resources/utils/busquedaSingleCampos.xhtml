@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<!-- tabla -->
+	<composite:attribute name="idTable" />
+	<composite:attribute name="valueTable" type="java.util.List" />
+	<composite:attribute name="selectedTable" />
+	<composite:attribute name="rowKeyTable" />
+	<composite:attribute name="rowsTable" default="10" />
+	<composite:attribute name="columnTableCodigo" />
+	<composite:attribute name="columnTableNombre1" />
+	<composite:attribute name="columnTableNombre2" />
+	<composite:attribute name="headerTextColumnTableCodigo"	default="Numero de Revelado	" />
+	<composite:attribute name="headerTextColumnTableNombre1" default="Fecha de Revelado" />
+	<composite:attribute name="headerTextColumnTableNombre2" default="Descripción Revelado" />
+	<composite:attribute name="filterByColumnTableCodigo" />
+	<composite:attribute name="filterByColumnTableNombre1" />
+	<composite:attribute name="filterByColumnTableNombre2" />
+	<composite:attribute name="filterMatchModeColumnTableCodigo" default="contains" />
+	<composite:attribute name="filterMatchModeColumnTableNombre1" default="contains" />
+	<composite:attribute name="filterMatchModeColumnTableNombre2" default="contains" />
+	<composite:attribute name="widthColumnTableCodigo" default="40" />
+	<composite:attribute name="widthColumnTableNombre1" default="60" />
+	<composite:attribute name="widthColumnTableNombre2" default="100" />
+	<composite:attribute name="ajaxUpdate"/>
+	<composite:attribute name="elementFocusRowSelection" default="txtFocusRowSelectionSindefinir"/>
+	
+	<!-- dialogo -->
+	<composite:attribute name="idDialog" />	
+	<composite:attribute name="idDialogCrear" />
+	<composite:attribute name="headerDialog" />
+	<composite:attribute name="widgetVarDialog" />
+	<composite:attribute name="widgetVarDialogCrear" />
+	<composite:attribute name="heightDialog" default="350" />
+	<composite:attribute name="widthDialog" default="850" />
+	
+	<!-- acciones -->
+	<composite:attribute name="accionCerrar" method-signature="java.lang.String action()" />
+	<composite:attribute name="accionCrear" method-signature="java.lang.String action()" />
+	
+	<!-- eventos -->
+	<composite:attribute name="ajaxListener" method-signature="void listener()" required="true"/>
+		
+</composite:interface>
+
+<composite:implementation>
+	<p:dialog 
+		id="#{cc.attrs.idDialog}"
+		header="#{cc.attrs.headerDialog}"
+		widgetVar="#{cc.attrs.widgetVarDialog}" styleClass="form"
+        closable="false" closeOnEscape="true"
+		height="#{cc.attrs.heightDialog}" width="#{cc.attrs.widthDialog}"
+		resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+
+		<p:dataTable id="#{cc.attrs.idTable}" var="dataTable" 
+			value="#{cc.attrs.valueTable}" paginator="true"
+			rows="#{cc.attrs.rowsTable}" selection="#{cc.attrs.selectedTable}"
+			rowKey="#{cc.attrs.rowKeyTable}" selectionMode="single"
+			emptyMessage="No hay registros para mostrar" resizableColumns="true" scrollable="true" scrollHeight="185" >
+			
+			<p:column headerText="#{cc.attrs.headerTextColumnTableCodigo}" 
+				width="#{cc.attrs.widthColumnTableCodigo}"
+				filterMatchMode="#{cc.attrs.filterMatchModeColumnTableCodigo}"
+				filterBy="#{cc.attrs.filterByColumnTableCodigo}">
+				<h:outputText value="#{cc.attrs.columnTableCodigo}" />
+			</p:column>
+			
+			<p:column headerText="#{cc.attrs.headerTextColumnTableNombre1}"
+				width="#{cc.attrs.widthColumnTableNombre1}"
+				filterMatchMode="#{cc.attrs.filterMatchModeColumnTableNombre1}"
+				filterBy="#{cc.attrs.filterByColumnTableNombre1}">
+				<h:outputText value="#{cc.attrs.columnTableNombre1}" >
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</h:outputText>
+			</p:column>
+			
+			<p:column headerText="#{cc.attrs.headerTextColumnTableNombre2}"
+				width="#{cc.attrs.widthColumnTableNombre2}"
+				filterMatchMode="#{cc.attrs.filterMatchModeColumnTableNombre2}"
+				filterBy="#{cc.attrs.filterByColumnTableNombre2}">
+				<h:outputText value="#{cc.attrs.columnTableNombre2}" />
+			</p:column>
+			
+			<p:ajax event="rowSelect" 
+			listener="#{cc.attrs.ajaxListener}"
+			update="#{cc.attrs.ajaxUpdate}" oncomplete="PF('#{cc.attrs.widgetVarDialog}').hide(); 
+			if(document.getElementById('#{cc.attrs.elementFocusRowSelection}') !=null) document.getElementById('#{cc.attrs.elementFocusRowSelection}').focus();"/>
+			
+			<composite:insertChildren />
+		</p:dataTable>
+		<h:panelGrid columns="2" border="0" id="panelGridComponentesBtn">
+			<p:commandButton value="nuevo"
+				action="#{cc.attrs.accionCrear}"
+				icon="ui-icon-document"
+				process="@this" />
+			
+			<p:commandButton value="Cerrar" action="#{cc.attrs.accionCerrar}"
+				onclick="PF('#{cc.attrs.widgetVarDialog}').hide();"
+				icon="ui-icon-close"
+				process="@this" />
+		</h:panelGrid>
+	</p:dialog>
+</composite:implementation>
+</html>
