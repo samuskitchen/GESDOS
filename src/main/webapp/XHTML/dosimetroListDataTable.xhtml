@@ -41,12 +41,11 @@
 								    
 									if(index >= 2 && index <= 9){
 										$(element).css('width','50px');
-										console.log(index);
 									}
 								});
 							});
 						     
-						     function isNumberKey(evt) {
+						    function isNumberKey(evt) {
 								var charCode = (evt.which) ? evt.which : event.keyCode;
 								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
 									return false;
@@ -137,7 +136,7 @@
 									id="txtRazonSocialTabla" style="width:260px"
 									disabled="#{dosimetroView.disableBotonesBusqueda}" />
 								<p:commandLink
-									update=":frmDomisetro:CBPEmpresa:dialogEmpresaTabla, :frmDomisetro:txtEmpCodTabla, :frmDomisetro:txtRazonSocialTabla"
+									update=":frmDomisetro:CBPEmpresa:dialogEmpresaTabla, :frmDomisetro:txtEmpCodTabla, :frmDomisetro:txtRazonSocialTabla, :frmDomisetro:idTableDosimetros"
 									actionListener="#{dosimetroView.limpiarControlBusquedaEmpresasTabla}"
 									title="Limpiar..." process="@this"
 									disabled="#{dosimetroView.disableBotonesBusqueda}">

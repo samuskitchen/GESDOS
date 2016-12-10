@@ -31,7 +31,7 @@ import com.agileillutions.gesdos.utilities.FacesUtils;
  * www.zathuracode.org
  *
  */
-@ManagedBean
+@ManagedBean(name = "reveladoView")
 @ViewScoped
 public class ReveladoView implements Serializable {
     private static final long serialVersionUID = 1L;

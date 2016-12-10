@@ -23,6 +23,8 @@ public class EstudiosDTO implements Serializable {
     private Long estMes;
     private String obsCod;
     private Long revNro;
+    
+    private String nombreTrabajador;
 
     public Double getEstDos() {
         return estDos;
@@ -111,4 +113,22 @@ public class EstudiosDTO implements Serializable {
     public void setRevNro(Long revNro) {
         this.revNro = revNro;
     }
+
+	/** 
+	 * @author <a href="mailto:daniel@takum.co">Daniel De La Pava Suarez</a> 
+	 * @date 9/12/2016 
+	 * @return the nombreTrabajador 
+	 */
+	public String getNombreTrabajador() {
+		return nombreTrabajador;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel@takum.co">Daniel De La Pava Suarez</a> 
+	 * @date 9/12/2016 
+	 * @param nombreTrabajador the nombreTrabajador to set 
+	 */
+	public void setNombreTrabajador(String nombreTrabajador) {
+		this.nombreTrabajador = nombreTrabajador;
+	}
 }

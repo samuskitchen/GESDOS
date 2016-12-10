@@ -20,6 +20,10 @@ public class TrabaDTO implements Serializable {
     private String traNom;
     private String traObs;
     private String traSex;
+    
+    private Long codEmp;
+    private String empRazSoc;
+    private Long codDosi;
 
     public String getTraApe1() {
         return traApe1;
@@ -84,4 +88,58 @@ public class TrabaDTO implements Serializable {
     public void setTraSex(String traSex) {
         this.traSex = traSex;
     }
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @return the codEmp 
+	 */
+	public Long getCodEmp() {
+		return codEmp;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @param codEmp the codEmp to set 
+	 */
+	public void setCodEmp(Long codEmp) {
+		this.codEmp = codEmp;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @return the empRazSoc 
+	 */
+	public String getEmpRazSoc() {
+		return empRazSoc;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @param empRazSoc the empRazSoc to set 
+	 */
+	public void setEmpRazSoc(String empRazSoc) {
+		this.empRazSoc = empRazSoc;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @return the codDosi 
+	 */
+	public Long getCodDosi() {
+		return codDosi;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @param codDosi the codDosi to set 
+	 */
+	public void setCodDosi(Long codDosi) {
+		this.codDosi = codDosi;
+	}
 }

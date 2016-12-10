@@ -11,9 +11,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.agileillutions.gesdos.dataaccess.dao.IEstudiosDAO;
+import com.agileillutions.gesdos.dataaccess.dao.ITrabaDAO;
 import com.agileillutions.gesdos.exceptions.ZMessManager;
+import com.agileillutions.gesdos.modelo.Dosimetro;
 import com.agileillutions.gesdos.modelo.Estudios;
 import com.agileillutions.gesdos.modelo.EstudiosId;
+import com.agileillutions.gesdos.modelo.Traba;
 import com.agileillutions.gesdos.modelo.dto.EstudiosDTO;
 import com.agileillutions.gesdos.utilities.Utilities;
 
@@ -33,6 +36,9 @@ public class EstudiosLogic implements IEstudiosLogic {
     @Autowired
     private IEstudiosDAO estudiosDAO;
 
+    @Autowired
+    private ITrabaDAO trabaDAO; 
+    
     @Transactional(readOnly = true)
     public List<Estudios> getEstudios() throws Exception {
         List<Estudios> list = new ArrayList<Estudios>();
@@ -52,94 +58,88 @@ public class EstudiosLogic implements IEstudiosLogic {
     public void saveEstudios(Estudios entity) throws Exception {
         try {
             if (entity.getId().getTraCed() == null) {
-                throw new ZMessManager().new EmptyFieldException("traCed");
+                throw new ZMessManager().new EmptyFieldException("Trabajador");
             }
 
             if ((entity.getId().getTraCed() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getTraCed(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("traCed");
+                throw new ZMessManager().new NotValidFormatException("Trabajador");
             }
 
             if (entity.getId().getEmpCod() == null) {
-                throw new ZMessManager().new EmptyFieldException("empCod");
+                throw new ZMessManager().new EmptyFieldException("Empresa");
             }
 
             if ((entity.getId().getEmpCod() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getEmpCod(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("empCod");
+                throw new ZMessManager().new NotValidFormatException("Empresa");
             }
 
             if (entity.getId().getDosCod() == null) {
-                throw new ZMessManager().new EmptyFieldException("dosCod");
+                throw new ZMessManager().new EmptyFieldException("Dosimetro");
             }
 
             if ((entity.getId().getDosCod() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getDosCod(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("dosCod");
+                throw new ZMessManager().new NotValidFormatException("Dosimetro");
             }
 
             if (entity.getId().getEstAni() == null) {
-                throw new ZMessManager().new EmptyFieldException("estAni");
+                throw new ZMessManager().new EmptyFieldException("Año Estudio");
             }
 
             if ((entity.getId().getEstAni() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getEstAni(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estAni");
+                throw new ZMessManager().new NotValidFormatException("Año estudio");
             }
 
             if (entity.getId().getEstMes() == null) {
-                throw new ZMessManager().new EmptyFieldException("estMes");
+                throw new ZMessManager().new EmptyFieldException("Mes Estudio");
             }
 
             if ((entity.getId().getEstMes() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getEstMes(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estMes");
+                throw new ZMessManager().new NotValidFormatException("Mes Estudio");
             }
 
             if (entity.getEstDos() == null) {
-                throw new ZMessManager().new EmptyFieldException("estDos");
-            }
-
-            if ((entity.getEstDos() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getEstDos(), 4, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estDos");
+                throw new ZMessManager().new NotValidFormatException("Dosis");
             }
 
             if ((entity.getEstMesAct() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getEstMesAct(), 22, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
-                    "estMesAct");
+                    "Mes Actual");
             }
 
             if ((entity.getEstRec() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getEstRec(), 1) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estRec");
+                throw new ZMessManager().new NotValidFormatException("Estado");
             }
 
             if (entity.getObsCod() == null) {
-                throw new ZMessManager().new EmptyFieldException("obsCod");
+                throw new ZMessManager().new EmptyFieldException("Obsevacion");
             }
 
             if ((entity.getObsCod() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getObsCod(), 4) == false)) {
-                throw new ZMessManager().new NotValidFormatException("obsCod");
+                throw new ZMessManager().new NotValidFormatException("Obsevacion");
             }
 
             if (entity.getRevNro() == null) {
-                throw new ZMessManager().new EmptyFieldException("revNro");
+                throw new ZMessManager().new EmptyFieldException("Numero Revelado");
             }
 
             if ((entity.getRevNro() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getRevNro(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("revNro");
+                throw new ZMessManager().new NotValidFormatException("Numero Revelado");
             }
 
             if (getEstudios(entity.getId()) != null) {
@@ -190,99 +190,89 @@ public class EstudiosLogic implements IEstudiosLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void updateEstudios(Estudios entity) throws Exception {
         try {
-            if (entity == null) {
-                throw new ZMessManager().new NullEntityExcepcion("Estudios");
-            }
-
-            if (entity.getId().getTraCed() == null) {
-                throw new ZMessManager().new EmptyFieldException("traCed");
+        	if (entity.getId().getTraCed() == null) {
+                throw new ZMessManager().new EmptyFieldException("Trabajador");
             }
 
             if ((entity.getId().getTraCed() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getTraCed(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("traCed");
+                throw new ZMessManager().new NotValidFormatException("Trabajador");
             }
 
             if (entity.getId().getEmpCod() == null) {
-                throw new ZMessManager().new EmptyFieldException("empCod");
+                throw new ZMessManager().new EmptyFieldException("Empresa");
             }
 
             if ((entity.getId().getEmpCod() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getEmpCod(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("empCod");
+                throw new ZMessManager().new NotValidFormatException("Empresa");
             }
 
             if (entity.getId().getDosCod() == null) {
-                throw new ZMessManager().new EmptyFieldException("dosCod");
+                throw new ZMessManager().new EmptyFieldException("Dosimetro");
             }
 
             if ((entity.getId().getDosCod() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getDosCod(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("dosCod");
+                throw new ZMessManager().new NotValidFormatException("Dosimetro");
             }
 
             if (entity.getId().getEstAni() == null) {
-                throw new ZMessManager().new EmptyFieldException("estAni");
+                throw new ZMessManager().new EmptyFieldException("Año Estudio");
             }
 
             if ((entity.getId().getEstAni() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getEstAni(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estAni");
+                throw new ZMessManager().new NotValidFormatException("Año estudio");
             }
 
             if (entity.getId().getEstMes() == null) {
-                throw new ZMessManager().new EmptyFieldException("estMes");
+                throw new ZMessManager().new EmptyFieldException("Mes Estudio");
             }
 
             if ((entity.getId().getEstMes() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getId().getEstMes(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estMes");
+                throw new ZMessManager().new NotValidFormatException("Mes Estudio");
             }
 
             if (entity.getEstDos() == null) {
-                throw new ZMessManager().new EmptyFieldException("estDos");
-            }
-
-            if ((entity.getEstDos() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getEstDos(), 4, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estDos");
+                throw new ZMessManager().new NotValidFormatException("Dosis");
             }
 
             if ((entity.getEstMesAct() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getEstMesAct(), 22, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
-                    "estMesAct");
+                    "Mes Actual");
             }
 
             if ((entity.getEstRec() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getEstRec(), 1) == false)) {
-                throw new ZMessManager().new NotValidFormatException("estRec");
+                throw new ZMessManager().new NotValidFormatException("Estado");
             }
 
             if (entity.getObsCod() == null) {
-                throw new ZMessManager().new EmptyFieldException("obsCod");
+                throw new ZMessManager().new EmptyFieldException("Obsevacion");
             }
 
             if ((entity.getObsCod() != null) &&
                     (Utilities.checkWordAndCheckWithlength(entity.getObsCod(), 4) == false)) {
-                throw new ZMessManager().new NotValidFormatException("obsCod");
+                throw new ZMessManager().new NotValidFormatException("Obsevacion");
             }
 
             if (entity.getRevNro() == null) {
-                throw new ZMessManager().new EmptyFieldException("revNro");
+                throw new ZMessManager().new EmptyFieldException("Numero Revelado");
             }
 
             if ((entity.getRevNro() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getRevNro(), 22, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("revNro");
+                throw new ZMessManager().new NotValidFormatException("Numero Revelado");
             }
 
             estudiosDAO.update(entity);
@@ -296,11 +286,12 @@ public class EstudiosLogic implements IEstudiosLogic {
     public List<EstudiosDTO> getDataEstudios() throws Exception {
         try {
             List<Estudios> estudios = estudiosDAO.findAll();
-
+            
             List<EstudiosDTO> estudiosDTO = new ArrayList<EstudiosDTO>();
 
             for (Estudios estudiosTmp : estudios) {
                 EstudiosDTO estudiosDTO2 = new EstudiosDTO();
+                Traba traba = trabaDAO.findById(estudiosTmp.getId().getTraCed());
 
                 estudiosDTO2.setTraCed(estudiosTmp.getId().getTraCed());
                 estudiosDTO2.setEmpCod(estudiosTmp.getId().getEmpCod());
@@ -318,6 +309,13 @@ public class EstudiosLogic implements IEstudiosLogic {
                     ? estudiosTmp.getObsCod() : null);
                 estudiosDTO2.setRevNro((estudiosTmp.getRevNro() != null)
                     ? estudiosTmp.getRevNro() : null);
+                
+                String nombre = traba.getTraNom() != null ? traba.getTraNom() : "";
+                String primerApellido = traba.getTraApe1() != null ? traba.getTraApe1() : "";
+                String segunoApellido =  traba.getTraApe2() != null ? traba.getTraApe2() : "";
+                
+                
+                estudiosDTO2.setNombreTrabajador(nombre + " " + primerApellido + " " + segunoApellido);
                 estudiosDTO.add(estudiosDTO2);
             }
 
@@ -537,5 +535,67 @@ public class EstudiosLogic implements IEstudiosLogic {
         }
 
         return list;
+    }
+    
+    /**
+     * 
+     * @author <a href="mailto:daniel@takum.co">Daniel De La Pava Suarez</a> 
+     * @date 27/11/2016
+     * @description 
+     * @param idEmpresa
+     * @param idTrabaja
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa, Long idTrabaja) throws Exception {
+        try {
+            List<Estudios> estudios = new ArrayList<Estudios>();
+
+            if(null != idEmpresa && null != idTrabaja){
+            	estudios = estudiosDAO.findByCriteria("id.empCod = " + idEmpresa + " and id.traCed = " + idTrabaja);
+            }else if(null != idEmpresa){
+            	estudios = estudiosDAO.findByCriteria("id.empCod = " + idEmpresa);
+            }else if(null != idTrabaja){
+            	estudios = estudiosDAO.findByCriteria("id.traCed = " + idTrabaja);
+            }
+            
+            List<EstudiosDTO> estudiosDTO = new ArrayList<EstudiosDTO>();
+
+            for (Estudios estudiosTmp : estudios) {
+                EstudiosDTO estudiosDTO2 = new EstudiosDTO();
+                Traba traba = trabaDAO.findById(estudiosTmp.getId().getTraCed());
+
+                estudiosDTO2.setTraCed(estudiosTmp.getId().getTraCed());
+                estudiosDTO2.setEmpCod(estudiosTmp.getId().getEmpCod());
+                estudiosDTO2.setDosCod(estudiosTmp.getId().getDosCod());
+                estudiosDTO2.setEstAni(estudiosTmp.getId().getEstAni());
+                estudiosDTO2.setEstMes(estudiosTmp.getId().getEstMes());
+                estudiosDTO2.setEstDos((estudiosTmp.getEstDos() != null)
+                    ? estudiosTmp.getEstDos() : null);
+                estudiosDTO2.setEstFecRec(estudiosTmp.getEstFecRec());
+                estudiosDTO2.setEstMesAct((estudiosTmp.getEstMesAct() != null)
+                    ? estudiosTmp.getEstMesAct() : null);
+                estudiosDTO2.setEstRec((estudiosTmp.getEstRec() != null)
+                    ? estudiosTmp.getEstRec() : null);
+                estudiosDTO2.setObsCod((estudiosTmp.getObsCod() != null)
+                    ? estudiosTmp.getObsCod() : null);
+                estudiosDTO2.setRevNro((estudiosTmp.getRevNro() != null)
+                    ? estudiosTmp.getRevNro() : null);
+                
+                String nombre = traba.getTraNom() != null ? traba.getTraNom() : "";
+                String primerApellido = traba.getTraApe1() != null ? traba.getTraApe1() : "";
+                String segunoApellido =  traba.getTraApe2() != null ? traba.getTraApe2() : "";
+                
+                
+                estudiosDTO2.setNombreTrabajador(nombre + " " + primerApellido + " " + segunoApellido);
+                estudiosDTO.add(estudiosDTO2);
+            }
+
+            return estudiosDTO;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

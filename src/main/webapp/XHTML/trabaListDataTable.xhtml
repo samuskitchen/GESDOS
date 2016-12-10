@@ -28,7 +28,7 @@
 					<utils:busquedaSingle headerDialog="Empresa"
 						idTable="tableEmpresaDepartamento" idDialog="dialogEmpresa"
 						id="CBPEmpresa" valueTable="#{trabaView.empresas}"
-						selectedTable="#{trabaView.selectedTraba}"
+						selectedTable="#{trabaView.selectEmpresa}"
 						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
 						columnTableCodigo="#{dataTable.empCod}"
 						columnTableNombre="#{dataTable.empRazSoc}"
@@ -67,8 +67,15 @@
 								update="msgTablaTraba,panelBotones" />
 							<p:separator />
 							<p:commandButton id="btnDosimetro" value="Dosimetro"
-								icon="ui-icon-note" update="msgTablaTraba,panelBotones" />
+								icon="ui-icon-note" 
+								actionListener="#{trabaView.cargarDosimetrosDialog(null)}"
+								update="msgTablaTraba,panelBotones" />
 							<p:separator />
+							<p:commandButton id="btnEstudio" value="Estudio"
+								icon="ui-icon-script" 
+								actionListener="#{trabaView.cargarEstudioDialog(null)}"
+								update="msgTablaTraba,panelBotones" />
+							<p:separator />	
 							<p:commandButton id="btnRefrescar" value="Refrescar"
 								icon="ui-icon-bookmark"
 								onclick="javascript:location.reload();"
@@ -110,11 +117,25 @@
 							</p:panelGrid>
 						</p:panelGrid>
 
-						<p:dataTable id="idDataTableTraba" value="#{trabaView.data}"
+						<p:dataTable id="idDataTableTraba" value="#{trabaView.dataTrabaEmp}"
 							var="traba" paginator="true" rows="10" paginatorPosition="bottom"
 							scrollable="true" scrollHeight="120"
 							emptyMessage="No se encontrarón archivos." selectionMode="single"
 							rowKey="#{traba.traCed}" selection="#{trabaView.selectedTraba}">
+
+							<p:column filterBy="#{traba.codEmp}" sortBy="#{traba.codEmp}">
+								<f:facet name="header">
+									<h:outputText value="Empresa" />
+								</f:facet>
+								<h:outputText value="#{traba.codEmp}" />
+							</p:column>
+							
+							<p:column filterBy="#{traba.empRazSoc}" sortBy="#{traba.empRazSoc}">
+								<f:facet name="header">
+									<h:outputText value="Razón Social" />
+								</f:facet>
+								<h:outputText value="#{traba.empRazSoc}" />
+							</p:column>
 
 							<p:column filterBy="#{traba.traCed}" sortBy="#{traba.traCed}">
 								<f:facet name="header">

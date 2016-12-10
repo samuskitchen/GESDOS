@@ -48,4 +48,15 @@ public interface ITrabaLogic {
     public Long findTotalNumberTraba() throws Exception;
 
     public List<TrabaDTO> getDataTraba() throws Exception;
+    
+    /**
+     * 
+     * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+     * @date 27/11/2016
+     * @description 
+     * @return
+     * @throws Exception
+     */
+    public List<TrabaDTO> getDataTrabaEmpresa(Long codEmpresa) throws Exception;
+    
 }

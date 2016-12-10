@@ -1504,4 +1504,80 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     public List<UsuariosDTO> getDataUsuarios() throws Exception {
         return usuariosLogic.getDataUsuarios();
     }
+
+    /**
+     * 
+     * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+     * @date 27/11/2016
+     * @description 
+     * @param codEmpresa
+     * @return
+     * @throws Exception
+     */
+	@Override
+	public List<TrabaDTO> getDataTrabaEmpresa(Long codEmpresa) throws Exception {
+		return trabaLogic.getDataTrabaEmpresa(codEmpresa);
+	}
+
+	
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @date 27/11/2016 
+	 * @param tipo
+	 * @param id
+	 * @return
+	 * @throws Exception 
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataDosimetroTipo(java.lang.String, java.lang.Long)
+	 */
+	@Override
+	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id) throws Exception {
+		return dosimetroLogic.getDataDosimetroTipo(tipo, id);
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @date 27/11/2016 
+	 * @param idEmp
+	 * @param idTraba
+	 * @return
+	 * @throws Exception 
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataDosimetroEmpTraba(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp, Long idTraba, Long idDosi)
+			throws Exception {
+		return dosimetroLogic.getDataDosimetroEmpTraba(idEmp, idTraba, idDosi);
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel@takum.co">Daniel De La Pava Suarez</a>
+	 * @date 27/11/2016 
+	 * @param idEmpresa
+	 * @param idTrabajador
+	 * @return
+	 * @throws Exception 
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataEstudiosParam(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa, Long idTrabajador) throws Exception {
+		return estudiosLogic.getDataEstudiosParam(idEmpresa, idTrabajador);
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @date 27/11/2016 
+	 * @param idEmpresa
+	 * @param idTrabajador
+	 * @return
+	 * @throws Exception 
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataDosimetroUltimo(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public DosimetroDTO getDataDosimetroUltimo(Long idEmpresa, Long idTrabajador) throws Exception {
+		return dosimetroLogic.getDataDosimetroUltimo(idEmpresa, idTrabajador);
+	}
 }

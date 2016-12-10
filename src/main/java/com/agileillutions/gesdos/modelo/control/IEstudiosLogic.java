@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.agileillutions.gesdos.modelo.Estudios;
 import com.agileillutions.gesdos.modelo.EstudiosId;
+import com.agileillutions.gesdos.modelo.dto.DosimetroDTO;
 import com.agileillutions.gesdos.modelo.dto.EstudiosDTO;
 
 
@@ -49,4 +50,16 @@ public interface IEstudiosLogic {
     public Long findTotalNumberEstudios() throws Exception;
 
     public List<EstudiosDTO> getDataEstudios() throws Exception;
+
+    /**
+     * 
+     * @author <a href="mailto:daniel@takum.co">Daniel De La Pava Suarez</a> 
+     * @date 27/11/2016
+     * @description 
+     * @param idEmpresa
+     * @param idTrabaja
+     * @return
+     * @throws Exception
+     */
+	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa, Long idTrabaja) throws Exception;
 }

@@ -648,4 +648,65 @@ public interface IBusinessDelegatorView {
 	public Long findTotalNumberUsuarios() throws Exception;
 
 	public List<UsuariosDTO> getDataUsuarios() throws Exception;
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param codEmpresa
+	 * @return
+	 * @throws Exception
+	 */
+	public List<TrabaDTO> getDataTrabaEmpresa(Long codEmpresa) throws Exception;
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param tipo
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id) throws Exception;
+	
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param idEmp
+	 * @param idTraba
+	 * @param idDosi
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp, Long idTraba, Long idDosi) throws Exception;
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel@takum.co">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param idEmpresa
+	 * @param idTrabajador
+	 * @return
+	 * @throws Exception
+	 */
+	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa, Long idTrabajador) throws Exception;
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param idEmpresa
+	 * @param idTrabajador
+	 * @return
+	 * @throws Exception 
+	 */
+	public DosimetroDTO getDataDosimetroUltimo(Long idEmpresa, Long idTrabajador) throws Exception;
+
 }

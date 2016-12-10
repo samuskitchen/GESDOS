@@ -29,7 +29,6 @@ import org.primefaces.event.RowEditEvent;
 import com.agileillutions.gesdos.exceptions.ZMessManager;
 import com.agileillutions.gesdos.modelo.Empresas;
 import com.agileillutions.gesdos.modelo.Traba;
-import com.agileillutions.gesdos.modelo.dto.EmpresasDTO;
 import com.agileillutions.gesdos.modelo.dto.TrabaDTO;
 import com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView;
 import com.agileillutions.gesdos.utilities.FacesUtils;
@@ -39,7 +38,7 @@ import com.agileillutions.gesdos.utilities.FacesUtils;
  *         www.zathuracode.org
  *
  */
-@ManagedBean
+@ManagedBean(name = "trabaView")
 @ViewScoped
 public class TrabaView implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -73,13 +72,14 @@ public class TrabaView implements Serializable {
 	private boolean botonDosimetros;
 	private boolean botonTrabajadores;
 	private boolean disableBotonesBusqueda;
-	
+
 	private String codEmpresa;
 	private InputText razonSocialEmpresa;
 	private List<Empresas> empresas;
-	private EmpresasDTO selectEmpresa;
+	private Empresas selectEmpresa;
 	private boolean renderedEmpresa;
 	
+	private List<TrabaDTO> dataTrabaEmp;
 
 	public TrabaView() {
 		super();
@@ -89,7 +89,7 @@ public class TrabaView implements Serializable {
 	public void getParametrosEmpresa() {
 		try {
 
-			inicializaCampos();
+			 inicializaCampos();
 
 			botonGuardar = true;
 			botonModificar = true;
@@ -106,15 +106,22 @@ public class TrabaView implements Serializable {
 			codEmpresa = requestParameterMap.get("codEmpresa");
 			String cedTraba = requestParameterMap.get("cedTraba");
 			String tipo = requestParameterMap.get("tipo");
+			
+			if(null != codEmpresa && !codEmpresa.isEmpty()){
+				obtenerDataTrabaEmp(Long.valueOf(codEmpresa));
+			}
 
-			if(null != codEmpresa){
+			if (null != codEmpresa) {
 				renderedEmpresa = true;
 				consultarEmpresas();
-			}else{
+			} else {
 				renderedEmpresa = false;
 			}
-			
-			if ("2".equals(tipo)) {
+
+			if(null == tipo || "".equals(tipo)){
+				dataTrabaEmp = getData();
+			}
+			else if ("2".equals(tipo)) {
 				if (null != cedTraba) {
 					txtTraCed = new InputText();
 					txtTraCed.setValue(cedTraba);
@@ -128,7 +135,7 @@ public class TrabaView implements Serializable {
 					listener_txtId();
 					modoModificar();
 				}
-			} else if("0".equals(tipo)){
+			} else if ("0".equals(tipo)) {
 				botonGuardar = true;
 				botonModificar = false;
 				botonBorrar = false;
@@ -136,7 +143,7 @@ public class TrabaView implements Serializable {
 				botonDosimetros = false;
 				botonTrabajadores = false;
 				disableBotonesBusqueda = false;
-				//RequestContext.getCurrentInstance().update("formDialogTraba");
+				// RequestContext.getCurrentInstance().update("formDialogTraba");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,7 +208,7 @@ public class TrabaView implements Serializable {
 
 	public String action_clear() {
 		entity = null;
-		//selectedTraba = null;
+		// selectedTraba = null;
 
 		if (txtTraApe1 != null) {
 			txtTraApe1.setValue(null);
@@ -234,7 +241,7 @@ public class TrabaView implements Serializable {
 		if (null != cbOpcionSexo) {
 			cbOpcionSexo.resetValue();
 		}
-		
+
 		return "";
 	}
 
@@ -451,18 +458,19 @@ public class TrabaView implements Serializable {
 
 		return "";
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
-	 * @description 
+	 * @description
 	 * @param id
 	 * @param campoDeClase
 	 * @param boleana
 	 * @return
 	 */
-	public Object[] searchByCriteria(String id, String campoDeClase,
+	public Object[] searchByCriteriaRazonSocial(String id, String campoDeClase,
 			boolean boleana) {
 		Object object[] = new Object[4];
 		object[0] = campoDeClase;
@@ -475,6 +483,27 @@ public class TrabaView implements Serializable {
 	/**
 	 * 
 	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param id
+	 * @param campoDeClase
+	 * @param boleana
+	 * @return
+	 */
+	public Object[] searchByCriteria(String id, String campoDeClase,
+			boolean boleana) {
+		Object object[] = new Object[4];
+		object[0] = campoDeClase;
+		object[1] = boleana;
+		object[2] = id;
+		object[3] = "=";
+		return object;
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
@@ -483,19 +512,41 @@ public class TrabaView implements Serializable {
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
 	public void consultarEmpresas() {
 		try {
-			
-			if (null != razonSocialEmpresa && null != razonSocialEmpresa.getValue()) {
-				String valorDepartamento = razonSocialEmpresa.getValue().toString();
-				Object[] variablesDepartamento = searchByCriteria(
-						valorDepartamento, "EmpRazSoc", true);
+
+			if (null != razonSocialEmpresa
+					&& null != razonSocialEmpresa.getValue()
+					&& !razonSocialEmpresa.getValue().toString().isEmpty()) {
+				String valorDepartamento = razonSocialEmpresa.getValue()
+						.toString();
+				Object[] variablesEmpresa = searchByCriteriaRazonSocial("%"
+						+ valorDepartamento + "%", "empRazSoc", true);
 				List<Empresas> empresas = businessDelegatorView
-						.findByCriteriaInEmpresas(variablesDepartamento, null,
+						.findByCriteriaInEmpresas(variablesEmpresa, null, null);
+
+				if (null != empresas && empresas.size() > 0) {
+					Empresas emp = empresas.get(0);
+					if (emp != null && emp.getEmpCod() != null) {
+						razonSocialEmpresa.setValue(emp.getEmpRazSoc());
+
+						RequestContext context = RequestContext
+								.getCurrentInstance();
+						List<String> s = new ArrayList<String>();
+						s.add("frmEmpleado:razonSocialEmpresa");
+						context.update(s);
+					}
+				}
+			} else if (null != codEmpresa && !codEmpresa.isEmpty()) {
+				Object[] variablesEmpresa = searchByCriteria(codEmpresa,
+						"empCod", true);
+				List<Empresas> empresas = businessDelegatorView
+						.findByCriteriaInEmpresas(variablesEmpresa, null,
 								null);
 
 				if (null != empresas && empresas.size() > 0) {
@@ -510,27 +561,8 @@ public class TrabaView implements Serializable {
 						context.update(s);
 					}
 				}
-			}else if(null != codEmpresa && !codEmpresa.isEmpty()){
-				Object[] variablesDepartamento = searchByCriteria(
-						codEmpresa, "empCod", true);
-				List<Empresas> empresas = businessDelegatorView
-						.findByCriteriaInEmpresas(variablesDepartamento, null,
-								null);
+			}
 
-				if (null != empresas && empresas.size() > 0) {
-					Empresas emp = empresas.get(0);
-					if (emp != null && emp.getEmpCod() != null) {
-						razonSocialEmpresa.setValue(emp.getEmpRazSoc());
-
-						RequestContext context = RequestContext
-								.getCurrentInstance();
-						List<String> s = new ArrayList<String>();
-						s.add("frmEmpleado:razonSocialEmpresa");
-						context.update(s);
-					}
-				}
-			} 
-			
 			else {
 				empresas = businessDelegatorView.getEmpresas();
 			}
@@ -542,7 +574,8 @@ public class TrabaView implements Serializable {
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
@@ -550,39 +583,42 @@ public class TrabaView implements Serializable {
 
 		if (selectEmpresa != null) {
 
-			EmpresasDTO empresas = selectEmpresa;
+			Empresas empresas = selectEmpresa;
 
 			if (empresas != null && empresas.getEmpCod() != null) {
 				razonSocialEmpresa.setValue(empresas.getEmpRazSoc());
 
 				RequestContext context = RequestContext.getCurrentInstance();
 				List<String> s = new ArrayList<String>();
-				s.add("frmEmpleado:razonSocialEmpresa");
+				s.add("frmEmpleado:txtRazonSocialEmpresa");
 				context.update(s);
 			}
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
 	public void limpiarControlBusquedaEmpresa() {
 		razonSocialEmpresa.resetValue();
+		codEmpresa = null;
 
 		RequestContext context = RequestContext.getCurrentInstance();
 		List<String> s = new ArrayList<String>();
 		s.add("frmEmpleado:razonSocialEmpresa");
 		context.update(s);
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
-	 * @description 
+	 * @description
 	 * @param bandera
 	 */
 	public void cargarTrabaDialog(String bandera) {
@@ -601,13 +637,13 @@ public class TrabaView implements Serializable {
 		options.put("dynamic", false);
 
 		String cedTraba = "";
-		if(null != selectedTraba){
-			cedTraba = selectedTraba.getTraCed().toString();			
+		if (null != selectedTraba) {
+			cedTraba = selectedTraba.getTraCed().toString();
 		}
 
 		List<String> lstParamEmpresa = new ArrayList<String>();
 		lstParamEmpresa.add(cedTraba);
-		
+
 		List<String> lstParamTipo = new ArrayList<String>();
 		lstParamTipo.add(bandera);
 
@@ -618,43 +654,44 @@ public class TrabaView implements Serializable {
 		RequestContext.getCurrentInstance().openDialog("/XHTML/traba.xhtml",
 				options, params);
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
-	public void inicializaCampos(){
-		
-		if(btnSave == null){
+	public void inicializaCampos() {
+
+		if (btnSave == null) {
 			btnSave = new CommandButton();
 		}
-		
-		if(btnModify == null){
+
+		if (btnModify == null) {
 			btnModify = new CommandButton();
 		}
-		
-		if(btnDelete == null){
+
+		if (btnDelete == null) {
 			btnDelete = new CommandButton();
 		}
-		
-		if(btnClear == null){
+
+		if (btnClear == null) {
 			btnClear = new CommandButton();
 		}
-		
+
 		if (null == cbOpcionEstado) {
 			cbOpcionEstado = new SelectOneMenu();
 		}
-		
+
 		if (null == cbOpcionSexo) {
 			cbOpcionSexo = new SelectOneMenu();
 		}
-		
-		if(null == razonSocialEmpresa){
-			razonSocialEmpresa =  new InputText();
+
+		if (null == razonSocialEmpresa) {
+			razonSocialEmpresa = new InputText();
 		}
-		
+
 		if (txtTraApe1 == null) {
 			txtTraApe1 = new InputText();
 		}
@@ -679,15 +716,16 @@ public class TrabaView implements Serializable {
 			txtTraFecIni = new Calendar();
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
-	public void modoVisualizar(){
-		
+	public void modoVisualizar() {
+
 		botonGuardar = false;
 		botonModificar = false;
 		botonBorrar = false;
@@ -695,7 +733,7 @@ public class TrabaView implements Serializable {
 		botonDosimetros = false;
 		botonTrabajadores = false;
 		disableBotonesBusqueda = true;
-		
+
 		txtTraApe1.setDisabled(true);
 		txtTraApe2.setDisabled(true);
 		txtTraNom.setDisabled(true);
@@ -705,18 +743,19 @@ public class TrabaView implements Serializable {
 		btnSave.setDisabled(true);
 		cbOpcionSexo.setDisabled(true);
 		cbOpcionEstado.setDisabled(true);
-		
+
 		RequestContext.getCurrentInstance().update("formDialogTraba");
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 14/11/2016
 	 * @description
 	 */
-	public void modoModificar(){
-		
+	public void modoModificar() {
+
 		botonGuardar = false;
 		botonModificar = true;
 		botonBorrar = false;
@@ -724,7 +763,7 @@ public class TrabaView implements Serializable {
 		botonDosimetros = false;
 		botonTrabajadores = false;
 		disableBotonesBusqueda = false;
-		
+
 		txtTraApe1.setDisabled(false);
 		txtTraApe2.setDisabled(false);
 		txtTraNom.setDisabled(false);
@@ -734,22 +773,141 @@ public class TrabaView implements Serializable {
 		btnSave.setDisabled(false);
 		cbOpcionSexo.setDisabled(false);
 		cbOpcionEstado.setDisabled(false);
-		
+
 		RequestContext.getCurrentInstance().update("formDialogTraba");
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @description
+	 * @throws Exception
+	 */
+	public void closeDialog() throws Exception {
+		data = businessDelegatorView.getDataTrabaEmpresa(1L);
+		RequestContext.getCurrentInstance().update("frmEmpleado");
 	}
 	
 	/**
 	 * 
 	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016
+	 * @date 27/11/2016
 	 * @description 
+	 * @param empCod
 	 * @throws Exception
 	 */
-	public void closeDialog() throws Exception {
-		data = businessDelegatorView.getDataTraba();
-		RequestContext.getCurrentInstance().update("frmEmpleado");
-    }
+	public void obtenerDataTrabaEmp(Long empCod) throws Exception{
+		dataTrabaEmp = businessDelegatorView.getDataTrabaEmpresa(empCod);
+	}
 	
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param bandera
+	 */
+	public void cargarDosimetrosDialog(String bandera) {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+
+		options.put("contentWidth", "'100%'");
+		options.put("contentheight", 600);
+		options.put("width", "'100%'");
+		options.put("height", 600);
+		options.put("position", "top");
+		options.put("modal", true);
+		options.put("draggable", false);
+		options.put("resizable", false);
+		options.put("closeOnEscape", true);
+		options.put("dynamic", false);
+
+		String codTraba = "";
+		String codEmp = "";
+		String codDosi = "";
+		if(null != selectedTraba){
+			codTraba = selectedTraba.getTraCed().toString();
+			codEmp = selectedTraba.getCodEmp().toString();
+			codDosi = selectedTraba.getCodDosi().toString();
+		}
+
+		List<String> lstParamTraba = new ArrayList<String>();
+		lstParamTraba.add(codTraba);
+		
+		List<String> lstParamEmp = new ArrayList<String>();
+		lstParamEmp.add(codEmp);
+		
+		List<String> lstParamDosi = new ArrayList<String>();
+		lstParamDosi.add(codDosi);
+		
+		List<String> lstParamTipo = new ArrayList<String>();
+		lstParamTipo.add(bandera);
+
+		Map<String, List<String>> params = new HashMap<String, List<String>>();
+		params.put("codTrabajador", lstParamTraba);
+		params.put("codEmpresa", lstParamEmp);
+		params.put("codDosimetro", lstParamDosi);
+		params.put("tipo", lstParamTipo);
+
+		RequestContext.getCurrentInstance().openDialog("/XHTML/dosimetroListDataTable.xhtml",
+				options, params);
+	}
+	
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param bandera
+	 */
+	public void cargarEstudioDialog(String bandera) {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+
+		options.put("contentWidth", "'100%'");
+		options.put("contentheight", 600);
+		options.put("width", "'100%'");
+		options.put("height", 600);
+		options.put("position", "top");
+		options.put("modal", true);
+		options.put("draggable", false);
+		options.put("resizable", false);
+		options.put("closeOnEscape", true);
+		options.put("dynamic", false);
+
+		String codTraba = "";
+		String codEmp = "";
+		String codDosi = "";
+		if(null != selectedTraba){
+			codTraba = selectedTraba.getTraCed().toString();
+			codEmp = selectedTraba.getCodEmp().toString();
+			codDosi = selectedTraba.getCodDosi().toString();
+		}
+
+		List<String> lstParamTraba = new ArrayList<String>();
+		lstParamTraba.add(codTraba);
+		
+		List<String> lstParamEmp = new ArrayList<String>();
+		lstParamEmp.add(codEmp);
+		
+		List<String> lstParamDosi = new ArrayList<String>();
+		lstParamDosi.add(codDosi);
+		
+		List<String> lstParamTipo = new ArrayList<String>();
+		lstParamTipo.add(bandera);
+
+		Map<String, List<String>> params = new HashMap<String, List<String>>();
+		params.put("codTrabajador", lstParamTraba);
+		params.put("codEmpresa", lstParamEmp);
+		params.put("codDosimetro", lstParamDosi);
+		params.put("tipo", lstParamTipo);
+
+		RequestContext.getCurrentInstance().openDialog("/XHTML/estudiosListDataTable.xhtml",
+				options, params);
+	}
+
 	public InputText getTxtTraApe1() {
 		return txtTraApe1;
 	}
@@ -1080,111 +1238,147 @@ public class TrabaView implements Serializable {
 		this.disableBotonesBusqueda = disableBotonesBusqueda;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @return the codEmpresa 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @return the codEmpresa
 	 */
 	public String getCodEmpresa() {
 		return codEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @param codEmpresa the codEmpresa to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @param codEmpresa
+	 *            the codEmpresa to set
 	 */
 	public void setCodEmpresa(String codEmpresa) {
 		this.codEmpresa = codEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @return the razonSocialEmpresa 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @return the razonSocialEmpresa
 	 */
 	public InputText getRazonSocialEmpresa() {
 		return razonSocialEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @param razonSocialEmpresa the razonSocialEmpresa to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @param razonSocialEmpresa
+	 *            the razonSocialEmpresa to set
 	 */
 	public void setRazonSocialEmpresa(InputText razonSocialEmpresa) {
 		this.razonSocialEmpresa = razonSocialEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @return the empresas 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @return the empresas
 	 */
 	public List<Empresas> getEmpresas() {
 		return empresas;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @param empresas the empresas to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @param empresas
+	 *            the empresas to set
 	 */
 	public void setEmpresas(List<Empresas> empresas) {
 		this.empresas = empresas;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @return the selectEmpresa 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @return the selectEmpresa
 	 */
-	public EmpresasDTO getSelectEmpresa() {
+	public Empresas getSelectEmpresa() {
 		return selectEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @param selectEmpresa the selectEmpresa to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @param selectEmpresa
+	 *            the selectEmpresa to set
 	 */
-	public void setSelectEmpresa(EmpresasDTO selectEmpresa) {
+	public void setSelectEmpresa(Empresas selectEmpresa) {
 		this.selectEmpresa = selectEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @return the renderedEmpresa 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @return the renderedEmpresa
 	 */
 	public boolean isRenderedEmpresa() {
 		return renderedEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @param renderedEmpresa the renderedEmpresa to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @param renderedEmpresa
+	 *            the renderedEmpresa to set
 	 */
 	public void setRenderedEmpresa(boolean renderedEmpresa) {
 		this.renderedEmpresa = renderedEmpresa;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @return the botonNuevo 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @return the botonNuevo
 	 */
 	public boolean isBotonNuevo() {
 		return botonNuevo;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 14/11/2016 
-	 * @param botonNuevo the botonNuevo to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 14/11/2016
+	 * @param botonNuevo
+	 *            the botonNuevo to set
 	 */
 	public void setBotonNuevo(boolean botonNuevo) {
 		this.botonNuevo = botonNuevo;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @return the dataTrabaEmp 
+	 */
+	public List<TrabaDTO> getDataTrabaEmp() {
+		return dataTrabaEmp;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016 
+	 * @param dataTrabaEmp the dataTrabaEmp to set 
+	 */
+	public void setDataTrabaEmp(List<TrabaDTO> dataTrabaEmp) {
+		this.dataTrabaEmp = dataTrabaEmp;
 	}
 }

@@ -41,7 +41,7 @@ import com.agileillutions.gesdos.utilities.FacesUtils;
  *         www.zathuracode.org
  *
  */
-@ManagedBean
+@ManagedBean(name = "dosimetroView")
 @ViewScoped
 public class DosimetroView implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -129,7 +129,7 @@ public class DosimetroView implements Serializable {
 	private Contratos selectContrato;
 	private Calendar fechaIncio;
 	private Calendar fechaVence;
-	
+
 	private DosimetroDTO selectedDosimetros;
 
 	public DosimetroView() {
@@ -168,8 +168,34 @@ public class DosimetroView implements Serializable {
 				habilitarBusquedaEmpresaTabla = true;
 			}
 
+			if (null == tipo || "".equals(tipo)) {
+				txtTraCed = new InputText();
+				txtEmpCod = new InputText();
+
+				txtTraCed.setValue(codTrabajador);
+				txtEmpCod.setValue(codEmpresa);
+
+				if ((null != codEmpresa && !codEmpresa.isEmpty())
+						&& (null != codTrabajador && !codTrabajador.isEmpty())
+						&& (null != codDosimetro && !codDosimetro.isEmpty())) {
+					List<DosimetroDTO> dosimetroDTOs = businessDelegatorView
+							.getDataDosimetroEmpTraba(Long.valueOf(codEmpresa), Long.valueOf(codTrabajador), Long.valueOf(codDosimetro));
+					data = dosimetroDTOs;
+				} else if (null != codEmpresa && !codEmpresa.isEmpty()) {
+					List<DosimetroDTO> dosimetroDTOs = businessDelegatorView
+							.getDataDosimetroTipo("empresa",
+									Long.valueOf(codEmpresa));
+					data = dosimetroDTOs;
+				} else if (null != codTrabajador && !codTrabajador.isEmpty()) {
+					List<DosimetroDTO> dosimetroDTOs = businessDelegatorView
+							.getDataDosimetroTipo("traba",
+									Long.valueOf(codTrabajador));
+					data = dosimetroDTOs;
+				}
+				ejecutarControlesBusquedas();
+			}
 			// Tipo Visualizar
-			if ("2".equals(tipo)) {
+			else if ("2".equals(tipo)) {
 				if (null != codTrabajador && null != codDosimetro
 						&& null != codEmpresa) {
 					txtTraCed = new InputText();
@@ -214,7 +240,7 @@ public class DosimetroView implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void rowEventListener(RowEditEvent e) {
 		try {
 			DosimetroDTO dosimetroDTO = (DosimetroDTO) e.getObject();
@@ -484,11 +510,11 @@ public class DosimetroView implements Serializable {
 				entity.setCarCod(FacesUtils.checkString(txtCarCod));
 				entity.setDosConNro((((txtDosConNro.getValue()) == null) || (txtDosConNro
 						.getValue()).equals("")) ? null : FacesUtils
-								.checkLong(txtDosConNro));
+						.checkLong(txtDosConNro));
 				entity.setDosEst(txtDosEst);
 				entity.setDosPerRec((((txtDosPerRec.getValue()) == null) || (txtDosPerRec
 						.getValue()).equals("")) ? null : FacesUtils
-								.checkLong(txtDosPerRec));
+						.checkLong(txtDosPerRec));
 				entity.setDosTipo(txtDosTipo);
 				entity.setGeoCod(FacesUtils.checkString(txtGeoCod));
 				entity.setId(id);
@@ -520,11 +546,11 @@ public class DosimetroView implements Serializable {
 			entity.setCarCod(FacesUtils.checkString(txtCarCod));
 			entity.setDosConNro((((txtDosConNro.getValue()) == null) || (txtDosConNro
 					.getValue()).equals("")) ? null : FacesUtils
-							.checkLong(txtDosConNro));
+					.checkLong(txtDosConNro));
 			entity.setDosEst(txtDosEst);
 			entity.setDosPerRec((((txtDosPerRec.getValue()) == null) || (txtDosPerRec
 					.getValue()).equals("")) ? null : FacesUtils
-							.checkLong(txtDosPerRec));
+					.checkLong(txtDosPerRec));
 			entity.setDosTipo(txtDosTipo);
 			entity.setGeoCod(FacesUtils.checkString(txtGeoCod));
 			entity.setPraCod(FacesUtils.checkString(txtPraCod));
@@ -580,7 +606,7 @@ public class DosimetroView implements Serializable {
 		try {
 			businessDelegatorView.deleteDosimetro(entity);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
-			//action_clear();
+			// action_clear();
 			data = null;
 		} catch (Exception e) {
 			throw e;
@@ -721,7 +747,8 @@ public class DosimetroView implements Serializable {
 	 */
 	public void consultarEmpresas() {
 		try {
-			if (null != txtEmpCod.getValue() && !txtEmpCod.getValue().toString().isEmpty()) {
+			if (null != txtEmpCod.getValue()
+					&& !txtEmpCod.getValue().toString().isEmpty()) {
 				Object[] variablesEmpresa = searchByCriteria(txtEmpCod
 						.getValue().toString(), "empCod", true);
 				List<Empresas> empresas = businessDelegatorView
@@ -773,11 +800,15 @@ public class DosimetroView implements Serializable {
 					if (traba != null && traba.getTraCed() != null) {
 						String SegundoApellido = traba.getTraApe2() != null ? traba
 								.getTraApe2() : "";
-						
+
 						txtTraCed.setValue(traba.getTraCed());
-					
-						txtNombreTrabajador.setValue(traba.getTraNom().toString() + " "
-								+ traba.getTraApe1().toString() + " " + SegundoApellido);
+
+						txtNombreTrabajador.setValue(traba.getTraNom()
+								.toString()
+								+ " "
+								+ traba.getTraApe1().toString()
+								+ " "
+								+ SegundoApellido);
 						txtNombreTrabajador.getValue().toString();
 						txtNombreTrabajador.setDisabled(true);
 
@@ -1121,10 +1152,12 @@ public class DosimetroView implements Serializable {
 	 * 
 	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
 	 *         Suarez</a>
+	 * @throws Exception 
+	 * @throws NumberFormatException 
 	 * @date 14/11/2016
 	 * @description
 	 */
-	public void onRowSelectEmpresaTabla() {
+	public void onRowSelectEmpresaTabla() throws NumberFormatException, Exception {
 
 		if (selectEmpresaTabla != null) {
 			Empresas empresasDTO = selectEmpresaTabla;
@@ -1133,11 +1166,18 @@ public class DosimetroView implements Serializable {
 				txtEmpCodTabla.setValue(empresasDTO.getEmpCod());
 				txtRazonSocialTabla.setValue(empresasDTO.getEmpRazSoc());
 				txtRazonSocialTabla.setDisabled(true);
+				
+				List<DosimetroDTO> dosimetroDTOs = businessDelegatorView
+						.getDataDosimetroTipo("empresa",
+								Long.valueOf(txtEmpCodTabla.getValue().toString()));
+				data = dosimetroDTOs;
+				
 
 				RequestContext context = RequestContext.getCurrentInstance();
 				List<String> s = new ArrayList<String>();
 				s.add("frmDomisetro:txtEmpCodTabla");
 				s.add("frmDomisetro:txtRazonSocialTabla");
+				s.add("frmDomisetro:idTableDosimetros");
 				context.update(s);
 			}
 		}
@@ -1158,10 +1198,11 @@ public class DosimetroView implements Serializable {
 
 				String SegundoApellido = trabaDTO.getTraApe2() != null ? trabaDTO
 						.getTraApe2().toString() : "";
-						
+
 				txtTraCed.setValue(trabaDTO.getTraCed());
-				txtNombreTrabajador.setValue(trabaDTO.getTraNom().toString() + " "
-						+ trabaDTO.getTraApe1().toString() + " " + SegundoApellido);
+				txtNombreTrabajador.setValue(trabaDTO.getTraNom().toString()
+						+ " " + trabaDTO.getTraApe1().toString() + " "
+						+ SegundoApellido);
 				txtNombreTrabajador.getValue().toString();
 				txtNombreTrabajador.setDisabled(true);
 
@@ -1337,6 +1378,7 @@ public class DosimetroView implements Serializable {
 		txtEmpCodTabla.resetValue();
 		txtRazonSocialTabla.resetValue();
 		txtRazonSocialTabla.setDisabled(true);
+		data = null;
 		RequestContext context = RequestContext.getCurrentInstance();
 		List<String> s = new ArrayList<String>();
 		s.add("frmDomisetro:txtEmpCodTabla");
@@ -1553,7 +1595,7 @@ public class DosimetroView implements Serializable {
 	 * @description
 	 */
 	public void inicializaCampos() {
-		
+
 		if (null == cbOpcionEstado) {
 			cbOpcionEstado = new SelectOneMenu();
 		}
@@ -1711,7 +1753,7 @@ public class DosimetroView implements Serializable {
 		botonDosimetros = false;
 		botonTrabajadores = false;
 		disableBotonesBusqueda = false;
-		
+
 		txtCarCod.setDisabled(false);
 		txtDosConNro.setDisabled(false);
 		cbOpcionEstado.setDisabled(false);
@@ -1754,11 +1796,12 @@ public class DosimetroView implements Serializable {
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 15/11/2016
 	 * @description
 	 */
-	private void ejecutarControlesBusquedas(){
+	private void ejecutarControlesBusquedas() {
 		consultarCargo();
 		consultarContratos();
 		consultarEmpresas();
@@ -1768,7 +1811,7 @@ public class DosimetroView implements Serializable {
 		consultarTrabajador();
 		consultarUbicacion();
 	}
-	
+
 	public InputText getTxtCarCod() {
 		return txtCarCod;
 	}
@@ -2825,19 +2868,22 @@ public class DosimetroView implements Serializable {
 		this.txtEmpCodTabla = txtEmpCodTabla;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 15/11/2016 
-	 * @return the selectedDosimetros 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 15/11/2016
+	 * @return the selectedDosimetros
 	 */
 	public DosimetroDTO getSelectedDosimetros() {
 		return selectedDosimetros;
 	}
 
-	/** 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 15/11/2016 
-	 * @param selectedDosimetros the selectedDosimetros to set 
+	/**
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 15/11/2016
+	 * @param selectedDosimetros
+	 *            the selectedDosimetros to set
 	 */
 	public void setSelectedDosimetros(DosimetroDTO selectedDosimetros) {
 		this.selectedDosimetros = selectedDosimetros;

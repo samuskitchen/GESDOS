@@ -49,4 +49,42 @@ public interface IDosimetroLogic {
     public Long findTotalNumberDosimetro() throws Exception;
 
     public List<DosimetroDTO> getDataDosimetro() throws Exception;
+
+    /**
+     * 
+     * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+     * @date 27/11/2016
+     * @description 
+     * @param tipo
+     * @param id
+     * @return
+     * @throws Exception
+     */
+	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id) throws Exception;
+	
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param idEmp
+	 * @param idTraba
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp, Long idTraba, Long idDosi) throws Exception;
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 27/11/2016
+	 * @description 
+	 * @param idEmp
+	 * @param idTraba
+	 * @return
+	 * @throws Exception
+	 */
+	public DosimetroDTO getDataDosimetroUltimo(Long idEmp, Long idTraba)
+			throws Exception;
+
 }
