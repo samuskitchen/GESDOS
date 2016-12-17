@@ -2,58 +2,214 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-	
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</h:head>		
-	
-	<h:body>
-		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
-		<ui:define name="body">	
-		<f:view>
-			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
-			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
-   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
-			</p:dialog>
-			<h:form id="formDialog">
-				<p:messages id="msg" />
-				<p:growl id="men"/>
-					<p:panel id="panelFactura" header="Factura">							
-						<h:panelGrid columns="2" id="panelGrid" >
-												 	<h:outputText id="msgConNro" value="ConNro"/>
-						 	<p:inputText id="txtConNro" binding="#{facturaView.txtConNro}">
-						 		<p:ajax update="panelFactura,msg,panelBotones" listener="#{facturaView.listener_txtId}"/>
-						 	</p:inputText>	
-												 	<h:outputText id="msgEmpCod" value="EmpCod"/>
-						 	<p:inputText id="txtEmpCod" binding="#{facturaView.txtEmpCod}">
-						 		<p:ajax update="panelFactura,msg,panelBotones" listener="#{facturaView.listener_txtId}"/>
-						 	</p:inputText>	
-												 	<h:outputText id="msgFacNro" value="FacNro"/>
-						 	<p:inputText id="txtFacNro" binding="#{facturaView.txtFacNro}">
-						 		<p:ajax update="panelFactura,msg,panelBotones" listener="#{facturaView.listener_txtId}"/>
-						 	</p:inputText>	
-																		
-													<h:outputText id="msgFacVal" value=" FacVal"/>
-							<p:inputText id="txtFacVal" disabled="true" binding="#{facturaView.txtFacVal}"/>
-												
-																				<h:outputText id="msgFacFech" value=" FacFech"/>
-														<p:calendar showOn="button" navigator="true" locale="en" 
-							binding="#{facturaView.txtFacFech}" >
-								<p:ajax event="dateSelect" listener="#{facturaView.listener_txtFacFech}"  />
-							</p:calendar>
-																	   </h:panelGrid>
-				</p:panel>
-	   			<p:panel id="panelBotones">
-					<div align="center">					
-						<p:commandButton id="btnSave" binding="#{facturaView.btnSave}" disabled="true" value="Save" action="#{facturaView.action_save()}" update="panelFactura,msg,panelBotones" />
-						<p:commandButton id="btnDelete" binding="#{facturaView.btnDelete}" disabled="true" value="Delete" action="#{facturaView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelFactura,msg,panelBotones" />
-						<p:commandButton id="btnClear" value="Clear" action="#{facturaView.action_clear()}" update="panelFactura,msg,panelBotones" />
-					</div>
-				</p:panel>			
-			</h:form>
-		</f:view>
-			</ui:define>		
-		</ui:composition>	
-	</h:body>	
-</html>	
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialogFacturas">
+					<p:messages id="msgFacturas" />
+					<p:growl id="menFacturas" />
+					<script type="text/javascript">
+						//<![CDATA[
+							function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator rendered="#{facturaView.botonGuardar}" />
+							<p:commandButton id="btnSave" binding="#{facturaView.btnSave}"
+								value="Guardar" icon="ui-icon-document"
+								rendered="#{facturaView.botonGuardar}"
+								action="#{facturaView.action_save()}"
+								update="panelFactura,msgFacturas,panelBotones" />
+							<p:separator rendered="#{facturaView.botonModificar}" />
+							<p:commandButton id="btnModificar"
+								rendered="#{facturaView.botonModificar}"
+								binding="#{facturaView.btnModify}" value="Modificar"
+								icon="ui-icon-pencil" action="#{facturaView.action_modify()}"
+								update="panelFactura,msgFacturas,panelBotones" />
+							<p:separator rendered="#{facturaView.botonBorrar}" />
+							<p:commandButton id="btnDelete"
+								rendered="#{facturaView.botonBorrar}"
+								binding="#{facturaView.btnDelete}" value="Borrar"
+								icon="ui-icon-trash"
+								action="#{facturaView.action_delete_master()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="panelFactura,msgFacturas,panelBotones" />
+							<p:separator rendered="#{facturaView.botonVisualizar}" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<utils:busquedaSingle headerDialog="Empresa"
+						idTable="tableEmpresaContrato" idDialog="dialogEmpresaTabla"
+						id="CBPEmpresa" valueTable="#{facturaView.empresasTabla}"
+						selectedTable="#{facturaView.selectEmpresaTabla}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaTablaSingle"
+						accionCerrar="#{facturaView.actionCerrarBusqueda()}"
+						ajaxListener="#{facturaView.onRowSelectEmpresaTabla}">
+					</utils:busquedaSingle>
+
+					<p:panel id="panelFactura" header="Información de Facturas">
+						<h:panelGrid columns="2" id="panelGrid">
+
+							<h:outputText id="msgConNro" value="Secuencia de Contrato" />
+							<p:panelGrid columns="3">
+								<p:inputText id="txtConNro" binding="#{facturaView.txtConNro}">
+									<p:ajax update="panelFactura,msgFacturas,panelBotones"
+										listener="#{facturaView.listener_txtId}" disabled="true"/>
+								</p:inputText>
+
+								<h:outputText id="msgConFec" value="Fecha Contrato" />
+								<p:calendar id="txtConFec" showOn="button" navigator="true"
+									locale="en" binding="#{facturaView.txtConFec}" disabled="true">
+								</p:calendar>
+							</p:panelGrid>
+
+							<h:outputText id="msgEmpCod" value="Empresa Codigo" />
+							<p:panelGrid columns="2" id="idPanelEmpresaCodigo">
+								<p:panelGrid>
+									<p:inputText binding="#{facturaView.txtEmpCodTabla}"
+										id="txtEmpCodTabla" size="10"
+										onkeypress="return isNumberKey(event)" disabled="true">
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogFacturas:CBPEmpresaTabla:dialogEmpresa"
+										actionListener="#{facturaView.consultarEmpresasTabla}"
+										oncomplete="PF('busquedaEmpresaTablaSingle').show();"
+										title="Búsqueda..." process="@this" disabled="true">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgRazonSocial" value="Empresa Razón Social" />
+							<p:panelGrid columns="2" id="idPanelEmpresaRazonSocial">
+								<p:panelGrid>
+									<p:inputText binding="#{facturaView.txtRazonSocialTabla}"
+										id="txtRazonSocialTabla" style="width:260px" disabled="true" />
+									<p:commandLink
+										update=":formDialogFacturas:CBPEmpresa:dialogEmpresaTabla, :formDialogFacturas:txtEmpCodTabla, :formDialogFacturas:txtRazonSocialTabla"
+										actionListener="#{facturaView.limpiarControlBusquedaEmpresasTabla}"
+										title="Limpiar..." process="@this" disabled="true">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgFacNro" value="Número Factura" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtFacNro" binding="#{facturaView.txtFacNro}">
+									<p:ajax update="panelFactura,msgFacturas,panelBotones"
+										listener="#{facturaView.listener_txtId}" />
+								</p:inputText>
+							</p:panelGrid>
+
+							<h:outputText id="msgFacFech" value="Fecha Factura" />
+							<p:panelGrid columns="1">
+								<p:calendar showOn="button" navigator="true" locale="en"
+									binding="#{facturaView.txtFacFech}" pattern="dd/MM/yyyy"
+									mask="true">
+								</p:calendar>
+							</p:panelGrid>
+
+							<h:outputText id="msgFacVal" value="Valor Factura" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtFacVal"
+									binding="#{facturaView.txtFacVal}"
+									onkeypress="return isNumberKey(event)">
+									<f:convertNumber locale="es-CO" />
+								</p:inputText>
+							</p:panelGrid>
+							
+							<h:outputText id="msgSaldoFactura" value="Saldo Factura" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtSaldoFactura" disabled="true"
+									binding="#{facturaView.txtSaldoFactura}"
+									onkeypress="return isNumberKey(event)">
+									<f:convertNumber locale="es-CO" />
+								</p:inputText>
+							</p:panelGrid>
+						</h:panelGrid>
+						
+						<br/>
+						
+						
+						<p:dataTable id="idDataTablaDetalleFacturas" value="#{facturaView.data}" var="factura"
+							paginator="true" rows="10" paginatorPosition="bottom"
+							scrollable="true" scrollHeight="120"
+							emptyMessage="No se encontrarón archivos." selectionMode="single"
+							rowKey="#{factura.conNro}"
+							selection="#{facturaView.selectedFactura}">
+
+							<p:column width="30" filterBy="#{factura.facNro}" sortBy="#{factura.facNro}">
+								<f:facet name="header">
+									<h:outputText value="Nro. Recibo" />
+								</f:facet>
+								<h:outputText value="#{factura.facNro}" />
+							</p:column>
+							
+							<p:column width="30" filterBy="#{factura.facFech}"
+								sortBy="#{factura.facFech}">
+								<f:facet name="header">
+									<h:outputText value="Fecha Recibo" />
+								</f:facet>
+								<h:outputText value="#{factura.facFech}" >
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column width="30" filterBy="#{factura.facVal}" sortBy="#{factura.facVal}">
+								<f:facet name="header">
+									<h:outputText value="Valor Pago" />
+								</f:facet>
+								<h:outputText value="#{factura.facVal}" >
+									<f:convertNumber locale="es-CO" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column width="30" filterBy="#{factura.facVal}" sortBy="#{factura.facVal}">
+								<f:facet name="header">
+									<h:outputText value="Retenciones" />
+								</f:facet>
+								<h:outputText value="#{factura.facVal}" >
+									<f:convertNumber locale="es-CO" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+						
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

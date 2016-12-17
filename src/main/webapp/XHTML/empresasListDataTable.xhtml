@@ -61,6 +61,11 @@
 								actionListener="#{empresasView.cargarTrabajadoresDialog(null)}"
 								update="msgTabla,panelBotones" />
 							<p:separator />
+							<p:commandButton id="btnTContratos" value="Contratos"
+								icon="ui-icon-copy" 
+								actionListener="#{empresasView.cargarContratosDialog(null)}"
+								update="msgTabla,panelBotones" />
+							<p:separator />
 							<p:commandButton id="btnRefrescar" value="Refrescar"
 								icon="ui-icon-bookmark"
 								onclick="javascript:location.reload();"

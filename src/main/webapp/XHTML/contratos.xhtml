@@ -2,77 +2,251 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-	
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</h:head>		
-	
-	<h:body>
-		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
-		<ui:define name="body">	
-		<f:view>
-			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>               
-			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
-   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
-			</p:dialog>
-			<h:form id="formDialog">
-				<p:messages id="msg" />
-				<p:growl id="men"/>
-					<p:panel id="panelContratos" header="Contratos">							
-						<h:panelGrid columns="2" id="panelGrid" >
-												 	<h:outputText id="msgConNro" value="ConNro"/>
-						 	<p:inputText id="txtConNro" binding="#{contratosView.txtConNro}">
-						 		<p:ajax update="panelContratos,msg,panelBotones" listener="#{contratosView.listener_txtId}"/>
-						 	</p:inputText>	
-												 	<h:outputText id="msgEmpCod" value="EmpCod"/>
-						 	<p:inputText id="txtEmpCod" binding="#{contratosView.txtEmpCod}">
-						 		<p:ajax update="panelContratos,msg,panelBotones" listener="#{contratosView.listener_txtId}"/>
-						 	</p:inputText>	
-																		
-													<h:outputText id="msgConDosi" value=" ConDosi"/>
-							<p:inputText id="txtConDosi" disabled="true" binding="#{contratosView.txtConDosi}"/>
-													<h:outputText id="msgConDura" value=" ConDura"/>
-							<p:inputText id="txtConDura" disabled="true" binding="#{contratosView.txtConDura}"/>
-													<h:outputText id="msgConEst" value=" ConEst"/>
-							<p:inputText id="txtConEst" disabled="true" binding="#{contratosView.txtConEst}"/>
-													<h:outputText id="msgConNroFac" value=" ConNroFac"/>
-							<p:inputText id="txtConNroFac" disabled="true" binding="#{contratosView.txtConNroFac}"/>
-													<h:outputText id="msgConObser" value=" ConObser"/>
-							<p:inputText id="txtConObser" disabled="true" binding="#{contratosView.txtConObser}"/>
-													<h:outputText id="msgConTipo" value=" ConTipo"/>
-							<p:inputText id="txtConTipo" disabled="true" binding="#{contratosView.txtConTipo}"/>
-													<h:outputText id="msgConUsu" value=" ConUsu"/>
-							<p:inputText id="txtConUsu" disabled="true" binding="#{contratosView.txtConUsu}"/>
-													<h:outputText id="msgConVal" value=" ConVal"/>
-							<p:inputText id="txtConVal" disabled="true" binding="#{contratosView.txtConVal}"/>
-													<h:outputText id="msgDetConCod" value=" DetConCod"/>
-							<p:inputText id="txtDetConCod" disabled="true" binding="#{contratosView.txtDetConCod}"/>
-													<h:outputText id="msgSocCod" value=" SocCod"/>
-							<p:inputText id="txtSocCod" disabled="true" binding="#{contratosView.txtSocCod}"/>
-												
-																				<h:outputText id="msgConFec" value=" ConFec"/>
-														<p:calendar showOn="button" navigator="true" locale="en" 
-							binding="#{contratosView.txtConFec}" >
-								<p:ajax event="dateSelect" listener="#{contratosView.listener_txtConFec}"  />
-							</p:calendar>
-														<h:outputText id="msgConFecFac" value=" ConFecFac"/>
-														<p:calendar showOn="button" navigator="true" locale="en" 
-							binding="#{contratosView.txtConFecFac}" >
-								<p:ajax event="dateSelect" listener="#{contratosView.listener_txtConFecFac}"  />
-							</p:calendar>
-																	   </h:panelGrid>
-				</p:panel>
-	   			<p:panel id="panelBotones">
-					<div align="center">					
-						<p:commandButton id="btnSave" binding="#{contratosView.btnSave}" disabled="true" value="Save" action="#{contratosView.action_save()}" update="panelContratos,msg,panelBotones" />
-						<p:commandButton id="btnDelete" binding="#{contratosView.btnDelete}" disabled="true" value="Delete" action="#{contratosView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelContratos,msg,panelBotones" />
-						<p:commandButton id="btnClear" value="Clear" action="#{contratosView.action_clear()}" update="panelContratos,msg,panelBotones" />
-					</div>
-				</p:panel>			
-			</h:form>
-		</f:view>
-			</ui:define>		
-		</ui:composition>	
-	</h:body>	
-</html>	
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialogContrato">
+					<p:messages id="msgContratos" />
+					<p:growl id="menContratos" />
+					<script type="text/javascript">
+						//<![CDATA[
+							function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator rendered="#{contratosView.botonGuardar}" />
+							<p:commandButton id="btnSave" binding="#{contratosView.btnSave}"
+								value="Guardar" icon="ui-icon-document"
+								rendered="#{contratosView.botonGuardar}"
+								action="#{contratosView.action_save()}"
+								update="panelContratos,msgContratos,panelBotones" />
+							<p:separator rendered="#{contratosView.botonModificar}" />
+							<p:commandButton id="btnModificar"
+								rendered="#{contratosView.botonModificar}"
+								binding="#{contratosView.btnModify}" value="Modificar"
+								icon="ui-icon-pencil" action="#{contratosView.action_modify()}"
+								update="panelContratos,msgContratos,panelBotones" />
+							<p:separator rendered="#{contratosView.botonBorrar}" />
+							<p:commandButton id="btnDelete"
+								rendered="#{contratosView.botonBorrar}"
+								binding="#{contratosView.btnDelete}" value="Borrar"
+								icon="ui-icon-trash"
+								action="#{contratosView.action_delete_master()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="panelContratos,msgContratos,panelBotones" />
+							<p:separator rendered="#{contratosView.botonVisualizar}" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<utils:busquedaSingle headerDialog="Empresa"
+						idTable="tableEmpresaContrato" idDialog="dialogEmpresaTabla"
+						id="CBPEmpresa" valueTable="#{contratosView.empresasTabla}"
+						selectedTable="#{contratosView.selectEmpresaTabla}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaTablaSingle"
+						accionCerrar="#{contratosView.actionCerrarBusqueda()}"
+						ajaxListener="#{contratosView.onRowSelectEmpresaTabla}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Codigo Asociados"
+						idTable="tableAsociado" idDialog="dialogAsociados"
+						id="CBPAsociadoTabla" valueTable="#{contratosView.empresasTabla}"
+						selectedTable="#{contratosView.selectEmpresaTabla}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaAsociadoSingle"
+						accionCerrar="#{contratosView.actionCerrarBusqueda()}"
+						ajaxListener="#{contratosView.onRowSelectEmpresaTabla}">
+					</utils:busquedaSingle>
+
+					<br />
+
+					<p:panel id="panelContratos" header="Información de Afiliadas">
+						<h:panelGrid columns="2" id="panelGrid">
+
+							<h:outputText id="msgContratosEmpCod" value="Codigo Empresa" />
+							<p:panelGrid columns="2" id="idPanelEmpresa">
+								<p:panelGrid>
+									<p:inputText binding="#{contratosView.txtEmpCodTabla}"
+										id="txtEmpCodTabla" size="10"
+										onkeypress="return isNumberKey(event)" disabled="true">
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogContrato:CBPEmpresaTabla:dialogEmpresa"
+										actionListener="#{contratosView.consultarEmpresasTabla}"
+										oncomplete="PF('busquedaEmpresaTablaSingle').show();"
+										title="Búsqueda..." process="@this" disabled="true">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{contratosView.txtRazonSocialTabla}"
+										id="txtRazonSocialTabla" style="width:260px" disabled="true" />
+									<p:commandLink
+										update=":formDialogContrato:CBPEmpresa:dialogEmpresaTabla, :formDialogContrato:txtEmpCodTabla, :formDialogContrato:txtRazonSocialTabla"
+										actionListener="#{contratosView.limpiarControlBusquedaEmpresasTabla}"
+										title="Limpiar..." process="@this" disabled="true">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConNro" value="Secuencia Contrato" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtConNro" binding="#{contratosView.txtConNro}">
+									<p:ajax update="panelContratos,msgContratos,panelBotones"
+										listener="#{contratosView.listener_txtId}" />
+								</p:inputText>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConFec" value="Fecha de Contrato" />
+							<p:panelGrid columns="1">
+								<p:calendar showOn="button" navigator="true" locale="en"
+									binding="#{contratosView.txtConFec}" pattern="dd/MM/yyyy"
+									mask="true">
+								</p:calendar>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConVal" value="Valor Contrato" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtConVal" disabled="true"
+									binding="#{contratosView.txtConVal}"
+									onkeypress="return isNumberKey(event)">
+									<f:convertNumber locale="es-CO" />
+								</p:inputText>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConDosi" value="Numero Usuarios" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtConDosi" disabled="true"
+									binding="#{contratosView.txtConDosi}"
+									onkeypress="return isNumberKey(event)" />
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConDura" value="Duración/Meses	" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtConDura" disabled="true"
+									binding="#{contratosView.txtConDura}"
+									onkeypress="return isNumberKey(event)" />
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConFecVen" value="Fecha de Vencimiento" />
+							<p:panelGrid columns="1">
+								<p:calendar id="txtConFecVen" showOn="button" navigator="true"
+									locale="en" binding="#{contratosView.txtConFecVen}"
+									pattern="dd/MM/yyyy" mask="true">
+								</p:calendar>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConNroFac" value="Número de Factura" />
+							<p:panelGrid columns="2">
+								<p:inputText id="txtConNroFac" disabled="true"
+									binding="#{contratosView.txtConNroFac}"
+									onkeypress="return isNumberKey(event)" />
+
+								<p:selectOneMenu id="txtTipoFac"
+									value="#{contratosView.txtTipoFac}"
+									binding="#{contratosView.cbOpcionTipo}"
+									disabled="#{contratosView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Tipo" itemValue="T" />
+									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConFecFac" value="Fecha de Factura" />
+							<p:panelGrid columns="1">
+								<p:calendar id="txtConFecFac" showOn="button" navigator="true"
+									locale="en" binding="#{contratosView.txtConFecFac}"
+									pattern="dd/MM/yyyy" mask="true">
+								</p:calendar>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosSocCod" value="Codigo Asociado" />
+							<p:panelGrid columns="2" id="idPanelCodAsociado">
+								<p:panelGrid>
+									<p:inputText binding="#{contratosView.txtSocCod}"
+										id="txtSocCod" size="10"
+										requiredMessage="La Radiación es requerida"
+										disabled="#{contratosView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{contratosView.consultarRadiacion}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogContrato:CBPAsociadoTabla:dialogAsociados,"
+										actionListener="#{contratosView.consultarRadiacion}"
+										oncomplete="PF('busquedaAsociadoSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{contratosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{contratosView.txtDescCodAsociado}"
+										id="txtDescCodAsociado" style="width:260px"
+										disabled="#{contratosView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogContrato:CBPAsociadoTabla:dialogAsociados, :formDialogContrato:txtSocCod, :formDialogContrato:txtDescCodAsociado"
+										actionListener="#{contratosView.limpiarControlBusquedaRadiacion}"
+										process="@this" title="Limpiar..."
+										disabled="#{contratosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConEst" value="Estado" />
+							<p:panelGrid columns="1">
+								<p:selectOneMenu id="txtConEst"
+									value="#{contratosView.txtConEst}"
+									binding="#{contratosView.cbOpcionEstado}"
+									disabled="#{contratosView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Activo" itemValue="A" />
+									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<h:outputText id="msgContratosConObser" value="Observación" />
+							<p:panelGrid columns="1">
+								<p:inputTextarea id="txtConObser" disabled="true"
+									binding="#{contratosView.txtConObser}" rows="5" cols="80" />
+							</p:panelGrid>
+
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

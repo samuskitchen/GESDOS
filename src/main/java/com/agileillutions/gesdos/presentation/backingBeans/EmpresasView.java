@@ -1316,6 +1316,40 @@ public class EmpresasView implements Serializable {
 		RequestContext.getCurrentInstance().openDialog("/XHTML/dosimetroListDataTable.xhtml",
 				options, params);
 	}
+	
+	public void cargarContratosDialog(String bandera) {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+
+		options.put("contentWidth", "'100%'");
+		options.put("contentheight", 600);
+		options.put("width", "'100%'");
+		options.put("height", 600);
+		options.put("position", "top");
+		options.put("modal", true);
+		options.put("draggable", false);
+		options.put("resizable", false);
+		options.put("closeOnEscape", true);
+		options.put("dynamic", false);
+
+		String codEmpresa = "";
+		if(null != selectedEmpresa){
+			codEmpresa = selectedEmpresa.getEmpCod().toString();			
+		}
+
+		List<String> lstParamEmpresa = new ArrayList<String>();
+		lstParamEmpresa.add(codEmpresa);
+		
+		List<String> lstParamTipo = new ArrayList<String>();
+		lstParamTipo.add(bandera);
+
+		Map<String, List<String>> params = new HashMap<String, List<String>>();
+		params.put("codEmpresa", lstParamEmpresa);
+		params.put("tipo", lstParamTipo);
+
+		RequestContext.getCurrentInstance().openDialog("/XHTML/contratosListDataTable.xhtml",
+				options, params);
+	}
 
 	public InputText getTxtCiuCod() {
 		return txtCiuCod;

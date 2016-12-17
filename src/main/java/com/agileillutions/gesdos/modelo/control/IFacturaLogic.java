@@ -49,4 +49,16 @@ public interface IFacturaLogic {
     public Long findTotalNumberFactura() throws Exception;
 
     public List<FacturaDTO> getDataFactura() throws Exception;
+
+    /**
+     * 
+     * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+     * @date 15/12/2016
+     * @description 
+     * @param codEmpresa
+     * @param codContrato
+     * @return
+     * @throws Exception
+     */
+	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa, Long codContrato) throws Exception;
 }

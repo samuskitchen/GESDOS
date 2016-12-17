@@ -1267,6 +1267,7 @@
         <locale-config>
 			<default-locale>es</default-locale>
 			<supported-locale>en</supported-locale>
+			<supported-locale>es_CO</supported-locale>
 		</locale-config>
         
     </faces-config>

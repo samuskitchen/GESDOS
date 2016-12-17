@@ -568,4 +568,58 @@ public class ContratosLogic implements IContratosLogic {
 
         return list;
     }
+
+    /**
+     * 
+     * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+     * @date 15/12/2016 
+     * @param codEmpresa
+     * @return
+     * @throws Exception 
+     * @see com.agileillutions.gesdos.modelo.control.IContratosLogic#getDataContratosPorEmpresa(java.lang.Long)
+     */
+    @Transactional(readOnly = true)
+	@Override
+	public List<ContratosDTO> getDataContratosPorEmpresa(Long codEmpresa) throws Exception {
+		try {
+            List<Contratos> contratos = contratosDAO
+                    .findByCriteria("id.empCod = " + codEmpresa);
+
+            List<ContratosDTO> contratosDTO = new ArrayList<ContratosDTO>();
+
+            for (Contratos contratosTmp : contratos) {
+                ContratosDTO contratosDTO2 = new ContratosDTO();
+
+                contratosDTO2.setConNro(contratosTmp.getId().getConNro());
+                contratosDTO2.setEmpCod(contratosTmp.getId().getEmpCod());
+                contratosDTO2.setConDosi((contratosTmp.getConDosi() != null)
+                    ? contratosTmp.getConDosi() : null);
+                contratosDTO2.setConDura((contratosTmp.getConDura() != null)
+                    ? contratosTmp.getConDura() : null);
+                contratosDTO2.setConEst((contratosTmp.getConEst() != null)
+                    ? contratosTmp.getConEst() : null);
+                contratosDTO2.setConFec(contratosTmp.getConFec());
+                contratosDTO2.setConFecFac(contratosTmp.getConFecFac());
+                contratosDTO2.setConNroFac((contratosTmp.getConNroFac() != null)
+                    ? contratosTmp.getConNroFac() : null);
+                contratosDTO2.setConObser((contratosTmp.getConObser() != null)
+                    ? contratosTmp.getConObser() : null);
+                contratosDTO2.setConTipo((contratosTmp.getConTipo() != null)
+                    ? contratosTmp.getConTipo() : null);
+                contratosDTO2.setConUsu((contratosTmp.getConUsu() != null)
+                    ? contratosTmp.getConUsu() : null);
+                contratosDTO2.setConVal((contratosTmp.getConVal() != null)
+                    ? contratosTmp.getConVal() : null);
+                contratosDTO2.setDetConCod((contratosTmp.getDetConCod() != null)
+                    ? contratosTmp.getDetConCod() : null);
+                contratosDTO2.setSocCod((contratosTmp.getSocCod() != null)
+                    ? contratosTmp.getSocCod() : null);
+                contratosDTO.add(contratosDTO2);
+            }
+
+            return contratosDTO;
+        } catch (Exception e) {
+            throw e;
+        }
+	}
 }
