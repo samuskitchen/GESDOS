@@ -678,7 +678,7 @@ public interface IBusinessDelegatorView {
 	 */
 	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, ArrayList<String> listObject)
 			throws AppBaseException, IOException, JRException, SQLException;
-
+	
 	/**
 	 * 
 	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
