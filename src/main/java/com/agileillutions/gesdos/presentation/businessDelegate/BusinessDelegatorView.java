@@ -49,6 +49,7 @@ import com.agileillutions.gesdos.modelo.Socios;
 import com.agileillutions.gesdos.modelo.Traba;
 import com.agileillutions.gesdos.modelo.Ubicacion;
 import com.agileillutions.gesdos.modelo.Usuarios;
+import com.agileillutions.gesdos.modelo.control.DosimetroLogic;
 import com.agileillutions.gesdos.modelo.control.ICargoLogic;
 import com.agileillutions.gesdos.modelo.control.ICiudaLogic;
 import com.agileillutions.gesdos.modelo.control.IContratoDosimetroLogic;
@@ -1516,10 +1517,33 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	 *      java.util.ArrayList)
 	 */
 	@Override
-	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, ArrayList<String> arrayList)
+	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, List<DosimetroDTO> selectedDosExcel)
 			throws AppBaseException, IOException, JRException, SQLException {
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("ListAspromedica", arrayList);
+		
+		String cedulas = null;
+		String dosimetros = null;
+		Long empresa = null;
+		for (DosimetroDTO dosimetroDTO : selectedDosExcel) {
+			
+			if(null == cedulas){
+				cedulas = "" + dosimetroDTO.getTraCed();
+			}else{
+				cedulas +=  ", " + dosimetroDTO.getTraCed();
+			}
+			
+			if(null == dosimetros){
+				dosimetros = "" + dosimetroDTO.getDosCod();
+			}else{
+				dosimetros +=  ", " + dosimetroDTO.getDosCod();
+			}
+			
+			empresa = dosimetroDTO.getEmpCod();
+		}
+		
+		parametros.put("cedulas", "(" + cedulas + ")");
+		parametros.put("dosimetros", "(" + dosimetros + ")");
+		parametros.put("empresa", empresa);
 		return jasperService.generarExcel(input, parametros);
 	}
 	
@@ -1550,5 +1574,21 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa, Long codContrato)  throws Exception{
 		return facturaLogic.getDataFacturaEmpresaContrato(codEmpresa, codContrato);
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @date 17/12/2016 
+	 * @param codEmpresa
+	 * @param codDosimetro
+	 * @return
+	 * @throws Exception 
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataDosimetroPrincipal(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa, Long codDosimetro)
+			throws Exception {
+		return dosimetroLogic.getDataDosimetroPrincipal(codEmpresa, codDosimetro);
 	}
 }

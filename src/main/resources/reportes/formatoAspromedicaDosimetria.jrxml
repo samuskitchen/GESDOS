@@ -24,16 +24,59 @@
 		</box>
 	</style>
 	<subDataset name="DatasetAspromedica" uuid="72c64a7a-f3d3-4824-a7e1-de2b2244591e">
+		<queryString>
+			<![CDATA[    SELECT
+          d.DosCod,
+          trim(t.TraApe1)||' '||trim(t.TraApe2) as TraApe,
+          t.TraApe1,
+          t.TraNom,
+          t.TraSex,
+          c.CarCod,
+          t.TraCed,
+          t.TraFecIni,
+          d.DosPerRec,
+          u.UbiDes,
+          r.RadCod,
+          e.EstDos
+      FROM  dosimetro d
+      INNER JOIN traba t ON d.TraCed = t.TraCed
+      INNER JOIN cargo c ON d.CarCod = c.CarCod
+      INNER JOIN ubicacion u ON d.UbiCod = u.UbiCod
+      INNER JOIN radiacion r ON d.RadCod = r.RadCod
+      INNER JOIN estudios e ON d.DosCod = e.DosCod AND d.EmpCod = e.EmpCod AND d.TraCed = e.TraCed
+      WHERE e.EmpCod = 1
+      AND   t.TraCed IN (1082905328, 1082905328)
+      AND   d.DosCod IN (1, 2)
+      --AND   e.EstAni = 2016
+      --AND   e.EstMes = 12;]]>
+		</queryString>
+		<field name="DOSCOD" class="java.math.BigDecimal"/>
+		<field name="TRAAPE" class="java.lang.String"/>
+		<field name="TRAAPE1" class="java.lang.String"/>
+		<field name="TRANOM" class="java.lang.String"/>
+		<field name="TRASEX" class="java.lang.String"/>
+		<field name="CARCOD" class="java.lang.String"/>
+		<field name="TRACED" class="java.math.BigDecimal"/>
+		<field name="TRAFECINI" class="java.sql.Timestamp"/>
+		<field name="DOSPERREC" class="java.math.BigDecimal"/>
+		<field name="UBIDES" class="java.lang.String"/>
+		<field name="RADCOD" class="java.lang.String"/>
+		<field name="ESTDOS" class="java.math.BigDecimal"/>
 		<group name="pageBreakGroup" isStartNewPage="true">
 			<groupExpression><![CDATA[(int)($V{PAGE_COUNT} - 1)/19]]></groupExpression>
 		</group>
 	</subDataset>
-	<parameter name="ListAspromedica" class="java.util.List"/>
+	<parameter name="cedulas" class="java.lang.String"/>
+	<parameter name="dosimetros" class="java.lang.String"/>
+	<parameter name="empresa" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 1 FROM DUAL]]>
+	</queryString>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="77" splitType="Stretch">
+		<band height="90" splitType="Stretch">
 			<image hAlign="Center" vAlign="Middle" isUsingCache="true">
 				<reportElement x="0" y="0" width="83" height="72" uuid="7843ba66-2617-4f6a-9687-408d7c6e8016"/>
 				<imageExpression><![CDATA["reportes/images/logo_excel.png"]]></imageExpression>
@@ -317,12 +360,12 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="106" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table" style="table" x="0" y="0" width="752" height="125" uuid="71efbcc0-dd27-49cc-a9a2-7f932907ed25"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="DatasetAspromedica" uuid="0af2d05d-43c1-4220-99a2-3e30cafd3dd0">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{ListAspromedica})]]></dataSourceExpression>
+				<reportElement key="table" style="table" x="0" y="0" width="752" height="106" uuid="71efbcc0-dd27-49cc-a9a2-7f932907ed25"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="DatasetAspromedica" uuid="b5ecfe4f-591a-4d26-8078-f07cbb696f40">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="28" uuid="21f6cd9e-453a-4843-b01a-53ed9351ed8a">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -334,7 +377,16 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Código]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="28" height="15" uuid="73ebaef7-aad4-4c05-84ff-dbe12da57e94"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DOSCOD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="9803356d-efa4-4a26-a8c2-72972b8bf5cf">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -346,7 +398,16 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Apellidos]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="874b0ae8-dff9-4366-a921-3801d56cd77a"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TRAAPE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="8d6cd973-2a59-4213-87c1-6a3feaedc268">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -358,7 +419,16 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Nombres]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="27f16411-f993-4556-85a3-5c6851ac44ac"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TRANOM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="036e860c-315a-4922-894e-43f5401a202e">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -370,7 +440,16 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Género]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="30" height="15" uuid="3c9e8837-ebec-4c8e-89e3-90775f213e50"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TRASEX}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="28" uuid="3bc02bd3-1fa6-4fab-9c5b-927b5848940f">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -382,7 +461,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Ocupación]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 					</jr:column>
 					<jr:column width="50" uuid="de3906b5-39b5-4e43-b241-e895f2d2188a">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -394,7 +473,16 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Documento de Identidad]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="15" uuid="417a1bfc-201a-4745-9204-7aca321a4e52"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TRACED}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="45" uuid="1f1682ec-0054-4a95-9487-f3fd91f2e2d5">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -406,7 +494,16 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 								<text><![CDATA[Fecha de Ingreso al Servicio]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="45" height="15" uuid="7f8e3e7d-3ae0-44d5-9b35-6693b5c90c27"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TRAFECINI}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:columnGroup width="70" uuid="6368687f-b6ff-4569-bdc9-d5bbdbd26560">
 						<jr:columnGroup width="70" uuid="bb8c4294-0925-4642-a790-02218adc84cb">
@@ -430,7 +527,7 @@ del dosímetro]]></text>
 										<text><![CDATA[Primer día]]></text>
 									</staticText>
 								</jr:tableHeader>
-								<jr:detailCell height="30" rowSpan="1"/>
+								<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 							</jr:column>
 							<jr:column width="35" uuid="ab372f76-6a98-4316-9e79-59c30a6807d4">
 								<jr:tableHeader style="table_TH" height="57" rowSpan="1">
@@ -442,7 +539,7 @@ del dosímetro]]></text>
 										<text><![CDATA[Último día]]></text>
 									</staticText>
 								</jr:tableHeader>
-								<jr:detailCell height="30" rowSpan="1"/>
+								<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 							</jr:column>
 						</jr:columnGroup>
 					</jr:columnGroup>
@@ -456,7 +553,7 @@ del dosímetro]]></text>
 								<text><![CDATA[Periodo de recambio]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 					</jr:column>
 					<jr:column width="48" uuid="94009881-21dc-4866-b160-ebfc3fcc94c2">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -468,7 +565,16 @@ del dosímetro]]></text>
 								<text><![CDATA[Ubicación del dosímetro]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="48" height="15" uuid="a04f3f72-a9f3-45ec-82e1-a21faf898242"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{UBIDES}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="39" uuid="98e59587-342b-4f8d-8055-c1b76c8d19df">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -480,7 +586,7 @@ del dosímetro]]></text>
 								<text><![CDATA[Energía ó calidad de radiación]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 					</jr:column>
 					<jr:column width="53" uuid="544dcaaf-36af-4866-9e5a-8483ebf30335">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -499,7 +605,16 @@ del dosímetro]]></text>
 								<text><![CDATA[Hp(10)]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="53" height="15" uuid="7463cd00-7ce3-476f-a23c-15f31728b53c"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DOSPERREC}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="56" uuid="f3dce54d-4e77-4644-bb4e-d7ce2b1f5ff6">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -518,7 +633,16 @@ del dosímetro]]></text>
 								<text><![CDATA[Hp(10)]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="56" height="15" uuid="6aee0248-33f1-41a1-bed4-14724366781c"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ESTDOS}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="56" uuid="1ad87716-1d14-459d-9a86-9997cad52f69">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -537,7 +661,7 @@ del dosímetro]]></text>
 								<text><![CDATA[Hp(10)]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 					</jr:column>
 					<jr:column width="28" uuid="a9dbb4a0-5b08-4480-bb06-99e5df770f65">
 						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
@@ -549,7 +673,7 @@ del dosímetro]]></text>
 								<text><![CDATA[notas]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 					</jr:column>
 				</jr:table>
 			</componentElement>

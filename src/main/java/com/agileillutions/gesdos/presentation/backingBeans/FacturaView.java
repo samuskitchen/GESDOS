@@ -113,9 +113,11 @@ public class FacturaView implements Serializable {
 			if (null == tipo || "".equals(tipo)) {
 				txtConNro = new InputText();
 				txtEmpCod = new InputText();
+				txtEmpCodTabla = new InputText();
 
 				txtConNro.setValue(codContrato);
 				txtEmpCod.setValue(codEmpresa);
+				txtEmpCodTabla.setValue(codEmpresa);
 
 				if (null != codEmpresa && !codEmpresa.isEmpty()) {
 					List<FacturaDTO> facturaDTOs = businessDelegatorView.getDataFacturaEmpresaContrato(Long.valueOf(codEmpresa), Long.valueOf(codContrato));
@@ -131,10 +133,12 @@ public class FacturaView implements Serializable {
 					txtConNro = new InputText();
 					txtEmpCod = new InputText();
 					txtFacNro = new InputText();
+					txtEmpCodTabla = new InputText();
 
 					txtConNro.setValue(codContrato);
 					txtEmpCod.setValue(codEmpresa);
 					txtFacNro.setValue(numFactura);
+					txtEmpCodTabla.setValue(codEmpresa);
 					listener_txtId();
 					modoVisualizar();
 					ejecutarControlesBusquedas();
@@ -147,10 +151,12 @@ public class FacturaView implements Serializable {
 					txtConNro = new InputText();
 					txtEmpCod = new InputText();
 					txtFacNro = new InputText();
+					txtEmpCodTabla = new InputText();
 
 					txtConNro.setValue(codContrato);
 					txtEmpCod.setValue(codEmpresa);
 					txtFacNro.setValue(numFactura);
+					txtEmpCodTabla.setValue(codEmpresa);
 					listener_txtId();
 					modoModificar();
 					ejecutarControlesBusquedas();
@@ -179,6 +185,9 @@ public class FacturaView implements Serializable {
 					txtEmpCod.setValue(this.codEmpresa);
 				}
 				
+				if(txtEmpCodTabla.getValue() == null){
+					txtEmpCodTabla.setValue(this.codEmpresa);
+				}
 				
 				botonGuardar = true;
 				botonModificar = false;

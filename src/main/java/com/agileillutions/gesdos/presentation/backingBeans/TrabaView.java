@@ -85,11 +85,6 @@ public class TrabaView implements Serializable {
 	
 	private List<TrabaDTO> dataTrabaEmp;
 	
-	private static final String JASPERT_REPORT_BASE_PATH = "/WEB-INF/classes/reportes/";
-	private static final String CONTENT_DISPOSITION_ATTACHMENT = "attachment";
-	private static final String EXCEL_EXTENSION = "xls";
-	private static final String FORMATO_ASPROMEDICA_DOSIMETRIA = "formatoAspromedicaDosimetria.jasper";
-
 	public TrabaView() {
 		super();
 	}
@@ -915,78 +910,6 @@ public class TrabaView implements Serializable {
 
 		RequestContext.getCurrentInstance().openDialog("/XHTML/estudiosListDataTable.xhtml",
 				options, params);
-	}
-	
-	/**
-	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
-	 * @date 10/12/2016
-	 * @description
-	 */
-	public void actionGenerarExcel(){
-		try {
-			String rutaReporte = JASPERT_REPORT_BASE_PATH
-					+ FORMATO_ASPROMEDICA_DOSIMETRIA;
-			
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			ExternalContext extContext = facesContext.getExternalContext();
-	
-			InputStream input = extContext.getResourceAsStream(rutaReporte);
-			
-			ArrayList<String> listObject = new ArrayList<String>();
-			
-			for (int i = 0; i < 25; i++) {
-				listObject.add(String.valueOf(i));
-			}
-			
-			ByteArrayOutputStream excel = businessDelegatorView.generarArchivoAspromedica(input,
-					listObject);
-	
-			extContext.responseReset();
-			extContext.responseReset();
-			String nombre = "Formato_ASPROMEDICA_Dosimetria";
-			setDefaultResponseHeadersForExcel(extContext,
-					CONTENT_DISPOSITION_ATTACHMENT, nombre);
-	
-			OutputStream out = extContext.getResponseOutputStream();
-			excel.writeTo(out);
-	
-			out.flush();
-			out.close();
-	
-			facesContext.responseComplete();
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage("Error generando el Excel de ASPROMEDICA");
-		}
-	}
-	
-	/**
-	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
-	 * @date 10/12/2016
-	 * @description 
-	 * @param externalContext
-	 * @param contentDisposition
-	 * @param fileName
-	 */
-	private void setDefaultResponseHeadersForExcel(
-			ExternalContext externalContext, String contentDisposition,
-			String fileName) {
-
-		externalContext.setResponseContentType("application/vnd.ms-excel");
-		StringBuilder contentDispositionValue = new StringBuilder();
-		contentDispositionValue.append(contentDisposition);
-		contentDispositionValue.append("; filename = \"");
-		contentDispositionValue.append(fileName);
-		contentDispositionValue.append(".");
-		contentDispositionValue.append(EXCEL_EXTENSION);
-		contentDispositionValue.append("\"");
-		externalContext.setResponseHeader("Content-Disposition",
-				contentDispositionValue.toString());
-		externalContext.setResponseHeader("Cache-Control", "no-cache");
-		externalContext.setResponseHeader("Pragma", "no-cache");
-		externalContext.setResponseHeader("Expires", "0");
-
 	}
 	
 	public InputText getTxtTraApe1() {

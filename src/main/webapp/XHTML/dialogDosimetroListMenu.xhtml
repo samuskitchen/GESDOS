@@ -1,0 +1,207 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="frmDiagDomisetroPrincipal">
+					<p:messages id="msgDosi" />
+					<p:growl id="menDosi" />
+					<script type="text/javascript">
+						//<![CDATA[
+						     
+						    function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+
+					<utils:busquedaSingle headerDialog="Empresas"
+						idTable="tableEmpresaTabla" idDialog="dialogEmpresaTabla"
+						id="CBPEmpresa"
+						valueTable="#{dosimetroPrincipalView.empresasTablaDiag}"
+						selectedTable="#{dosimetroPrincipalView.selectEmpresaTablaDiag}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaTablaSingle"
+						accionCerrar="#{dosimetroPrincipalView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroPrincipalView.onRowSelectEmpresaTablaDiag}">
+					</utils:busquedaSingle>
+
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator />
+							<p:commandButton id="btnTrabajador"
+								value="Trabajador" icon="ui-icon-person"
+								action="#{dosimetroPrincipalView.cargarTrabaDialog('1')}"
+								process="@this, :frmDiagDomisetroPrincipal:idTableDiagDosimetros"
+								update="msgDosi,panelBotones,:frmDiagDomisetroPrincipal:panelDataTableDosimetro">
+							</p:commandButton>
+							<p:separator />
+							<p:commandButton id="btnDosimetros" value="Dosimetros"
+								icon="ui-icon-note"
+								actionListener="#{dosimetroPrincipalView.cargarDosimetroDialog('1')}"
+								process="@this, :frmDiagDomisetroPrincipal:idTableDiagDosimetros"
+								update="msgDosi,panelBotones,:frmDiagDomisetroPrincipal:panelDataTableDosimetro"/>
+							<p:separator />
+							<p:commandButton id="btnEstudios" value="Estudios"
+								icon="ui-icon-script"
+								action="#{dosimetroPrincipalView.cargarEstudioDialog('1')}"
+								update="msgDosi,panelBotones,:frmDiagDomisetroPrincipal:panelDataTableDosimetro" />
+							<p:separator />	
+							<p:commandButton id="btnImprimir" value="Imprimir"
+								icon="ui-icon-print"
+								action="#{dosimetroPrincipalView.actionGenerarExcel}" ajax="false"
+								update="msgDosi,panelBotones :frmDiagDomisetroPrincipal:idTableDiagDosimetros" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<br />
+					<p:panel id="panelDataTableDosimetro"
+						header="Buscar Empresa Dosimetro">
+						<p:growl id="men" />
+
+						<p:panelGrid columns="2" id="idPanelEmpresaTabla">
+
+							<h:outputText id="msgDosimetroEmpCodTabla" value="Empresa Codigo" />
+							<p:panelGrid>
+								<p:inputText binding="#{dosimetroPrincipalView.txtEmpCodTablaDiag}"
+									id="txtEmpCodTablaDiag" size="10"
+									onkeypress="return isNumberKey(event)"
+									requiredMessage="La Empresa es requerida" disabled="true">
+									<p:ajax event="change"
+										listener="#{dosimetroPrincipalView.consultarEmpresasTablaDiag}" />
+								</p:inputText>
+								<p:commandLink
+									update=":frmDiagDomisetroPrincipal:CBPEmpresa:dialogEmpresaTabla"
+									actionListener="#{dosimetroPrincipalView.consultarEmpresasTablaDiag}"
+									oncomplete="PF('busquedaEmpresaTablaSingle').show();"
+									title="Búsqueda..." process="@this" disabled="true">
+									<h:graphicImage value="../images/buscar.png"
+										style="vertical-align: middle; width:25px;" />
+								</p:commandLink>
+								<p:inputText
+									binding="#{dosimetroPrincipalView.txtRazonSocialTablaDiag}"
+									id="txtRazonSocialTablaDiag" style="width:260px" disabled="true">
+									<p:ajax event="change"
+										listener="#{dosimetroPrincipalView.consultarEmpresasTablaDiag}" />
+								</p:inputText>
+								<p:commandLink
+									update=":frmDiagDomisetroPrincipal:CBPEmpresa:dialogEmpresaTabla, :frmDiagDomisetroPrincipal:txtEmpCodTablaDiag, :frmDiagDomisetroPrincipal:txtRazonSocialTablaDiag, :frmDiagDomisetroPrincipal:idTableDiagDosimetros"
+									actionListener="#{dosimetroPrincipalView.limpiarControlBusquedaEmpresasTabla}"
+									title="Limpiar..." process="@this" disabled="true">
+									<h:graphicImage value="../images/limpiar.png"
+										style="vertical-align: middle; width:21px;" />
+								</p:commandLink>
+							</p:panelGrid>
+
+
+							<h:outputText id="msgDosimetroFecRec" value="Fecha de Recepción" />
+							<p:panelGrid columns="5">
+								<p:calendar showOn="button" navigator="true" locale="en"
+									binding="#{dosimetroPrincipalView.fechaRecepcion}" pattern="dd/MM/yyyy"
+									mask="true">
+								</p:calendar>
+
+								<h:outputText id="msgDosimetroAnio" value="Año Dosimetro" />
+								<p:inputText id="txtAnioDosimetro"
+									binding="#{dosimetroPrincipalView.txtAnioDosimetro}"
+									onkeypress="return isNumberKey(event)">
+								</p:inputText>
+
+								<h:outputText id="msgDosimetroMes" value="Mes Dosimetro" />
+								<p:inputText id="txtMesDosimetro"
+									binding="#{dosimetroPrincipalView.txtMesDosimetro}"
+									onkeypress="return isNumberKey(event)">
+								</p:inputText>
+							</p:panelGrid>
+						</p:panelGrid>
+						<br />
+						<p:dataTable id="idTableDiagDosimetros"
+							value="#{dosimetroPrincipalView.data}" var="dosimetro"
+							paginator="true" rows="10" paginatorPosition="bottom"
+							scrollable="true" scrollHeight="120"
+							emptyMessage="No se encontrarón archivos."
+							rowKey="#{dosimetro.dosCod}"
+							selection="#{dosimetroPrincipalView.selectedDosExcel}"
+							style="margin-bottom:0">
+
+							<p:column width="20" selectionMode="multiple" style="width:16px;text-align:center"/>
+
+							<p:column filterBy="#{dosimetro.traCed}"
+								sortBy="#{dosimetro.traCed}"
+								style="white-space:normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Cedula" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.traCed}" />
+							</p:column>
+
+							<p:column filterBy="#{dosimetro.dosCod}"
+								sortBy="#{dosimetro.dosCod}"
+								style="white-space: normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Dosimetro" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.dosCod}" />
+							</p:column>
+	
+							<p:column filterBy="#{dosimetro.nombreTrabajador}"
+								sortBy="#{dosimetro.nombreTrabajador}"
+								style="white-space: normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Nombre Trabjador" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.nombreTrabajador}" />
+							</p:column>
+	
+							<p:column filterBy="#{dosimetro.anioEstudio}"
+								sortBy="#{dosimetro.anioEstudio}"
+								style="white-space:normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Año" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.anioEstudio}" />
+							</p:column>
+							
+							<p:column filterBy="#{dosimetro.mesEstudio}"
+								sortBy="#{dosimetro.mesEstudio}"
+								style="white-space:normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Mes" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.mesEstudio}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -180,7 +180,9 @@
 									binding="#{contratosView.cbOpcionTipo}"
 									disabled="#{contratosView.disableBotonesBusqueda}">
 									<f:selectItem itemLabel="Tipo" itemValue="T" />
-									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+									<f:selectItem itemLabel="Factura" itemValue="F" />
+									<f:selectItem itemLabel="Orden Servicio" itemValue="O" />
+									<f:selectItem itemLabel="No. Factura" itemValue="N" />
 								</p:selectOneMenu>
 							</p:panelGrid>
 
@@ -232,7 +234,8 @@
 									binding="#{contratosView.cbOpcionEstado}"
 									disabled="#{contratosView.disableBotonesBusqueda}">
 									<f:selectItem itemLabel="Activo" itemValue="A" />
-									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+									<f:selectItem itemLabel="Suspendido" itemValue="S" />
+									<f:selectItem itemLabel="Cerrado" itemValue="C" />
 								</p:selectOneMenu>
 							</p:panelGrid>
 

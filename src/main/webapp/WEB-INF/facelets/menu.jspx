@@ -20,6 +20,11 @@
 							url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/trabaListDataTable.xhtml" />
 					</p:submenu>
 					<p:separator />
+					<p:submenu label="Recepcion">
+						<p:menuitem value="Dosimetros"
+							url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/dosimetroListMenu.xhtml" />
+					</p:submenu>
+					<p:separator />
 					<p:submenu label="Cerrar">
 						<p:menuitem value="Cerrar Sesion"
 							url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"

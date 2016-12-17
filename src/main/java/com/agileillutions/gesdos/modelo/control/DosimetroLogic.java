@@ -14,15 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.agileillutions.gesdos.dataaccess.dao.IContratosDAO;
 import com.agileillutions.gesdos.dataaccess.dao.IDosimetroDAO;
+import com.agileillutions.gesdos.dataaccess.dao.IEmpresasDAO;
+import com.agileillutions.gesdos.dataaccess.dao.IEstudiosDAO;
 import com.agileillutions.gesdos.dataaccess.dao.ITrabaDAO;
 import com.agileillutions.gesdos.exceptions.ZMessManager;
 import com.agileillutions.gesdos.modelo.Contratos;
 import com.agileillutions.gesdos.modelo.ContratosId;
 import com.agileillutions.gesdos.modelo.Dosimetro;
 import com.agileillutions.gesdos.modelo.DosimetroId;
+import com.agileillutions.gesdos.modelo.Empresas;
+import com.agileillutions.gesdos.modelo.Estudios;
 import com.agileillutions.gesdos.modelo.Traba;
 import com.agileillutions.gesdos.modelo.dto.DosimetroDTO;
-import com.agileillutions.gesdos.modelo.dto.TrabaDTO;
 import com.agileillutions.gesdos.utilities.Utilities;
 
 /**
@@ -45,6 +48,12 @@ public class DosimetroLogic implements IDosimetroLogic {
 
 	@Autowired
 	private IContratosDAO contratosDAO;
+
+	@Autowired
+	private IEmpresasDAO empresasDAO;
+
+	@Autowired
+	private IEstudiosDAO estudiosDAO;
 
 	@Transactional(readOnly = true)
 	public List<Dosimetro> getDosimetro() throws Exception {
@@ -367,6 +376,9 @@ public class DosimetroLogic implements IDosimetroLogic {
 	public List<DosimetroDTO> getDataDosimetro() throws Exception {
 		try {
 			List<Dosimetro> dosimetro = dosimetroDAO.findAll();
+
+			Collections.sort(dosimetro, Collections.reverseOrder());
+			Collections.reverse(dosimetro);
 
 			List<DosimetroDTO> dosimetroDTO = new ArrayList<DosimetroDTO>();
 
@@ -722,18 +734,20 @@ public class DosimetroLogic implements IDosimetroLogic {
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
-	 * @date 27/11/2016 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 27/11/2016
 	 * @param idEmp
 	 * @param idTraba
 	 * @return
-	 * @throws Exception 
-	 * @see com.agileillutions.gesdos.modelo.control.IDosimetroLogic#getDataDosimetroEmpTraba(java.lang.Long, java.lang.Long)
+	 * @throws Exception
+	 * @see com.agileillutions.gesdos.modelo.control.IDosimetroLogic#getDataDosimetroEmpTraba(java.lang.Long,
+	 *      java.lang.Long)
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp, Long idTraba, Long idDosi)
-			throws Exception {
+	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp,
+			Long idTraba, Long idDosi) throws Exception {
 		try {
 			List<Dosimetro> dosimetro = dosimetroDAO
 					.findByCriteria("id.empCod = " + idEmp
@@ -801,12 +815,13 @@ public class DosimetroLogic implements IDosimetroLogic {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
-	 * @date 27/11/2016 
-	 * @description 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 27/11/2016
+	 * @description
 	 * @param idEmp
 	 * @param idTraba
 	 * @return
@@ -820,8 +835,8 @@ public class DosimetroLogic implements IDosimetroLogic {
 			List<Dosimetro> dosimetro = dosimetroDAO
 					.findByCriteria("id.empCod = " + idEmp
 							+ " and id.traCed = " + idTraba);
-			
-			Collections.sort(dosimetro, Collections.reverseOrder());		
+
+			Collections.sort(dosimetro, Collections.reverseOrder());
 			Collections.reverse(dosimetro);
 
 			DosimetroDTO dosimetroDTO2 = new DosimetroDTO();
@@ -842,28 +857,26 @@ public class DosimetroLogic implements IDosimetroLogic {
 					.setDosPerRec((dosimetro.get(0).getDosPerRec() != null) ? dosimetro
 							.get(0).getDosPerRec() : null);
 			dosimetroDTO2
-					.setDosTipo((dosimetro.get(0).getDosTipo() != null) ? dosimetro.get(0)
-							.getDosTipo() : null);
+					.setDosTipo((dosimetro.get(0).getDosTipo() != null) ? dosimetro
+							.get(0).getDosTipo() : null);
 			dosimetroDTO2
-					.setGeoCod((dosimetro.get(0).getGeoCod() != null) ? dosimetro.get(0)
-							.getGeoCod() : null);
+					.setGeoCod((dosimetro.get(0).getGeoCod() != null) ? dosimetro
+							.get(0).getGeoCod() : null);
 			dosimetroDTO2
-					.setPraCod((dosimetro.get(0).getPraCod() != null) ? dosimetro.get(0)
-							.getPraCod() : null);
+					.setPraCod((dosimetro.get(0).getPraCod() != null) ? dosimetro
+							.get(0).getPraCod() : null);
 			dosimetroDTO2
-					.setRadCod((dosimetro.get(0).getRadCod() != null) ? dosimetro.get(0)
-							.getRadCod() : null);
+					.setRadCod((dosimetro.get(0).getRadCod() != null) ? dosimetro
+							.get(0).getRadCod() : null);
 			dosimetroDTO2
-					.setUbiCod((dosimetro.get(0).getUbiCod() != null) ? dosimetro.get(0)
-							.getUbiCod() : null);
+					.setUbiCod((dosimetro.get(0).getUbiCod() != null) ? dosimetro
+							.get(0).getUbiCod() : null);
 
 			Traba traba = trabajadorDAO.findById(dosimetroDTO2.getTraCed());
 
-			dosimetroDTO2
-					.setNombreTrabajador(traba.getTraNom()
-							+ traba.getTraApe1()
-							+ (traba.getTraApe2() != null ? traba
-									.getTraApe2() : ""));
+			dosimetroDTO2.setNombreTrabajador(traba.getTraNom()
+					+ traba.getTraApe1()
+					+ (traba.getTraApe2() != null ? traba.getTraApe2() : ""));
 
 			ContratosId contratosId = new ContratosId();
 			contratosId.setConNro(dosimetroDTO2.getDosConNro());
@@ -871,10 +884,135 @@ public class DosimetroLogic implements IDosimetroLogic {
 			Contratos contratos = contratosDAO.findById(contratosId);
 
 			dosimetroDTO2.setFechaInicioContrato(contratos.getConFec());
-			dosimetroDTO2.setFechaFacturacionContrato(contratos
-					.getConFecFac());
+			dosimetroDTO2.setFechaFacturacionContrato(contratos.getConFecFac());
 
 			return dosimetroDTO2;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 17/12/2016
+	 * @param codEmpresa
+	 * @param codDosimetro
+	 * @return
+	 * @throws Exception
+	 * @see com.agileillutions.gesdos.modelo.control.IDosimetroLogic#getDataDosimetroPrincipal(java.lang.Long,
+	 *      java.lang.Long)
+	 */
+	@Transactional(readOnly = true)
+	@Override
+	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa,
+			Long codDosimetro) throws Exception {
+		try {
+			List<Dosimetro> dosimetro = new ArrayList<Dosimetro>();
+			Long idEmp = null;
+
+			if (null != codEmpresa && null != codDosimetro) {
+				dosimetro = dosimetroDAO.findByCriteria("id.empCod = "
+						+ codEmpresa + " and id.dosCod = " + codDosimetro);
+			} else if (null != codEmpresa) {
+				dosimetro = dosimetroDAO.findByCriteria("id.empCod = "
+						+ codEmpresa);
+			} else if (null != codDosimetro) {
+				dosimetro = dosimetroDAO.findByCriteria("id.dosCod = "
+						+ codDosimetro);
+			} else {
+				dosimetro = dosimetroDAO.findAll();
+			}
+
+			List<DosimetroDTO> dosimetroDTO = new ArrayList<DosimetroDTO>();
+
+			for (Dosimetro dosimetroTmp : dosimetro) {
+				DosimetroDTO dosimetroDTO2 = new DosimetroDTO();
+
+				idEmp = dosimetroTmp.getId().getEmpCod();
+
+				dosimetroDTO2.setTraCed(dosimetroTmp.getId().getTraCed());
+				dosimetroDTO2.setDosCod(dosimetroTmp.getId().getDosCod());
+				dosimetroDTO2.setEmpCod(dosimetroTmp.getId().getEmpCod());
+				dosimetroDTO2
+						.setCarCod((dosimetroTmp.getCarCod() != null) ? dosimetroTmp
+								.getCarCod() : null);
+				dosimetroDTO2
+						.setDosConNro((dosimetroTmp.getDosConNro() != null) ? dosimetroTmp
+								.getDosConNro() : null);
+				dosimetroDTO2
+						.setDosEst((dosimetroTmp.getDosEst() != null) ? dosimetroTmp
+								.getDosEst() : null);
+				dosimetroDTO2
+						.setDosPerRec((dosimetroTmp.getDosPerRec() != null) ? dosimetroTmp
+								.getDosPerRec() : null);
+				dosimetroDTO2
+						.setDosTipo((dosimetroTmp.getDosTipo() != null) ? dosimetroTmp
+								.getDosTipo() : null);
+				dosimetroDTO2
+						.setGeoCod((dosimetroTmp.getGeoCod() != null) ? dosimetroTmp
+								.getGeoCod() : null);
+				dosimetroDTO2
+						.setPraCod((dosimetroTmp.getPraCod() != null) ? dosimetroTmp
+								.getPraCod() : null);
+				dosimetroDTO2
+						.setRadCod((dosimetroTmp.getRadCod() != null) ? dosimetroTmp
+								.getRadCod() : null);
+				dosimetroDTO2
+						.setUbiCod((dosimetroTmp.getUbiCod() != null) ? dosimetroTmp
+								.getUbiCod() : null);
+
+				Traba traba = trabajadorDAO.findById(dosimetroDTO2.getTraCed());
+
+				dosimetroDTO2
+						.setNombreTrabajador(traba.getTraNom()
+								+ traba.getTraApe1()
+								+ (traba.getTraApe2() != null ? traba
+										.getTraApe2() : ""));
+
+				ContratosId contratosId = new ContratosId();
+				contratosId.setConNro(dosimetroDTO2.getDosConNro());
+				contratosId.setEmpCod(dosimetroDTO2.getEmpCod());
+				Contratos contratos = contratosDAO.findById(contratosId);
+
+				dosimetroDTO2.setFechaInicioContrato(contratos.getConFec());
+				dosimetroDTO2.setFechaFacturacionContrato(contratos
+						.getConFecFac());
+
+				Empresas empresas = new Empresas();
+				empresas = empresasDAO.findById(idEmp);
+				dosimetroDTO2.setRazonSocial(empresas.getEmpRazSoc());
+
+				Estudios estudios = new Estudios();
+				List<Estudios> listEstudios = estudiosDAO
+						.findByCriteria("id.traCed = "
+								+ dosimetroTmp.getId().getTraCed()
+								+ " and id.empCod = "
+								+ dosimetroTmp.getId().getEmpCod()
+								+ " and id.dosCod = "
+								+ dosimetroTmp.getId().getDosCod());
+
+				Collections.sort(listEstudios, Collections.reverseOrder());
+				Collections.reverse(listEstudios);
+				
+				if(!listEstudios.isEmpty()){
+					estudios = listEstudios.get(0);
+					dosimetroDTO2.setAnioEstudio(estudios.getId().getEstAni());
+					dosimetroDTO2.setMesEstudio(estudios.getId().getEstMes());
+				}
+
+				dosimetroDTO.add(dosimetroDTO2);
+			}
+
+			Collections.sort(dosimetroDTO, new Comparator<DosimetroDTO>() {
+		        @Override
+		        public int compare(DosimetroDTO dosi2, DosimetroDTO dosi1) {
+		            return  dosi1.getEmpCod().compareTo(dosi2.getEmpCod());
+		        }
+		    });
+			
+			return dosimetroDTO;
 		} catch (Exception e) {
 			throw e;
 		}

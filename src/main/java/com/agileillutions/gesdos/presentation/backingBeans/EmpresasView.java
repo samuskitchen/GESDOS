@@ -38,7 +38,7 @@ import com.agileillutions.gesdos.utilities.FacesUtils;
  *         www.zathuracode.org
  *
  */
-@ManagedBean(name = "empresasView")
+@ManagedBean
 @ViewScoped
 public class EmpresasView implements Serializable {
 	private static final long serialVersionUID = 1L;

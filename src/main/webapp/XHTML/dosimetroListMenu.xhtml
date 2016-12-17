@@ -1,0 +1,172 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="frmDomisetroPrincipal">
+					<script type="text/javascript">
+						//<![CDATA[
+						     
+						    function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+
+					<p:messages id="msgTablaDosi" />
+
+					<utils:busquedaSingle headerDialog="Empresas"
+						idTable="tableEmpresaTabla" idDialog="dialogEmpresaTabla"
+						id="CBPEmpresa" valueTable="#{dosimetroPrincipalView.empresasTabla}"
+						selectedTable="#{dosimetroPrincipalView.selectEmpresaTabla}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaTablaSingle"
+						accionCerrar="#{dosimetroPrincipalView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroPrincipalView.onRowSelectEmpresaTabla}">
+					</utils:busquedaSingle>
+
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator />
+							<p:commandButton id="btnConfirmar"
+								value="Confirmar" icon="ui-icon-check"
+								action="#{dosimetroPrincipalView.cargarDosimetroPrincipalDialog('0')}"
+								process="@this, :frmDomisetroPrincipal:idTableDosimetros"
+								update="msgTablaDosi,panelBotones,:frmDomisetroPrincipal:panelDataTableDosimetro">
+							</p:commandButton>
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+					<br />
+					<p:panel id="panelDataTableDosimetro"
+						header="Buscar Empresa Dosimetro">
+
+						<p:panelGrid columns="2" id="idPanelEmpresaTabla">
+							
+							<h:outputText id="msgDosimetroConDosi" value="Dosimetro" />
+							<p:inputText id="txtDosConNro"
+								binding="#{dosimetroPrincipalView.txtDosConNro}"
+								onkeypress="return isNumberKey(event)" >
+								<p:ajax event="change"
+										listener="#{dosimetroPrincipalView.listener_txtCodDosimetro}" />
+							</p:inputText>
+						
+							<h:outputText id="msgDosimetroEmpCodTabla" value="Empresa Codigo" />
+							<p:panelGrid>
+								<p:inputText binding="#{dosimetroPrincipalView.txtEmpCodTabla}"
+									id="txtEmpCodTabla" size="10"
+									onkeypress="return isNumberKey(event)" 
+									requiredMessage="La Empresa es requerida">
+									<p:ajax event="change"
+										listener="#{dosimetroPrincipalView.consultarEmpresasTabla}" />
+								</p:inputText>
+								<p:commandLink
+									update=":frmDomisetroPrincipal:CBPEmpresa:dialogEmpresaTabla"
+									actionListener="#{dosimetroPrincipalView.consultarEmpresasTabla}"
+									oncomplete="PF('busquedaEmpresaTablaSingle').show();"
+									title="Búsqueda..." process="@this">
+									<h:graphicImage value="../images/buscar.png"
+										style="vertical-align: middle; width:25px;" />
+								</p:commandLink>
+								<p:commandLink
+									update=":frmDomisetroPrincipal:CBPEmpresa:dialogEmpresaTabla, :frmDomisetroPrincipal:txtEmpCodTabla, :frmDomisetroPrincipal:txtRazonSocialTabla, :frmDomisetroPrincipal:idTableDosimetros"
+									actionListener="#{dosimetroPrincipalView.limpiarControlBusquedaEmpresasTabla}"
+									title="Limpiar..." process="@this">
+									<h:graphicImage value="../images/limpiar.png"
+										style="vertical-align: middle; width:21px;" />
+								</p:commandLink>
+							</p:panelGrid>
+							
+							<h:outputText id="msgDosimetroRazonSocialTabla" value="Razón Social" />
+							<p:panelGrid>
+								<p:inputText binding="#{dosimetroPrincipalView.txtRazonSocialTabla}"
+									id="txtRazonSocialTabla" style="width:260px" >
+										<p:ajax event="change"
+											listener="#{dosimetroPrincipalView.consultarEmpresasTabla}" />
+								</p:inputText>
+								<p:commandLink
+									update=":frmDomisetroPrincipal:CBPEmpresa:dialogEmpresaTabla"
+									actionListener="#{dosimetroPrincipalView.consultarEmpresasTabla}"
+									oncomplete="PF('busquedaEmpresaTablaSingle').show();"
+									title="Búsqueda..." process="@this">
+									<h:graphicImage value="../images/buscar.png"
+										style="vertical-align: middle; width:25px;" />
+								</p:commandLink>
+								<p:commandLink
+									update=":frmDomisetroPrincipal:CBPEmpresa:dialogEmpresaTabla, :frmDomisetroPrincipal:txtEmpCodTabla, :frmDomisetroPrincipal:txtRazonSocialTabla, :frmDomisetroPrincipal:idTableDosimetros"
+									actionListener="#{dosimetroPrincipalView.limpiarControlBusquedaEmpresasTabla}"
+									title="Limpiar..." process="@this">
+									<h:graphicImage value="../images/limpiar.png"
+										style="vertical-align: middle; width:21px;" />
+								</p:commandLink>
+							</p:panelGrid>
+						</p:panelGrid>
+						<br />
+						<p:dataTable id="idTableDosimetros" value="#{dosimetroPrincipalView.data}"
+							var="dosimetro" paginator="true" rows="10"
+							paginatorPosition="bottom" scrollable="true" scrollHeight="120"
+							emptyMessage="No se encontrarón archivos." selectionMode="single"
+							rowKey="#{dosimetro.dosCod}"
+							selection="#{dosimetroPrincipalView.selectedDosimetro}">
+
+							<p:column filterBy="#{dosimetro.empCod}"
+								sortBy="#{dosimetro.empCod}"
+								style="white-space:normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Empresa" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.empCod}" />
+							</p:column>
+
+							<p:column filterBy="#{dosimetro.dosCod}"
+								sortBy="#{dosimetro.dosCod}"
+								style="white-space: normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Dosimetro" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.dosCod}" />
+							</p:column>
+
+							<p:column filterBy="#{dosimetro.razonSocial}"
+								sortBy="#{dosimetro.razonSocial}"
+								style="white-space: normal; padding:2px; text-align: center;">
+								<f:facet name="header">
+									<h:outputText value="Razón Social" />
+								</f:facet>
+								<h:outputText value="#{dosimetro.razonSocial}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

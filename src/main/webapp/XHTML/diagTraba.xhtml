@@ -1,0 +1,169 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialogTraba">
+					<script type="text/javascript">
+						//<![CDATA[
+						    //Funcion para dar nuevamente el tamaño del iframe
+							$(function() {
+								$(window).resize(function() {
+									parent.$("iframe").css({
+										'height' : '830px'
+									});
+									parent.$("iframe").css({
+										'width' : '1300px'
+									});
+								});
+							});
+						    
+							function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+					<p:messages id="msg" />
+					<p:growl id="men" />
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator rendered="#{trabaView.botonGuardar}" />
+							<p:commandButton id="btnSave" binding="#{trabaView.btnSave}"
+								value="Guardar" icon="ui-icon-document"
+								rendered="#{trabaView.botonGuardar}"
+								action="#{trabaView.action_save()}"
+								update="panelTraba,msg,panelBotones" />
+							<p:separator rendered="#{trabaView.botonModificar}" />
+							<p:commandButton id="btnModificar"
+								rendered="#{trabaView.botonModificar}"
+								binding="#{trabaView.btnModify}" value="Modificar"
+								icon="ui-icon-pencil" action="#{trabaView.action_modify()}"
+								update="panelTraba,msg,panelBotones">
+							</p:commandButton>
+							<p:separator rendered="#{trabaView.botonBorrar}" />
+							<p:commandButton id="btnDelete"
+								rendered="#{trabaView.botonBorrar}"
+								binding="#{trabaView.btnDelete}" value="Borrar"
+								icon="ui-icon-trash"
+								action="#{trabaView.action_delete_master()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="panelTraba,msg,panelBotones" />
+							<p:separator rendered="#{trabaView.botonVisualizar}" />
+							<p:commandButton id="btnVisualizar" value="Visualizar"
+								icon="ui-icon-circle-zoomin"
+								rendered="#{trabaView.botonVisualizar}"
+								action="#{trabaView.listener_txtId()}"
+								update=":formDialogTraba:, panelTraba,msg,panelBotones" />
+							<p:separator rendered="#{trabaView.botonDosimetros}" />
+							<p:commandButton id="btnDosimetro" value="Dosimetro"
+								icon="ui-icon-note" rendered="#{trabaView.botonDosimetros}"
+								update="panelTraba,msg,panelBotones" />
+							<p:separator rendered="#{trabaView.botonTrabajadores}" />
+							<p:commandButton id="btnTrabajadores" value="Trabajadores"
+								icon="ui-icon-person" rendered="#{trabaView.botonTrabajadores}"
+								update="panelTraba,msg,panelBotones" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+					<br />
+					<p:panel id="panelTraba" header="Trabajar con Trbajadores">
+						<h:panelGrid columns="2" id="panelGrid">
+
+							<h:outputText id="msgTraCed" value="Cedula Trabajador" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtTraCed" binding="#{trabaView.txtTraCed}"
+									onkeypress="return isNumberKey(event)" 
+									required="true"
+									requiredMessage="La Cedeula del Trabajador es reuqerido"/>
+							</p:panelGrid>
+							
+							<h:outputText id="msgTraNom" value="Nombre" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtTraNom"
+									binding="#{trabaView.txtTraNom}" 
+									required="true"
+									requiredMessage="El Nombre es requerido"/>
+							</p:panelGrid>
+
+							<h:outputText id="msgTraApe1" value="Primer Apellido" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtTraApe1"
+									binding="#{trabaView.txtTraApe1}" 
+									required="true"
+									requiredMessage="El Primer Apellido es requerido"/>
+							</p:panelGrid>
+
+							<h:outputText id="msgTraApe2" value="Segundo Apellido" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtTraApe2"
+									binding="#{trabaView.txtTraApe2}" 
+									required="true"
+									requiredMessage="El Segundo Apellido es requerido"/>
+							</p:panelGrid>
+							
+							<h:outputText id="msgTraFecIni" value="Fecha Registro en RDC" />
+							<p:panelGrid columns="1">
+								<p:calendar showOn="button" navigator="true" locale="en"
+									binding="#{trabaView.txtTraFecIni}" pattern="dd/MM/yyyy" mask="true"
+									required="true"
+									requiredMessage="La Fehca de Registro es requerida"/>
+							</p:panelGrid>
+							
+							<h:outputText id="msgTraSex" value="Genero" />
+							<p:panelGrid columns="1">
+							
+								<p:selectOneMenu id="txtTraSex" value="#{trabaView.txtTraSex}"
+									binding="#{trabaView.cbOpcionSexo}" required="true"
+									requiredMessage="El Genero es requerido"
+									disabled="#{trabaView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Masculino" itemValue="M" />
+									<f:selectItem itemLabel="Femenino" itemValue="F" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<h:outputText id="msgTraEst" value="Estado Trabajador" />
+							<p:panelGrid columns="1">
+								<p:selectOneMenu id="txtTraEst" value="#{trabaView.txtTraEst}"
+									binding="#{trabaView.cbOpcionEstado}" required="true"
+									requiredMessage="El Estado Trabajador es requerido"
+									disabled="#{trabaView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Activo" itemValue="A" />
+									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+									<f:selectItem itemLabel="Suspendida" itemValue="S" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<h:outputText id="msgTraObs" value="Observación" />
+							<p:panelGrid columns="1">
+								<p:inputTextarea id="txtTraObs" maxlength="100"
+									binding="#{trabaView.txtTraObs}" rows="2" cols="70"/>
+							</p:panelGrid>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

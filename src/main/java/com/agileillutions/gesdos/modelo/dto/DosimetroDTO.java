@@ -29,6 +29,11 @@ public class DosimetroDTO implements Serializable {
     
     private Date fechaInicioContrato;
     private Date fechaFacturacionContrato;
+    
+    private String razonSocial;
+    
+    private Long anioEstudio;
+    private Long mesEstudio;
 
     public String getCarCod() {
         return carCod;
@@ -178,5 +183,59 @@ public class DosimetroDTO implements Serializable {
 	 */
 	public void setFechaFacturacionContrato(Date fechaFacturacionContrato) {
 		this.fechaFacturacionContrato = fechaFacturacionContrato;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 16/12/2016 
+	 * @return the razonSocial 
+	 */
+	public String getRazonSocial() {
+		return razonSocial;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 16/12/2016 
+	 * @param razonSocial the razonSocial to set 
+	 */
+	public void setRazonSocial(String razonSocial) {
+		this.razonSocial = razonSocial;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 17/12/2016 
+	 * @return the anioEstudio 
+	 */
+	public Long getAnioEstudio() {
+		return anioEstudio;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 17/12/2016 
+	 * @param anioEstudio the anioEstudio to set 
+	 */
+	public void setAnioEstudio(Long anioEstudio) {
+		this.anioEstudio = anioEstudio;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 17/12/2016 
+	 * @return the mesEstudio 
+	 */
+	public Long getMesEstudio() {
+		return mesEstudio;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 17/12/2016 
+	 * @param mesEstudio the mesEstudio to set 
+	 */
+	public void setMesEstudio(Long mesEstudio) {
+		this.mesEstudio = mesEstudio;
 	}
 }

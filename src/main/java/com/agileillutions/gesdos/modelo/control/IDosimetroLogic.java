@@ -87,4 +87,17 @@ public interface IDosimetroLogic {
 	public DosimetroDTO getDataDosimetroUltimo(Long idEmp, Long idTraba)
 			throws Exception;
 
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 17/12/2016
+	 * @description 
+	 * @param codEmpresa
+	 * @param codDosimetro
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa, Long codDosimetro) throws Exception;
+
+
 }

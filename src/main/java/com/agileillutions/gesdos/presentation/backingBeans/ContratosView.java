@@ -124,9 +124,11 @@ public class ContratosView implements Serializable {
 			if (null == tipo || "".equals(tipo)) {
 				txtConNro = new InputText();
 				txtEmpCod = new InputText();
+				txtEmpCodTabla = new InputText();
 
 				txtConNro.setValue(codContrato);
 				txtEmpCod.setValue(codEmpresa);
+				txtEmpCodTabla.setValue(codEmpresa);
 
 				if (null != codEmpresa && !codEmpresa.isEmpty()) {
 					List<ContratosDTO> contratosDTOs = businessDelegatorView.getDataContratosPorEmpresa(Long.valueOf(codEmpresa));
@@ -141,9 +143,11 @@ public class ContratosView implements Serializable {
 						&& null != codEmpresa) {
 					txtConNro = new InputText();
 					txtEmpCod = new InputText();
+					txtEmpCodTabla = new InputText();
 
 					txtConNro.setValue(codContrato);
 					txtEmpCod.setValue(codEmpresa);
+					txtEmpCodTabla.setValue(codEmpresa);
 					listener_txtId();
 					modoVisualizar();
 					ejecutarControlesBusquedas();
@@ -155,9 +159,11 @@ public class ContratosView implements Serializable {
 						&& null != codEmpresa) {
 					txtConNro = new InputText();
 					txtEmpCod = new InputText();
+					txtEmpCodTabla = new InputText();
 
 					txtConNro.setValue(codContrato);
 					txtEmpCod.setValue(codEmpresa);
+					txtEmpCodTabla.setValue(codEmpresa);
 					listener_txtId();
 					modoModificar();
 					ejecutarControlesBusquedas();
@@ -181,6 +187,9 @@ public class ContratosView implements Serializable {
 					txtEmpCod.setValue(this.codEmpresa);
 				}
 				
+				if(txtEmpCodTabla.getValue() == null){
+					txtEmpCodTabla.setValue(this.codEmpresa);
+				}
 				
 				botonGuardar = true;
 				botonModificar = false;
@@ -696,18 +705,24 @@ public class ContratosView implements Serializable {
 		options.put("dynamic", false);
 
 		String codEmpresa = "";
+		String codContrato = "";
 		if (null != selectedContratos) {
 			codEmpresa = selectedContratos.getEmpCod().toString();
+			codContrato = selectedContratos.getConNro().toString();
 		}
 
 		List<String> lstParamEmpresa = new ArrayList<String>();
 		lstParamEmpresa.add(codEmpresa);
+		
+		List<String> lstParamContrato = new ArrayList<String>();
+		lstParamContrato.add(codContrato);
 
 		List<String> lstParamTipo = new ArrayList<String>();
 		lstParamTipo.add(bandera);
 
 		Map<String, List<String>> params = new HashMap<String, List<String>>();
 		params.put("codEmpresa", lstParamEmpresa);
+		params.put("codContrato", lstParamContrato);
 		params.put("tipo", lstParamTipo);
 
 		RequestContext.getCurrentInstance().openDialog("/XHTML/contratos.xhtml", options, params);

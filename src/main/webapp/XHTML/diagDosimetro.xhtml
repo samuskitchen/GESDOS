@@ -1,0 +1,523 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialogDosimetro">
+					<script type="text/javascript">
+						//<![CDATA[
+						    //Funcion para dar nuevamente el tamaño del iframe
+							$(function() {
+								$(window).resize(function() {
+									parent.$("iframe").css({
+										'height' : '1000px'
+									});
+									parent.$("iframe").css({
+										'width' : '1300px'
+									});
+								});
+							});
+						           
+							function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator rendered="#{dosimetroView.botonGuardar}" />
+							<p:commandButton id="btnSave" binding="#{dosimetroView.btnSave}"
+								value="Guardar" icon="ui-icon-document"
+								rendered="#{dosimetroView.botonGuardar}"
+								action="#{dosimetroView.action_save()}"
+								update="panelDosimetro,msgDosimetro,panelBotones" />
+							<p:separator rendered="#{dosimetroView.botonModificar}" />
+							<p:commandButton id="btnModificar"
+								rendered="#{dosimetroView.botonModificar}"
+								binding="#{dosimetroView.btnModify}" value="Modificar"
+								icon="ui-icon-pencil" action="#{dosimetroView.action_modify()}"
+								update="panelDosimetro,msgDosimetro,panelBotones" />
+							<p:separator rendered="#{dosimetroView.botonBorrar}" />
+							<p:commandButton id="btnDelete"
+								rendered="#{dosimetroView.botonBorrar}"
+								binding="#{dosimetroView.btnDelete}" value="Borrar"
+								icon="ui-icon-trash"
+								action="#{dosimetroView.action_delete_master()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="panelDosimetro,msgDosimetro,panelBotones" />
+							<p:separator rendered="#{dosimetroView.botonVisualizar}" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<utils:busquedaSingle headerDialog="Empresas"
+						idTable="tableEmpresa" idDialog="dialogEmpresa"
+						id="CBPEmpresaTabla" valueTable="#{dosimetroView.empresas}"
+						selectedTable="#{dosimetroView.selectEmpresa}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectEmpresa}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Trabajadores"
+						idTable="tableTrabajador" idDialog="dialogTrabajador"
+						id="CBPTrabajadorTabla" valueTable="#{dosimetroView.trabajoderes}"
+						selectedTable="#{dosimetroView.selectTrabador}"
+						rowKeyTable="#{dataTable.traCed}" rowsTable="5"
+						columnTableCodigo="#{dataTable.traCed}"
+						columnTableNombre="#{dataTable.traNom}"
+						filterByColumnTableCodigo="#{dataTable.traCed}"
+						filterByColumnTableNombre="#{dataTable.traNom}"
+						widgetVarDialog="busquedaTrabajadorSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelecTrabajador}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Ubicaciones"
+						idTable="tableUbicacion" idDialog="dialogUbicacion"
+						id="CBPUbicacionTabla" valueTable="#{dosimetroView.ubicaciones}"
+						selectedTable="#{dosimetroView.selectUbicacion}"
+						rowKeyTable="#{dataTable.ubiCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.ubiCod}"
+						columnTableNombre="#{dataTable.ubiDes}"
+						filterByColumnTableCodigo="#{dataTable.ubiCod}"
+						filterByColumnTableNombre="#{dataTable.ubiDes}"
+						widgetVarDialog="busquedaUbicacionSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectUbicacion}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Cargos" idTable="tableCargo"
+						idDialog="dialogCargo" id="CBPCargoTabla"
+						valueTable="#{dosimetroView.cargos}"
+						selectedTable="#{dosimetroView.selectCargo}"
+						rowKeyTable="#{dataTable.carCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.carCod}"
+						columnTableNombre="#{dataTable.carDes}"
+						filterByColumnTableCodigo="#{dataTable.carCod}"
+						filterByColumnTableNombre="#{dataTable.carDes}"
+						widgetVarDialog="busquedaCargoSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectCargo}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Practicas"
+						idTable="tablePractica" idDialog="dialogPractica"
+						id="CBPPracticaTabla" valueTable="#{dosimetroView.practicas}"
+						selectedTable="#{dosimetroView.selectPractica}"
+						rowKeyTable="#{dataTable.praCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.praCod}"
+						columnTableNombre="#{dataTable.praDes}"
+						filterByColumnTableCodigo="#{dataTable.praCod}"
+						filterByColumnTableNombre="#{dataTable.praDes}"
+						widgetVarDialog="busquedaPracticaSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectPractica}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Radiaciones"
+						idTable="tableRadiacion" idDialog="dialogRadiacion"
+						id="CBPRadiacionTabla" valueTable="#{dosimetroView.radicaciones}"
+						selectedTable="#{dosimetroView.selectRadiacion}"
+						rowKeyTable="#{dataTable.radCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.radCod}"
+						columnTableNombre="#{dataTable.radDes}"
+						filterByColumnTableCodigo="#{dataTable.radCod}"
+						filterByColumnTableNombre="#{dataTable.radDes}"
+						widgetVarDialog="busquedaRadiacionSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectRadiacion}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Ingeominas"
+						idTable="tableGeomina" idDialog="dialogGeomina"
+						id="CBPGeominaTabla" valueTable="#{dosimetroView.ingeominas}"
+						selectedTable="#{dosimetroView.selectIngeomina}"
+						rowKeyTable="#{dataTable.geoCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.geoCod}"
+						columnTableNombre="#{dataTable.geoDes}"
+						filterByColumnTableCodigo="#{dataTable.geoCod}"
+						filterByColumnTableNombre="#{dataTable.geoDes}"
+						widgetVarDialog="busquedaGeominaSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectGeominas}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Contratos"
+						idTable="tableContrato" idDialog="dialogContrato"
+						id="CBPContratoTabla" valueTable="#{dosimetroView.contratos}"
+						selectedTable="#{dosimetroView.selectContrato}"
+						rowKeyTable="#{dataTable.id.conNro}" rowsTable="5"
+						columnTableCodigo="#{dataTable.id.conNro}"
+						columnTableNombre="#{dataTable.conObser}"
+						filterByColumnTableCodigo="#{dataTable.id.conNro}"
+						filterByColumnTableNombre="#{dataTable.conObser}"
+						widgetVarDialog="busquedaContratoSingle"
+						accionCerrar="#{dosimetroView.actionCerrarBusqueda()}"
+						ajaxListener="#{dosimetroView.onRowSelectContratos}">
+					</utils:busquedaSingle>
+
+					<br />
+					<p:messages id="msgDosimetro" />
+					<p:growl id="menDosimetro" />
+					<p:panel id="panelDosimetro" header="Asignar Dosimetro">
+						<h:panelGrid columns="2" id="panelGrid">
+
+							<h:outputText id="msgDosimetroEmpCod" value="Empresa" />
+							<p:panelGrid columns="2" id="idPanelEmpresa">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtEmpCod}"
+										id="txtEmpCod" size="10"
+										onkeypress="return isNumberKey(event)" 
+										requiredMessage="La Empresa es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarEmpresas}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPEmpresaTabla:dialogEmpresa"
+										actionListener="#{dosimetroView.consultarEmpresas}"
+										oncomplete="PF('busquedaEmpresaSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{dosimetroView.txtRazonSocial}"
+										id="txtRazonSocial" style="width:260px"
+										disabled="#{dosimetroView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPEmpresaTabla:dialogEmpresa, :formDialogDosimetro:txtEmpCod, :formDialogDosimetro:txtRazonSocial"
+										actionListener="#{dosimetroView.limpiarControlBusquedaEmpresas}"
+										title="Limpiar..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroTraCed" value="Cedula" />
+							<p:panelGrid columns="2" id="idPanelTrabajador">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtTraCed}"
+										id="txtTraCed" size="10"
+										onkeypress="return isNumberKey(event)" 
+										requiredMessage="La Cedula es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarTrabajador}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPTrabajadorTabla:dialogTrabajador, :formDialogDosimetro:txtNombreTrabajador"
+										actionListener="#{dosimetroView.consultarTrabajador}"
+										oncomplete="PF('busquedaTrabajadorSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgNombreTrabajador" value="Nombre" />
+							<p:panelGrid columns="1">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtNombreTrabajador}"
+										id="txtNombreTrabajador" style="width:260px" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPTrabajadorTabla:dialogTrabajador, :formDialogDosimetro:txtTraCed, :formDialogDosimetro:txtNombreTrabajador"
+										actionListener="#{dosimetroView.limpiarControlBusquedaTrabajador}"
+										title="Limpiar..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroDosCod" value="Dosimetro" />
+							<p:panelGrid columns="3">
+								<p:inputText id="txtDosCod" binding="#{dosimetroView.txtDosCod}"
+									 requiredMessage="El Dosimetro es requerido" />
+
+								<p:panelGrid columns="2">
+									<h:outputText id="msgDosimetroDosTipo" value="Tipo" />
+									<p:selectOneMenu id="txtDosTipo"
+										value="#{dosimetroView.txtDosTipo}"
+										binding="#{dosimetroView.cbOpcionTipo}" 
+										requiredMessage="El Tipo es requerido"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<f:selectItem itemLabel="Pelicula" itemValue="P" />
+										<f:selectItem itemLabel="TLD" itemValue="T" />
+										<f:selectItem itemLabel="Anillo TLD" itemValue="A" />
+										<f:selectItem itemLabel="OSL" itemValue="O" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+
+								<p:panelGrid columns="3">
+									<h:outputText id="msgDosimetroDosPerRec"
+										value="Periodo Recambio" />
+									<p:inputText id="txtDosPerRec"
+										binding="#{dosimetroView.txtDosPerRec}" size="5" />
+									<h:outputText id="msgDosimetroDias" value="Días" />
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroUbiCod" value="Ubicación" />
+							<p:panelGrid columns="2" id="idPanelUbicacion">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtUbiCod}"
+										id="txtUbiCod" size="10" 
+										requiredMessage="La Ubicación es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarUbicacion}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPUbicacionTabla:dialogUbicacion"
+										actionListener="#{dosimetroView.consultarUbicacion}"
+										oncomplete="PF('busquedaUbicacionSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{dosimetroView.txtNombreUbicion}"
+										id="txtNombreUbicion" style="width:260px"
+										disabled="#{dosimetroView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPUbicacionTabla:dialogUbicacion, :formDialogDosimetro:txtUbiCod, :formDialogDosimetro:txtNombreUbicion"
+										actionListener="#{dosimetroView.limpiarControlBusquedaUbicacion}"
+										process="@this" title="Limpiar..."
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroCarCod" value="Cargo" />
+							<p:panelGrid columns="2" id="idPanelCargo">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtCarCod}"
+										id="txtCarCod" size="10" 
+										requiredMessage="El Cargo es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarCargo}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPCargoTabla:dialogCargo"
+										actionListener="#{dosimetroView.consultarCargo}"
+										oncomplete="PF('busquedaCargoSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{dosimetroView.txtNombreCargo}"
+										id="txtNombreCargo" style="width:260px"
+										disabled="#{dosimetroView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPCargoTabla:dialogCargo, :formDialogDosimetro:txtCarCod, :formDialogDosimetro:txtNombreCargo"
+										actionListener="#{dosimetroView.limpiarControlBusquedaCargo}"
+										process="@this" title="Limpiar..."
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroPraCod" value="Practica" />
+							<p:panelGrid columns="2" id="idPanelPractica">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtPraCod}"
+										id="txtPraCod" size="10" 
+										requiredMessage="La Practica es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarPractica}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPPracticaTabla:dialogPractica"
+										actionListener="#{dosimetroView.consultarPractica}"
+										oncomplete="PF('busquedaPracticaSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{dosimetroView.txtNombrePractica}"
+										id="txtNombrePractica" style="width:260px"
+										disabled="#{dosimetroView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPPracticaTabla:dialogPractica, :formDialogDosimetro:txtPraCod, :formDialogDosimetro:txtNombrePractica"
+										actionListener="#{dosimetroView.limpiarControlBusquedaPractica}"
+										process="@this" title="Limpiar..."
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroRadCod" value="Radiación" />
+							<p:panelGrid columns="2" id="idPanelRadiacion">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtRadCod}"
+										id="txtRadCod" size="10" 
+										requiredMessage="La Radiación es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarRadiacion}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPRadiacionTabla:dialogRadiacion"
+										actionListener="#{dosimetroView.consultarRadiacion}"
+										oncomplete="PF('busquedaRadiacionSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{dosimetroView.txtNombreRadicacion}"
+										id="txtNombreRadicacion" style="width:260px"
+										disabled="#{dosimetroView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPRadiacionTabla:dialogRadiacion, :formDialogDosimetro:txtRadCod, :formDialogDosimetro:txtNombreRadicacion"
+										actionListener="#{dosimetroView.limpiarControlBusquedaRadiacion}"
+										process="@this" title="Limpiar..."
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroGeoCod" value="Ingeominas" />
+							<p:panelGrid columns="2" id="idPanelIngeominas">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtGeoCod}"
+										id="txtGeoCod" size="10" 
+										requiredMessage="Ingeominas es requerida"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarGeominas}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPGeominaTabla:dialogGeomina"
+										actionListener="#{dosimetroView.consultarGeominas}"
+										oncomplete="PF('busquedaGeominaSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{dosimetroView.txtNombreIngeomina}"
+										id="txtNombreIngeomina" style="width:260px"
+										disabled="#{dosimetroView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogDosimetro:CBPGeominaTabla:dialogGeomina, :formDialogDosimetro:txtGeoCod, :formDialogDosimetro:txtNombreIngeomina"
+										actionListener="#{dosimetroView.limpiarControlBusquedaGeominas}"
+										process="@this" title="Limpiar..."
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroDosConNro" value="Contrato" />
+							<p:panelGrid columns="2" id="idPanelContrato">
+								<p:panelGrid>
+									<p:inputText binding="#{dosimetroView.txtDosConNro}"
+										id="txtDosConNro" size="10"
+										onkeypress="return isNumberKey(event)" 
+										requiredMessage="El Contrato es requerido"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{dosimetroView.consultarContratos}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPContratoTabla:dialogContrato"
+										actionListener="#{dosimetroView.consultarContratos}"
+										oncomplete="PF('busquedaContratoSingle').show();"
+										title="Búsqueda..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:commandLink
+										update=":formDialogDosimetro:CBPContratoTabla:dialogContrato, :formDialogDosimetro:txtDosConNro"
+										actionListener="#{dosimetroView.limpiarControlBusquedaContratos}"
+										title="Limpiar..." process="@this"
+										disabled="#{dosimetroView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgFechaInicio" value="Fecha Inicio" />
+							<p:panelGrid columns="1">
+								<p:calendar id="fechaIncio" showOn="button" navigator="true"
+									binding="#{dosimetroView.fechaIncio}" disabled="true"
+									pattern="dd/MM/yyyy" mask="true" />
+							</p:panelGrid>
+
+							<h:outputText id="msgFechaVence" value="Fecha Final" />
+							<p:panelGrid columns="1">
+								<p:calendar id="fechaVence" showOn="button" navigator="true"
+									binding="#{dosimetroView.fechaVence}" disabled="true"
+									pattern="dd/MM/yyyy" mask="true" />
+							</p:panelGrid>
+
+							<h:outputText id="msgDosimetroDosEst" value="Estado" />
+							<p:panelGrid columns="1">
+								<p:selectOneMenu id="txtDosEst"
+									value="#{dosimetroView.txtDosEst}"
+									binding="#{dosimetroView.cbOpcionEstado}" 
+									requiredMessage="El estado es requerido"
+									disabled="#{dosimetroView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Activo" itemValue="A" />
+									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

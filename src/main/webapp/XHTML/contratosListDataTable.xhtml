@@ -96,8 +96,7 @@
 								update="msgTablaContratos,panelBotones" />
 							<p:separator />
 							<p:commandButton id="btnImprimir" value="Imprimir"
-								icon="ui-icon-print"
-								onclick="javascript:location.reload();"
+								icon="ui-icon-print" onclick="javascript:location.reload();"
 								update="msgTablaContratos,panelBotones :frmContrato:panelDataTableContratos" />
 							<p:separator />
 							<p:commandButton id="btnRefrescar" value="Refrescar"
@@ -115,8 +114,7 @@
 							<p:panelGrid>
 								<p:inputText binding="#{contratosView.txtEmpCodTabla}"
 									id="txtEmpCodTabla" size="10"
-									onkeypress="return isNumberKey(event)"
-									disabled="true">
+									onkeypress="return isNumberKey(event)" disabled="true">
 									<p:ajax event="change"
 										listener="#{contratosView.consultarEmpresasTabla}" />
 								</p:inputText>
@@ -124,35 +122,32 @@
 									update=":frmContrato:CBPEmpresa:dialogEmpresaTabla"
 									actionListener="#{contratosView.consultarEmpresasTabla}"
 									oncomplete="PF('busquedaEmpresaTablaSingle').show();"
-									title="Búsqueda..."
-									disabled="true">
+									title="Búsqueda..." disabled="true">
 									<h:graphicImage value="../images/buscar.png"
 										style="vertical-align: middle; width:25px;" />
 								</p:commandLink>
 								<p:inputText binding="#{contratosView.txtRazonSocialTabla}"
-									id="txtRazonSocialTabla" style="width:260px"
-									disabled="true" />
+									id="txtRazonSocialTabla" style="width:260px" disabled="true" />
 								<p:commandLink
 									update=":frmContrato:CBPEmpresa:dialogEmpresaTabla, :frmContrato:txtEmpCodTabla, :frmContrato:txtRazonSocialTabla"
 									actionListener="#{contratosView.limpiarControlBusquedaEmpresasTabla}"
-									title="Limpiar..."
-									disabled="true">
+									title="Limpiar..." disabled="true">
 									<h:graphicImage value="../images/limpiar.png"
 										style="vertical-align: middle; width:21px;" />
 								</p:commandLink>
 							</p:panelGrid>
 						</p:panelGrid>
-						
+
 						<div align="center">
 							<h:outputText id="msgContratoTabla"
 								value="Información por Contrato" />
 						</div>
 						<br />
-						<p:dataTable id="idDataTablaContratos" value="#{contratosView.data}" var="contratos"
-							paginator="true" rows="10" paginatorPosition="bottom"
-							scrollable="true" scrollHeight="120"
-							emptyMessage="No se encontrarón archivos." selectionMode="single"
-							rowKey="#{contratos.conNro}"
+						<p:dataTable id="idDataTablaContratos"
+							value="#{contratosView.data}" var="contratos" paginator="true"
+							rows="10" paginatorPosition="bottom" scrollable="true"
+							scrollHeight="120" emptyMessage="No se encontrarón archivos."
+							selectionMode="single" rowKey="#{contratos.conNro}"
 							selection="#{contratosView.selectedContratos}">
 
 							<p:column filterBy="#{contratos.conNro}"
@@ -162,17 +157,17 @@
 								</f:facet>
 								<h:outputText value="#{contratos.conNro}" />
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conFec}"
 								sortBy="#{contratos.conFec}">
 								<f:facet name="header">
 									<h:outputText value="Fecha" />
 								</f:facet>
-								<h:outputText value="#{contratos.conFec}" >
+								<h:outputText value="#{contratos.conFec}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conDura}"
 								sortBy="#{contratos.conDura}">
 								<f:facet name="header">
@@ -180,7 +175,7 @@
 								</f:facet>
 								<h:outputText value="#{contratos.conDura}" />
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conUsu}"
 								sortBy="#{contratos.conUsu}">
 								<f:facet name="header">
@@ -188,7 +183,7 @@
 								</f:facet>
 								<h:outputText value="#{contratos.conUsu}" />
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conVal}"
 								sortBy="#{contratos.conVal}">
 								<f:facet name="header">
@@ -198,7 +193,7 @@
 									<f:convertNumber locale="es-CO" />
 								</h:outputText>
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conNroFac}"
 								sortBy="#{contratos.conNroFac}">
 								<f:facet name="header">
@@ -206,33 +201,34 @@
 								</f:facet>
 								<h:outputText value="#{contratos.conNroFac}" />
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conFecFac}"
 								sortBy="#{contratos.conFecFac}">
 								<f:facet name="header">
 									<h:outputText value="Fecha Fac." />
 								</f:facet>
-								<h:outputText value="#{contratos.conFecFac}" >
+								<h:outputText value="#{contratos.conFecFac}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conFecFac}"
 								sortBy="#{contratos.conFecFac}">
 								<f:facet name="header">
 									<h:outputText value="Fec. Vence" />
 								</f:facet>
-								<h:outputText value="#{contratos.conFecFac}" >
+								<h:outputText value="#{contratos.conFecFac}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							
+
 							<p:column filterBy="#{contratos.conEst}"
 								sortBy="#{contratos.conEst}">
 								<f:facet name="header">
 									<h:outputText value="Estado" />
 								</f:facet>
-								<h:outputText value="#{contratos.conEst}" />
+								<h:outputText
+									value="#{contratos.conEst == 'A' ? 'Activo' : contratos.conEst == 'S' ? 'Suspendido' : 'Cerrado'}" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>

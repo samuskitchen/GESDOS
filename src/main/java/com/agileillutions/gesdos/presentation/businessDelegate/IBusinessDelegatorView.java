@@ -665,18 +665,18 @@ public interface IBusinessDelegatorView {
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
 	 * @date 10/12/2016
-	 * @description
+	 * @description 
 	 * @param input
-	 * @param listObject
+	 * @param selectedDosExcel
 	 * @return
-	 * @throws SQLException
-	 * @throws JRException
-	 * @throws IOException
 	 * @throws AppBaseException
+	 * @throws IOException
+	 * @throws JRException
+	 * @throws SQLException
 	 */
-	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, ArrayList<String> listObject)
+	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, List<DosimetroDTO> selectedDosExcel)
 			throws AppBaseException, IOException, JRException, SQLException;
 	
 	/**
@@ -702,4 +702,15 @@ public interface IBusinessDelegatorView {
 	 */
 	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa, Long codContrato) throws Exception;
 
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 17/12/2016
+	 * @description 
+	 * @param codEmpresa
+	 * @param codDosimetro
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa, Long codDosimetro) throws Exception;
 }

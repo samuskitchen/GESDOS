@@ -1,0 +1,385 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template_dialog.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialogEstudio">
+					<script type="text/javascript">
+						//<![CDATA[
+						    //Funcion para dar nuevamente el tamaño del iframe
+							$(function() {
+								$(window).resize(function() {
+									parent.$("iframe").css({
+										'height' : '830px'
+									});
+									parent.$("iframe").css({
+										'width' : '1300px'
+									});
+								});
+							}); 
+						          
+							function isNumberKey(evt) {
+								var charCode = (evt.which) ? evt.which : event.keyCode;
+								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+									return false;
+								}
+								return true;
+							}
+						//]]>
+					</script>
+					
+					<utils:busquedaSingle headerDialog="Empresa"
+						idTable="tableEmpresaEstudio" idDialog="dialogEmpresaEstudio"
+						id="CBPEmpresaEstudio" valueTable="#{estudiosView.empresas}"
+						selectedTable="#{estudiosView.selectEmpresa}"
+						rowKeyTable="#{dataTable.empCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.empCod}"
+						columnTableNombre="#{dataTable.empRazSoc}"
+						filterByColumnTableCodigo="#{dataTable.empCod}"
+						filterByColumnTableNombre="#{dataTable.empRazSoc}"
+						widgetVarDialog="busquedaEmpresaEstudioSingle"
+						accionCerrar="#{estudiosView.actionCerrarBusqueda()}"
+						ajaxListener="#{estudiosView.onRowSelectEmpresa}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingle headerDialog="Trabajador"
+						idTable="tableTrabaEstudio" idDialog="dialogTrabaEstudio"
+						id="CBPTrabaEstudio" valueTable="#{estudiosView.trabajadores}"
+						selectedTable="#{estudiosView.selectedTrabajador}"
+						rowKeyTable="#{dataTable.traCed}" rowsTable="5"
+						columnTableCodigo="#{dataTable.traCed}"
+						columnTableNombre="#{dataTable.traNom}"
+						filterByColumnTableCodigo="#{dataTable.traCed}"
+						filterByColumnTableNombre="#{dataTable.traNom}"
+						widgetVarDialog="busquedaTrabaEstudioSingle"
+						accionCerrar="#{estudiosView.actionCerrarBusqueda()}"
+						ajaxListener="#{estudiosView.onRowSelectTrajabador}">
+					</utils:busquedaSingle>
+
+					<utils:busquedaSingleCampos headerDialog="Revelados"
+						idTable="tableReveladoEstudioTabla"
+						idDialog="dialogReveladoEstudioTabla"
+						idDialogCrear="dialogReveladoEstudioCrear"
+						id="CBPReveladoEstudioTabla"
+						valueTable="#{estudiosView.revelados}"
+						selectedTable="#{estudiosView.selectedRevelado}"
+						rowKeyTable="#{dataTable.revNro}" rowsTable="5"
+						columnTableCodigo="#{dataTable.revNro}"
+						columnTableNombre1="#{dataTable.revFec}"
+						columnTableNombre2="#{dataTable.revDes}"
+						filterByColumnTableCodigo="#{dataTable.revNro}"
+						filterByColumnTableNombre1="#{dataTable.revFec}"
+						filterByColumnTableNombre2="#{dataTable.revDes}"
+						widgetVarDialog="busquedaReveladoEstudioSingle"
+						accionCerrar="#{estudiosView.actionCerrarBusqueda()}"
+						accionCrear="#{estudiosView.actionCrearRevelados()}"
+						ajaxListener="#{estudiosView.onRowSelectRevelados}">
+					</utils:busquedaSingleCampos>
+
+					<utils:busquedaSingle headerDialog="Observaciones"
+						idTable="tableObservaEstudioTabla"
+						idDialog="dialogObservaEstudioTabla" id="CBPObservaEstudioTabla"
+						valueTable="#{estudiosView.observaciones}"
+						selectedTable="#{estudiosView.selectedObservacion}"
+						rowKeyTable="#{dataTable.obsCod}" rowsTable="5"
+						columnTableCodigo="#{dataTable.obsCod}"
+						columnTableNombre="#{dataTable.obsDes}"
+						filterByColumnTableCodigo="#{dataTable.obsCod}"
+						filterByColumnTableNombre="#{dataTable.obsDes}"
+						widgetVarDialog="busquedaObservaEstudioSingle"
+						accionCerrar="#{estudiosView.actionCerrarBusqueda()}"
+						ajaxListener="#{estudiosView.onRowSelectObservacion}">
+					</utils:busquedaSingle>
+
+					<p:messages id="msg" />
+					<p:growl id="men" />
+					<!-- panel para el toolbar -->
+					<p:toolbar id="panelBotones">
+						<p:toolbarGroup align="left">
+							<p:separator rendered="#{estudiosView.botonGuardar}" />
+							<p:commandButton id="btnSave" binding="#{estudiosView.btnSave}"
+								value="Guardar" icon="ui-icon-document"
+								rendered="#{estudiosView.botonGuardar}"
+								action="#{estudiosView.action_save()}"
+								update="panelEstudios,msg,panelBotones" />
+							<p:separator rendered="#{estudiosView.botonModificar}" />
+							<p:commandButton id="btnModificar"
+								rendered="#{estudiosView.botonModificar}"
+								binding="#{estudiosView.btnModify}" value="Modificar"
+								icon="ui-icon-pencil" action="#{estudiosView.action_modify()}"
+								update="panelEstudios,msg,panelBotones">
+							</p:commandButton>
+							<p:separator rendered="#{estudiosView.botonBorrar}" />
+							<p:commandButton id="btnDelete"
+								rendered="#{estudiosView.botonBorrar}"
+								binding="#{estudiosView.btnDelete}" value="Borrar"
+								icon="ui-icon-trash"
+								action="#{estudiosView.action_delete_master()}"
+								onclick="if(!confirm('¿Desea realmente suprimir esta entrada?')){return false;}"
+								update="panelEstudios,msg,panelBotones" />
+							<p:separator rendered="#{estudiosView.botonVisualizar}" />
+							<p:commandButton id="btnVisualizar" value="Visualizar"
+								icon="ui-icon-circle-zoomin"
+								rendered="#{estudiosView.botonVisualizar}"
+								action="#{estudiosView.listener_txtId()}"
+								update=":formDialogEstudio:, panelEstudios,msg,panelBotones" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					<br />
+
+					<p:panel id="panelEstudios" header="Estudios">
+						<h:panelGrid columns="2" id="panelGrid">
+
+							<h:outputText id="msgEstudioTraba" value="Trabajador" />
+							<p:panelGrid columns="2" id="idPanelTrabajador">
+								<p:panelGrid>
+									<p:inputText binding="#{estudiosView.txtTraCed}" id="txtTraCed"
+										size="10" onkeypress="return isNumberKey(event)"
+										requiredMessage="La Empresa es requerida"
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{estudiosView.consultarTrabajador}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogEstudio:CBPTrabaEstudio:dialogTrabaEstudio"
+										actionListener="#{estudiosView.consultarTrabajador}"
+										oncomplete="PF('busquedaTrabaEstudioSingle').show();"
+										title="Búsqueda..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{estudiosView.traNombre}"
+										id="txtTraNombre" style="width:260px"
+										disabled="#{estudiosView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogEstudio:CBPTrabaEstudio:dialogTrabaEstudio, :formDialogEstudio:txtTraCed, :formDialogEstudio:txtTraNombre"
+										actionListener="#{estudiosView.limpiarControlBusquedaTrabajador}"
+										title="Limpiar..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgEstudioEmpCod" value="Empresa" />
+							<p:panelGrid columns="2" id="idPanelEmpresa">
+								<p:panelGrid>
+									<p:inputText binding="#{estudiosView.txtEmpCod}" id="txtEmpCod"
+										size="10" onkeypress="return isNumberKey(event)"
+										requiredMessage="La Empresa es requerida"
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{estudiosView.consultarEmpresas}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogEstudio:CBPEmpresaEstudio:dialogEmpresaEstudio"
+										actionListener="#{estudiosView.consultarEmpresas}"
+										oncomplete="PF('busquedaEmpresaEstudioSingle').show();"
+										title="Búsqueda..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{estudiosView.razonSocialEmpresa}"
+										id="txtRazonSocialEmpresa" style="width:260px"
+										disabled="#{estudiosView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogEstudio:CBPEmpresaEstudio:dialogEmpresaEstudio, :formDialogEstudio:txtEmpCod, :formDialogEstudio:txtRazonSocialEmpresa"
+										actionListener="#{estudiosView.limpiarControlBusquedaEmpresa}"
+										title="Limpiar..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgDosCod" value="Dosimetro" />
+							<p:panelGrid columns="1">
+								<p:inputText id="txtDosCod" binding="#{estudiosView.txtDosCod}"
+									size="5">
+								</p:inputText>
+							</p:panelGrid>
+
+							<h:outputText id="msgEstAni" value="Año Estudio" />
+							<p:panelGrid columns="2">
+								<p:inputText id="txtEstAni" binding="#{estudiosView.txtEstAni}"
+									size="5">
+								</p:inputText>
+
+								<p:panelGrid columns="2">
+									<h:outputText id="msgEstMes" value="Mes Estudio" />
+									<p:inputText id="txtEstMes" binding="#{estudiosView.txtEstMes}"
+										size="5">
+									</p:inputText>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgEstFecRec" value="Fecha Recepción" />
+							<p:panelGrid columns="1">
+								<p:calendar id="EstFecRec" showOn="button" navigator="true"
+									binding="#{estudiosView.txtEstFecRec}" pattern="dd/MM/yyyy"
+									mask="true" />
+							</p:panelGrid>
+
+							<h:outputText id="msgRevNro" value="Número Revelado" />
+							<p:panelGrid columns="6" id="idPanelRevelado">
+								<p:panelGrid>
+									<p:inputText id="txtRevNro" binding="#{estudiosView.txtRevNro}" />
+									<p:commandLink
+										update=":formDialogEstudio:CBPReveladoEstudioTabla:dialogReveladoEstudioTabla"
+										actionListener="#{estudiosView.consultarRevelado}"
+										oncomplete="PF('busquedaReveladoEstudioSingle').show();"
+										title="Búsqueda..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:commandLink
+										update=":formDialogEstudio:CBPReveladoEstudioTabla:dialogReveladoEstudioTabla, :formDialogEstudio:txtRevNro, :formDialogEstudio:fechaNumRevelado"
+										actionListener="#{estudiosView.limpiarControlBusquedaRevelado}"
+										title="Limpiar..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+
+								<h:outputText id="msgFechaRev" value="Fecha Revelado" />
+								<p:calendar id="fechaNumRevelado" showOn="button"
+									navigator="true" binding="#{estudiosView.fechaNumRevelado}"
+									pattern="dd/MM/yyyy" mask="true"
+									disabled="#{estudiosView.disableBotonesBusqueda}" />
+
+								<h:outputText id="msgEstMesAct" value="Mes Actual" />
+								<p:inputText id="txtEstMesAct"
+									binding="#{estudiosView.txtEstMesAct}" size="5" />
+							</p:panelGrid>
+
+							<h:outputText id="msgEstDos" value="Dosis" />
+							<p:panelGrid columns="1">
+								<p:spinner id="txtEstDos" binding="#{estudiosView.txtEstDos}"
+									size="5" stepFactor="0.01"/>
+							</p:panelGrid>
+
+							<h:outputText id="msgObsCod" value="Observación" />
+							<p:panelGrid columns="2" id="idPanelObservacion">
+								<p:panelGrid>
+									<p:inputText binding="#{estudiosView.txtObsCod}" id="txtObsCod"
+										size="10" disabled="#{estudiosView.disableBotonesBusqueda}">
+										<p:ajax event="change"
+											listener="#{estudiosView.consultarObservacion}" />
+									</p:inputText>
+									<p:commandLink
+										update=":formDialogEstudio:CBPObservaEstudioTabla:dialogObservaEstudioTabla,"
+										actionListener="#{estudiosView.consultarObservacion}"
+										oncomplete="PF('busquedaObservaEstudioSingle').show();"
+										title="Búsqueda..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/buscar.png"
+											style="vertical-align: middle; width:25px;" />
+									</p:commandLink>
+									<p:inputText binding="#{estudiosView.obsDescripcion}"
+										id="txtObsDescripcion" style="width:260px"
+										disabled="#{estudiosView.disableBotonesBusqueda}" />
+									<p:commandLink
+										update=":formDialogEstudio:CBPObservaEstudioTabla:dialogObservaEstudioTabla, :formDialogEstudio:txtObsCod, :formDialogEstudio:txtObsDescripcion"
+										actionListener="#{estudiosView.limpiarControlBusquedaObservacion}"
+										title="Limpiar..."
+										disabled="#{estudiosView.disableBotonesBusqueda}">
+										<h:graphicImage value="../images/limpiar.png"
+											style="vertical-align: middle; width:21px;" />
+									</p:commandLink>
+								</p:panelGrid>
+							</p:panelGrid>
+
+							<h:outputText id="msgEstRec" value="Estado" />
+							<p:panelGrid columns="1">
+								<p:selectOneMenu id="estado" value="#{estudiosView.txtEstRec}"
+									binding="#{estudiosView.cbOpcionEstado}"
+									disabled="#{estudiosView.disableBotonesBusqueda}">
+									<f:selectItem itemLabel="Activo" itemValue="A" />
+									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+									<f:selectItem itemLabel="Suspendida" itemValue="S" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+						</h:panelGrid>
+					</p:panel>
+
+					<p:dialog id="idDiaglogCrearRevelado" header="Revelado"
+						widgetVar="widgetVarDialogRevelado" styleClass="form"
+						closable="false" closeOnEscape="true" height="200" width="800"
+						resizable="false" showEffect="explode" hideEffect="explode"
+						modal="true">
+						
+						<p:remoteCommand name="executeRevelados"
+						listener="#{estudiosView.consultarRevelado}"
+						update=":formDialogEstudio:CBPReveladoEstudioTabla:tableReveladoEstudioTabla" />
+
+						<p:panel id="panelRevelado">
+							<!-- panel para el toolbar -->
+							<p:toolbar id="panelBotonesRevelados">
+								<p:toolbarGroup align="left">
+									<p:separator />
+									<p:commandButton id="btnSaveRevelado" value="Guardar"
+										icon="ui-icon-document" action="#{reveladoView.action_save}"
+										update="formDialogEstudio:idDiaglogCrearRevelado" onstart="executeRevelados()">
+									</p:commandButton>
+									<p:separator />
+									<p:commandButton id="btnCerrar" value="Cerrar"
+										icon="ui-icon-close"
+										onclick="PF('widgetVarDialogRevelado').hide();">
+									</p:commandButton>
+								</p:toolbarGroup>
+							</p:toolbar>
+
+							<br />
+
+							<h:panelGrid columns="2" id="panelGridRevelados">
+								<h:outputText id="msgRevNroCrear" value="Numero de Revelado" />
+								<p:panelGrid columns="1">
+									<p:inputText id="txtRevNroCrear" size="5"
+										binding="#{reveladoView.txtRevNro}" />
+								</p:panelGrid>
+
+								<h:outputText id="msgRevFec" value="Fecha de Revelado" />
+								<p:panelGrid columns="1">
+									<p:calendar id="txtRevFec" showOn="button" navigator="true"
+										binding="#{reveladoView.txtRevFec}" pattern="dd/MM/yyyy"
+										mask="true" />
+								</p:panelGrid>
+
+								<h:outputText id="msgRevDes" value="Descripción Revelado" />
+								<p:panelGrid columns="1">
+									<p:inputText id="txtRevDes" size="70"
+										binding="#{reveladoView.txtRevDes}" />
+								</p:panelGrid>
+							</h:panelGrid>
+						</p:panel>
+					</p:dialog>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
