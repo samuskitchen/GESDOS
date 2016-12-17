@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="formatoAspromedicaDosimetria" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="629eab0a-23e0-418c-9fc0-e398b8957a7f">
+	<property name="ireport.zoom" value="1.0000000000000036"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetAspromedica" uuid="72c64a7a-f3d3-4824-a7e1-de2b2244591e">
+		<group name="pageBreakGroup" isStartNewPage="true">
+			<groupExpression><![CDATA[(int)($V{PAGE_COUNT} - 1)/19]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="ListAspromedica" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="77" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle" isUsingCache="true">
+				<reportElement x="0" y="0" width="83" height="72" uuid="7843ba66-2617-4f6a-9687-408d7c6e8016"/>
+				<imageExpression><![CDATA["reportes/images/logo_excel.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="83" y="0" width="243" height="30" uuid="480c3a77-134a-44bc-903d-6b7a9e321914"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASPROMEDICA ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="30" width="243" height="10" uuid="8ef79fcd-e252-4afa-87f9-7c7b844e21e6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="7"/>
+				</textElement>
+				<text><![CDATA[NIT: 890306010-8 , Licencia Ministerio de Minas y Energía No. 006, 11-feb-2007
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="40" width="243" height="20" uuid="0cc5ce49-a0ff-4557-8bbe-291b63f2a77f"/>
+				<textElement>
+					<font fontName="Arial" size="5"/>
+				</textElement>
+				<text><![CDATA[Carrera 43 No 5C - 82 Cali - Colombia  S.A.        Teléfonos (572)  5532444 - celular 315 5536235
+E-mail: germanio44@hotmail.com
+Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROMEDICA
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="60" width="243" height="11" uuid="6f1e1f6f-53c4-4cdd-84e3-cef6c15c29b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE DOSIMETRÍA  -  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="15" width="107" height="11" uuid="0ffb151c-7bfe-4cbc-8e40-5d3a5640643a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[No. de cuenta ó clave]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="26" width="107" height="12" uuid="533708ca-ffc3-40b6-a483-afdd6666a3d9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[NIT Entidad Usuaria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="38" width="107" height="12" uuid="2248305e-7b13-4341-aa66-106db4ea3582"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Municipio / Ciudad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="50" width="107" height="11" uuid="60b3b8be-5c2c-4fd2-a60d-4b4933decff2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Persona Contacto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="61" width="107" height="11" uuid="2af07bf7-1fd4-4ad0-8fdb-da9846130f3d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cargo del contacto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="478" y="15" width="100" height="11" uuid="6af4424e-9580-4c81-81cd-16c619c047b6"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="26" width="100" height="12" uuid="f13f434c-8c9e-4e19-9495-1c27ee13ae00"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="38" width="100" height="12" uuid="02d70ade-c6d1-47ee-8fc9-bd362d60c658"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="50" width="100" height="11" uuid="0adf282b-068e-4e90-b796-b66315151892"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="61" width="100" height="11" uuid="e0ff3e2c-d120-4237-aecc-ef8d482a384a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="588" y="15" width="80" height="11" uuid="506939cd-c911-49db-a2e8-a9678114f990"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha recibo dosím.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="588" y="26" width="80" height="12" uuid="c2eee8b7-8b17-4b1e-879d-183379bd3d09"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha del reporte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="588" y="38" width="80" height="33" uuid="265d32f5-da49-483b-b257-2d289c94ee62"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[German Ramirez,  MSc   Fisico-Medico.        Lic.  MINPROTECCION      1150  de  2006]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="668" y="15" width="82" height="11" uuid="459b7005-bc9c-479d-8bb0-00354a88334c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="668" y="26" width="82" height="12" uuid="3e5475a6-b9d6-4acb-98b5-3dc7ef8f067e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="668" y="60" width="82" height="11" uuid="fa9a55bb-9e8b-41a7-b19c-42b20ed4dbd2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["German Ramirez C, MSc "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="668" y="38" width="82" height="22" uuid="7fd16b71-5b76-43b6-a292-4fa557d03b50"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="0" width="752" height="125" uuid="71efbcc0-dd27-49cc-a9a2-7f932907ed25"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetAspromedica" uuid="0af2d05d-43c1-4220-99a2-3e30cafd3dd0">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{ListAspromedica})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="28" uuid="21f6cd9e-453a-4843-b01a-53ed9351ed8a">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="28" height="87" uuid="8cd69cd7-c195-4e32-94a6-2e00d2b8bfe4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Código]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90" uuid="9803356d-efa4-4a26-a8c2-72972b8bf5cf">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="87" uuid="878e6874-805c-4627-a290-38ee38849595"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Apellidos]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90" uuid="8d6cd973-2a59-4213-87c1-6a3feaedc268">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="87" uuid="da46f30c-eb70-4fc8-afb1-733775e21816"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Nombres]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="30" uuid="036e860c-315a-4922-894e-43f5401a202e">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="30" height="87" uuid="dac7fb8a-8376-4d0a-b2d5-ca01cf58f15d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Género]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="28" uuid="3bc02bd3-1fa6-4fab-9c5b-927b5848940f">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="28" height="87" uuid="d5980e7a-3b52-4279-a468-e01f25cbc33c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Ocupación]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="50" uuid="de3906b5-39b5-4e43-b241-e895f2d2188a">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="87" uuid="5e14213a-0a07-4d29-8595-a17da7ff07bf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Documento de Identidad]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="45" uuid="1f1682ec-0054-4a95-9487-f3fd91f2e2d5">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="45" height="87" uuid="912c07d3-b26c-4664-84e4-62037a304629"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Fecha de Ingreso al Servicio]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:columnGroup width="70" uuid="6368687f-b6ff-4569-bdc9-d5bbdbd26560">
+						<jr:columnGroup width="70" uuid="bb8c4294-0925-4642-a790-02218adc84cb">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="70" height="30" uuid="11da3812-d852-48c5-b53f-1d97c8540f2d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial Narrow" size="10"/>
+									</textElement>
+									<text><![CDATA[Periodo de uso
+del dosímetro]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:column width="35" uuid="829f2f97-a821-4640-882e-9c100e097f7e">
+								<jr:tableHeader style="table_TH" height="57" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="35" height="57" uuid="2930bcdf-30e1-4861-8f19-b224aa517c1b"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial Narrow" size="9"/>
+										</textElement>
+										<text><![CDATA[Primer día]]></text>
+									</staticText>
+								</jr:tableHeader>
+								<jr:detailCell height="30" rowSpan="1"/>
+							</jr:column>
+							<jr:column width="35" uuid="ab372f76-6a98-4316-9e79-59c30a6807d4">
+								<jr:tableHeader style="table_TH" height="57" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="35" height="57" uuid="30c66b53-64c9-4f79-aa6e-9871ac207558"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial Narrow" size="9"/>
+										</textElement>
+										<text><![CDATA[Último día]]></text>
+									</staticText>
+								</jr:tableHeader>
+								<jr:detailCell height="30" rowSpan="1"/>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:columnGroup>
+					<jr:column width="36" uuid="3280ed66-1a61-4796-9ad2-e3d2caab8fec">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="36" height="87" uuid="0cfe8e29-baf2-4051-9340-13da5698fdf7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Periodo de recambio]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="48" uuid="94009881-21dc-4866-b160-ebfc3fcc94c2">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="48" height="87" uuid="e025ca10-be44-4f0f-9c85-c808a9829b5e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Ubicación del dosímetro]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="39" uuid="98e59587-342b-4f8d-8055-c1b76c8d19df">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="39" height="87" uuid="e8d65b5e-7d3f-402a-8d5b-652cea2a514c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Energía ó calidad de radiación]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="53" uuid="544dcaaf-36af-4866-9e5a-8483ebf30335">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="53" height="70" uuid="1179c4e7-754c-4e35-8592-5a634be9a8a3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Dosis del Periodo (mSv)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="69" width="53" height="18" uuid="e3892912-9117-4acb-9f4e-6ea7623434ad"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Hp(10)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="56" uuid="f3dce54d-4e77-4644-bb4e-d7ce2b1f5ff6">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="56" height="70" uuid="a84d5e54-75df-412b-aae6-0840d7be2a54"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Dosis acumulada en lo transcurrido del año (mSv)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="69" width="56" height="18" uuid="a8f9b9d1-52d0-4f8f-8e10-e14a30342b17"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="10"/>
+								</textElement>
+								<text><![CDATA[Hp(10)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="56" uuid="1ad87716-1d14-459d-9a86-9997cad52f69">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="56" height="70" uuid="e77a5390-32d1-4495-95b0-8ee451228a68"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+								</textElement>
+								<text><![CDATA[Dosis Acumulada desde el Ingreso (mSv)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="69" width="56" height="18" uuid="f67b0c9a-e5e2-4280-8bdd-4cbde8d40204"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow"/>
+								</textElement>
+								<text><![CDATA[Hp(10)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="28" uuid="a9dbb4a0-5b08-4480-bb06-99e5df770f65">
+						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+							<staticText>
+								<reportElement x="0" y="0" width="28" height="87" uuid="e1fdb4dd-f472-46ee-a5b5-47ea97cd2380"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="Arial Narrow"/>
+								</textElement>
+								<text><![CDATA[notas]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="126" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="15" uuid="19bd9adb-961a-4648-9c5f-a7ca629b4a83"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nomenclatura:  ND=No Detectable, NP=No Presentado, DNL=Dosímetro No Legible, DCNE=Dosímetro Control No Evaluable, VA=Vacaciones, LI=Licencia, NO=Normal, ED=Exposicion Directa, IN=Investigar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="478" height="37" uuid="010af4a9-3baf-4cc1-aa96-72cb287ae321"/>
+				<box rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[[1]  Un dosimetro reportado con ND=No Detectable, significa que la lectura está entre cero y el nivel de detección (0.05 mSv).
+[2]  Un dosimetro reportado con NO=Normal, implica que la dosis es menor de 1,67mSv (Dosis maxima permisible por mes)
+[3]  Un dosímetro puede ser no legible = DNL,  por deterioro de los materiales portadores de los elementos sensibles a la radiación. (pej. Humedad)
+[4]  Dosimetro con exposicion directa ED, implica fue expuesto directamente al haz de radiacion. Situacion que puede ser intencional o por mala
+    ubicación en la sala de examen, quedando el dosimetro fuera del delantal plomado y expuesto al haz de radiacion primario. Se debe investigar.               ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="498" y="21" width="254" height="10" uuid="fd5b0488-5da8-4bee-a0af-8fe4ad634308"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Una Nota Importante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="498" y="30" width="254" height="27" uuid="a50180f8-760f-4cc9-b398-1700d7b25b41"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="6"/>
+				</textElement>
+				<text><![CDATA[La razón por la cual la ICRP=Comisión Internacional de Protección Radiológica, recomienda que el límite de dosis para Trabajadores Ocupacionalmente Expuestos sea de 20 mSv/año obedece a estimar que la vida laboral de una persona es de 50 años y que en toda la vida debe recibirse como máximo una dosis de 1.0 Sievert. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="69" width="752" height="10" uuid="b0623d26-e88e-4aac-8db3-d3b19293d6d0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información de interés general:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="79" width="371" height="45" uuid="d97fbdd6-c1f7-4565-be33-b811b930a3dd"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial Narrow" size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[*   Hp(d), es la dosis equivalente personal a la profundidad indicada en milímetros.  Así: Hp(10) estima la dosis en tejido profundo
+*   Los dosímetros de anillo y brazalete tienen aplicación en prácticas donde el usuario manipula los materiales radiactivos.
+*   Los dosímetros de control, tienen por objeto la verificación de irradiaciones incidentales o accidentales durante el transporte
+    y/o lugar de almacenamiento mientras es retornado para lectura.  No deben utilizarse o ser asignados a usuario alguno.
+*   La OMS y la IAEA recomiendan usar el dosimetro debajo del delantal plomado para evaluar la dosis en los organos mas sensibles a la
+    radiación ubicados en el tronco, el cual debe estar protegido por el delantal plomado. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="79" width="381" height="45" uuid="f5e5aade-5475-4fa0-aba6-f49ebea65134"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial Narrow" size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[*   Dosis superiores a 1.67 mSv/mes (Dosis maxima permisible/mes) debe ser investigada y documentada al interior de la  instalación. Tal
+    registro, es una señal de alerta indicadora de la posibilidad de sobrepasar el límite anual, o indicadora de la necesidad de optimizar la práctica.
+*   Toda dosis que supere el valor de 12.0 mSv/mes debe ser inmediatamente reportada a la Autoridad Reguladora, con el fin de emprender
+    acciones que reduzcan o eviten la exposición o la probabilidad de exposición.
+*   La periodicidad de recambio de los dosímetros, reviste importancia ante la necesidad de investigar registros de dosis fuera de los
+    rangos recomendados, ante un incidente, un accidente o una situación de emergencia.  ]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
