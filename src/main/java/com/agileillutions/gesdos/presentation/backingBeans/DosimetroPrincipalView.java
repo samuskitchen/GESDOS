@@ -72,6 +72,7 @@ public class DosimetroPrincipalView implements Serializable {
 
 	private InputText txtAnioDosimetroDiag;
 	private InputText txtMesDosimetroDiag;
+	private InputText txtConCodTablaDiag;
 
 	public DosimetroPrincipalView() {
 		super();
@@ -98,6 +99,7 @@ public class DosimetroPrincipalView implements Serializable {
 			txtTraCed = new InputText();
 			txtAnioDosimetroDiag = new InputText();
 			txtMesDosimetroDiag = new InputText();
+			txtConCodTablaDiag = new InputText();
 
 			fechaRecepcion = new Calendar();
 			txtAnioDosimetro = new InputText();
@@ -112,6 +114,7 @@ public class DosimetroPrincipalView implements Serializable {
 			String codTrabajador = requestParameterMap.get("codTrabajador");
 			String anioDosimetro = requestParameterMap.get("anioDosimetro");
 			String mesDosimetro = requestParameterMap.get("mesDosimetro");
+			String codContrato = requestParameterMap.get("codContrato"); 
 			String tipo = requestParameterMap.get("tipo");
 
 			if (null != tipo && tipo.equals("0")) {
@@ -120,6 +123,7 @@ public class DosimetroPrincipalView implements Serializable {
 				txtTraCed.setValue(codTrabajador);
 				txtAnioDosimetroDiag.setValue(anioDosimetro);
 				txtMesDosimetroDiag.setValue(mesDosimetro);
+				txtConCodTablaDiag.setValue(codContrato);
 
 				List<DosimetroDTO> dosimetroDTOs = businessDelegatorView
 						.getDataDosimetroPrincipal(Long.valueOf(codEmpresa), null);
@@ -516,6 +520,7 @@ public class DosimetroPrincipalView implements Serializable {
 		String codEmpresa = "";
 		String codTrabajador = "";
 		String codDosimetro = "";
+		String codContrato = "";
 		String anioDosimetro = "";
 		String mesDosimetro = "";
 
@@ -523,6 +528,7 @@ public class DosimetroPrincipalView implements Serializable {
 			codEmpresa = selectedDosimetro.getEmpCod().toString();
 			codTrabajador = selectedDosimetro.getTraCed().toString();
 			codDosimetro = selectedDosimetro.getDosCod().toString();
+			codContrato = selectedDosimetro.getCodContrato().toString();
 			
 			if(null != selectedDosimetro.getAnioEstudio()){
 				anioDosimetro = selectedDosimetro.getAnioEstudio().toString();
@@ -545,10 +551,13 @@ public class DosimetroPrincipalView implements Serializable {
 
 		List<String> lstParamDosimetro = new ArrayList<String>();
 		lstParamDosimetro.add(codDosimetro);
+		
+		List<String> lstParamContrato = new ArrayList<String>();
+		lstParamContrato.add(codContrato);
 
 		List<String> lstParamAnio = new ArrayList<String>();
 		lstParamAnio.add(anioDosimetro);
-
+		
 		List<String> lstParamMes = new ArrayList<String>();
 		lstParamMes.add(mesDosimetro);
 
@@ -559,6 +568,7 @@ public class DosimetroPrincipalView implements Serializable {
 		params.put("codEmpresa", lstParamEmpresa);
 		params.put("codTrabajador", lstParamTrabajador);
 		params.put("codDosimetro", lstParamDosimetro);
+		params.put("codContrato", lstParamContrato);
 		params.put("anioDosimetro", lstParamAnio);
 		params.put("mesDosimetro", lstParamMes);
 		params.put("tipo", lstParamTipo);
@@ -723,6 +733,52 @@ public class DosimetroPrincipalView implements Serializable {
 		RequestContext.getCurrentInstance().openDialog("/XHTML/diagEstudios.xhtml",
 				options, params);
 	}
+	
+	/**
+	 * 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 17/12/2016
+	 * @description
+	 * @param bandera
+	 */
+	public void cargarContratosDialog(String bandera) {
+
+		Map<String, Object> options = new HashMap<String, Object>();
+
+		options.put("contentWidth", "'100%'");
+		options.put("contentheight", 700);
+		options.put("width", "'100%'");
+		options.put("height", 700);
+		options.put("position", "top");
+		options.put("modal", true);
+		options.put("draggable", false);
+		options.put("resizable", false);
+		options.put("closeOnEscape", true);
+		options.put("dynamic", false);
+
+		String codEmpresa = "";
+		String codContrato = "";
+		
+		codEmpresa = txtEmpCodTablaDiag.getValue().toString();
+		codContrato = txtConCodTablaDiag.getValue().toString();
+
+		List<String> lstParamEmpresa = new ArrayList<String>();
+		lstParamEmpresa.add(codEmpresa);
+		
+		List<String> lstParamContrato = new ArrayList<String>();
+		lstParamContrato.add(codContrato);
+
+		List<String> lstParamTipo = new ArrayList<String>();
+		lstParamTipo.add(bandera);
+
+		Map<String, List<String>> params = new HashMap<String, List<String>>();
+		params.put("codEmpresa", lstParamEmpresa);
+		params.put("codContrato", lstParamContrato);
+		params.put("tipo", lstParamTipo);
+
+		RequestContext.getCurrentInstance().openDialog("/XHTML/diagContratos.xhtml", options, params);
+	}
 
 	/**
 	 * 
@@ -733,6 +789,12 @@ public class DosimetroPrincipalView implements Serializable {
 	 */
 	public void actionGenerarExcel() {
 		try {
+			
+			if(null == selectedDosExcel) {
+				FacesUtils.addErrorMessage("Por favor seleccionar un dosimetro");
+				return;
+			}
+			
 			String rutaReporte = JASPERT_REPORT_BASE_PATH
 					+ FORMATO_ASPROMEDICA_DOSIMETRIA;
 
@@ -740,9 +802,19 @@ public class DosimetroPrincipalView implements Serializable {
 			ExternalContext extContext = facesContext.getExternalContext();
 
 			InputStream input = extContext.getResourceAsStream(rutaReporte);
+			
+			Long anioDosimetro = null;
+			if(null != txtAnioDosimetroDiag.getValue()){
+				anioDosimetro = Long.valueOf(txtAnioDosimetroDiag.getValue().toString());
+			}
+			
+			Long mesDosimetro = null;
+			if(null != txtMesDosimetroDiag.getValue()){
+				mesDosimetro = Long.valueOf(txtMesDosimetroDiag.getValue().toString());
+			}
 
 			ByteArrayOutputStream excel = businessDelegatorView
-					.generarArchivoAspromedica(input, selectedDosExcel);
+					.generarArchivoAspromedica(input, selectedDosExcel, anioDosimetro, mesDosimetro);
 
 			extContext.responseReset();
 			extContext.responseReset();
@@ -1264,6 +1336,24 @@ public class DosimetroPrincipalView implements Serializable {
 	 */
 	public void setTxtMesDosimetroDiag(InputText txtMesDosimetroDiag) {
 		this.txtMesDosimetroDiag = txtMesDosimetroDiag;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 18/12/2016 
+	 * @return the txtConCodTablaDiag 
+	 */
+	public InputText getTxtConCodTablaDiag() {
+		return txtConCodTablaDiag;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 18/12/2016 
+	 * @param txtConCodTablaDiag the txtConCodTablaDiag to set 
+	 */
+	public void setTxtConCodTablaDiag(InputText txtConCodTablaDiag) {
+		this.txtConCodTablaDiag = txtConCodTablaDiag;
 	}
 
 }

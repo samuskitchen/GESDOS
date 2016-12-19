@@ -73,7 +73,12 @@
 								icon="ui-icon-script"
 								action="#{dosimetroPrincipalView.cargarEstudioDialog('1')}"
 								update="msgDosi,panelBotones,:frmDiagDomisetroPrincipal:panelDataTableDosimetro" />
-							<p:separator />	
+							<p:separator />
+							<p:commandButton id="btnContrato" value="Contratos"
+								icon="ui-icon-copy"
+								action="#{dosimetroPrincipalView.cargarContratosDialog('1')}"
+								update="msgDosi,panelBotones,:frmDiagDomisetroPrincipal:panelDataTableDosimetro" />
+							<p:separator />
 							<p:commandButton id="btnImprimir" value="Imprimir"
 								icon="ui-icon-print"
 								action="#{dosimetroPrincipalView.actionGenerarExcel}" ajax="false"

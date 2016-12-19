@@ -34,6 +34,8 @@ public class DosimetroDTO implements Serializable {
     
     private Long anioEstudio;
     private Long mesEstudio;
+    
+    private Long codContrato;
 
     public String getCarCod() {
         return carCod;
@@ -237,5 +239,23 @@ public class DosimetroDTO implements Serializable {
 	 */
 	public void setMesEstudio(Long mesEstudio) {
 		this.mesEstudio = mesEstudio;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 18/12/2016 
+	 * @return the codContrato 
+	 */
+	public Long getCodContrato() {
+		return codContrato;
+	}
+
+	/** 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @date 18/12/2016 
+	 * @param codContrato the codContrato to set 
+	 */
+	public void setCodContrato(Long codContrato) {
+		this.codContrato = codContrato;
 	}
 }

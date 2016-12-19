@@ -89,10 +89,12 @@ public interface IBusinessDelegatorView {
 
 	public Cargo getCargo(String carCod) throws Exception;
 
-	public List<Cargo> findByCriteriaInCargo(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Cargo> findByCriteriaInCargo(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Cargo> findPageCargo(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Cargo> findPageCargo(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberCargo() throws Exception;
@@ -109,10 +111,12 @@ public interface IBusinessDelegatorView {
 
 	public Ciuda getCiuda(CiudaId id) throws Exception;
 
-	public List<Ciuda> findByCriteriaInCiuda(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Ciuda> findByCriteriaInCiuda(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Ciuda> findPageCiuda(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Ciuda> findPageCiuda(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberCiuda() throws Exception;
@@ -121,23 +125,30 @@ public interface IBusinessDelegatorView {
 
 	public List<ContratoDosimetro> getContratoDosimetro() throws Exception;
 
-	public void saveContratoDosimetro(ContratoDosimetro entity) throws Exception;
+	public void saveContratoDosimetro(ContratoDosimetro entity)
+			throws Exception;
 
-	public void deleteContratoDosimetro(ContratoDosimetro entity) throws Exception;
+	public void deleteContratoDosimetro(ContratoDosimetro entity)
+			throws Exception;
 
-	public void updateContratoDosimetro(ContratoDosimetro entity) throws Exception;
+	public void updateContratoDosimetro(ContratoDosimetro entity)
+			throws Exception;
 
-	public ContratoDosimetro getContratoDosimetro(Long conDosi) throws Exception;
+	public ContratoDosimetro getContratoDosimetro(Long conDosi)
+			throws Exception;
 
-	public List<ContratoDosimetro> findByCriteriaInContratoDosimetro(Object[] variables, Object[] variablesBetween,
+	public List<ContratoDosimetro> findByCriteriaInContratoDosimetro(
+			Object[] variables, Object[] variablesBetween,
 			Object[] variablesBetweenDates) throws Exception;
 
-	public List<ContratoDosimetro> findPageContratoDosimetro(String sortColumnName, boolean sortAscending, int startRow,
+	public List<ContratoDosimetro> findPageContratoDosimetro(
+			String sortColumnName, boolean sortAscending, int startRow,
 			int maxResults) throws Exception;
 
 	public Long findTotalNumberContratoDosimetro() throws Exception;
 
-	public List<ContratoDosimetroDTO> getDataContratoDosimetro() throws Exception;
+	public List<ContratoDosimetroDTO> getDataContratoDosimetro()
+			throws Exception;
 
 	public List<Contratos> getContratos() throws Exception;
 
@@ -149,10 +160,12 @@ public interface IBusinessDelegatorView {
 
 	public Contratos getContratos(ContratosId id) throws Exception;
 
-	public List<Contratos> findByCriteriaInContratos(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Contratos> findByCriteriaInContratos(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Contratos> findPageContratos(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Contratos> findPageContratos(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberContratos() throws Exception;
@@ -169,10 +182,12 @@ public interface IBusinessDelegatorView {
 
 	public Depar getDepar(Long depCod) throws Exception;
 
-	public List<Depar> findByCriteriaInDepar(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Depar> findByCriteriaInDepar(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Depar> findPageDepar(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Depar> findPageDepar(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberDepar() throws Exception;
@@ -187,13 +202,16 @@ public interface IBusinessDelegatorView {
 
 	public void updateDetalleContrato(DetalleContrato entity) throws Exception;
 
-	public DetalleContrato getDetalleContrato(DetalleContratoId id) throws Exception;
+	public DetalleContrato getDetalleContrato(DetalleContratoId id)
+			throws Exception;
 
-	public List<DetalleContrato> findByCriteriaInDetalleContrato(Object[] variables, Object[] variablesBetween,
+	public List<DetalleContrato> findByCriteriaInDetalleContrato(
+			Object[] variables, Object[] variablesBetween,
 			Object[] variablesBetweenDates) throws Exception;
 
-	public List<DetalleContrato> findPageDetalleContrato(String sortColumnName, boolean sortAscending, int startRow,
-			int maxResults) throws Exception;
+	public List<DetalleContrato> findPageDetalleContrato(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
+			throws Exception;
 
 	public Long findTotalNumberDetalleContrato() throws Exception;
 
@@ -209,10 +227,12 @@ public interface IBusinessDelegatorView {
 
 	public Dosimetro getDosimetro(DosimetroId id) throws Exception;
 
-	public List<Dosimetro> findByCriteriaInDosimetro(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Dosimetro> findByCriteriaInDosimetro(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Dosimetro> findPageDosimetro(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Dosimetro> findPageDosimetro(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberDosimetro() throws Exception;
@@ -229,10 +249,12 @@ public interface IBusinessDelegatorView {
 
 	public Empresas getEmpresas(Long empCod) throws Exception;
 
-	public List<Empresas> findByCriteriaInEmpresas(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Empresas> findByCriteriaInEmpresas(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Empresas> findPageEmpresas(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Empresas> findPageEmpresas(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberEmpresas() throws Exception;
@@ -249,10 +271,12 @@ public interface IBusinessDelegatorView {
 
 	public Estudios getEstudios(EstudiosId id) throws Exception;
 
-	public List<Estudios> findByCriteriaInEstudios(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Estudios> findByCriteriaInEstudios(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Estudios> findPageEstudios(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Estudios> findPageEstudios(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberEstudios() throws Exception;
@@ -269,10 +293,12 @@ public interface IBusinessDelegatorView {
 
 	public Factura getFactura(FacturaId id) throws Exception;
 
-	public List<Factura> findByCriteriaInFactura(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Factura> findByCriteriaInFactura(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Factura> findPageFactura(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Factura> findPageFactura(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberFactura() throws Exception;
@@ -289,11 +315,13 @@ public interface IBusinessDelegatorView {
 
 	public Facturapago getFacturapago(FacturapagoId id) throws Exception;
 
-	public List<Facturapago> findByCriteriaInFacturapago(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Facturapago> findByCriteriaInFacturapago(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Facturapago> findPageFacturapago(String sortColumnName, boolean sortAscending, int startRow,
-			int maxResults) throws Exception;
+	public List<Facturapago> findPageFacturapago(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
+			throws Exception;
 
 	public Long findTotalNumberFacturapago() throws Exception;
 
@@ -309,10 +337,12 @@ public interface IBusinessDelegatorView {
 
 	public Geominas getGeominas(String geoCod) throws Exception;
 
-	public List<Geominas> findByCriteriaInGeominas(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Geominas> findByCriteriaInGeominas(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Geominas> findPageGeominas(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Geominas> findPageGeominas(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberGeominas() throws Exception;
@@ -329,10 +359,12 @@ public interface IBusinessDelegatorView {
 
 	public Grupdet getGrupdet(GrupdetId id) throws Exception;
 
-	public List<Grupdet> findByCriteriaInGrupdet(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Grupdet> findByCriteriaInGrupdet(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Grupdet> findPageGrupdet(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Grupdet> findPageGrupdet(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberGrupdet() throws Exception;
@@ -349,10 +381,12 @@ public interface IBusinessDelegatorView {
 
 	public Grupos getGrupos(String grupCodigo) throws Exception;
 
-	public List<Grupos> findByCriteriaInGrupos(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Grupos> findByCriteriaInGrupos(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Grupos> findPageGrupos(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Grupos> findPageGrupos(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberGrupos() throws Exception;
@@ -369,10 +403,12 @@ public interface IBusinessDelegatorView {
 
 	public Numer getNumer(Long numCod) throws Exception;
 
-	public List<Numer> findByCriteriaInNumer(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Numer> findByCriteriaInNumer(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Numer> findPageNumer(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Numer> findPageNumer(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberNumer() throws Exception;
@@ -389,10 +425,12 @@ public interface IBusinessDelegatorView {
 
 	public Observa getObserva(String obsCod) throws Exception;
 
-	public List<Observa> findByCriteriaInObserva(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Observa> findByCriteriaInObserva(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Observa> findPageObserva(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Observa> findPageObserva(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberObserva() throws Exception;
@@ -409,10 +447,12 @@ public interface IBusinessDelegatorView {
 
 	public Permisos getPermisos(PermisosId id) throws Exception;
 
-	public List<Permisos> findByCriteriaInPermisos(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Permisos> findByCriteriaInPermisos(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Permisos> findPagePermisos(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Permisos> findPagePermisos(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberPermisos() throws Exception;
@@ -429,10 +469,12 @@ public interface IBusinessDelegatorView {
 
 	public Practica getPractica(String praCod) throws Exception;
 
-	public List<Practica> findByCriteriaInPractica(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Practica> findByCriteriaInPractica(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Practica> findPagePractica(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Practica> findPagePractica(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberPractica() throws Exception;
@@ -449,10 +491,12 @@ public interface IBusinessDelegatorView {
 
 	public Programa1 getPrograma1(Programa1Id id) throws Exception;
 
-	public List<Programa1> findByCriteriaInPrograma1(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Programa1> findByCriteriaInPrograma1(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Programa1> findPagePrograma1(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Programa1> findPagePrograma1(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberPrograma1() throws Exception;
@@ -469,10 +513,12 @@ public interface IBusinessDelegatorView {
 
 	public Programas getProgramas(String progCodigo) throws Exception;
 
-	public List<Programas> findByCriteriaInProgramas(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Programas> findByCriteriaInProgramas(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Programas> findPageProgramas(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Programas> findPageProgramas(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberProgramas() throws Exception;
@@ -489,10 +535,12 @@ public interface IBusinessDelegatorView {
 
 	public Radiacion getRadiacion(String radCod) throws Exception;
 
-	public List<Radiacion> findByCriteriaInRadiacion(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Radiacion> findByCriteriaInRadiacion(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Radiacion> findPageRadiacion(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Radiacion> findPageRadiacion(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberRadiacion() throws Exception;
@@ -509,10 +557,12 @@ public interface IBusinessDelegatorView {
 
 	public Revelado getRevelado(Long revNro) throws Exception;
 
-	public List<Revelado> findByCriteriaInRevelado(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Revelado> findByCriteriaInRevelado(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Revelado> findPageRevelado(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Revelado> findPageRevelado(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberRevelado() throws Exception;
@@ -529,10 +579,12 @@ public interface IBusinessDelegatorView {
 
 	public Socios getSocios(String socCod) throws Exception;
 
-	public List<Socios> findByCriteriaInSocios(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Socios> findByCriteriaInSocios(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Socios> findPageSocios(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Socios> findPageSocios(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberSocios() throws Exception;
@@ -549,10 +601,12 @@ public interface IBusinessDelegatorView {
 
 	public Traba getTraba(Long traCed) throws Exception;
 
-	public List<Traba> findByCriteriaInTraba(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Traba> findByCriteriaInTraba(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Traba> findPageTraba(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Traba> findPageTraba(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberTraba() throws Exception;
@@ -569,10 +623,12 @@ public interface IBusinessDelegatorView {
 
 	public Ubicacion getUbicacion(String ubiCod) throws Exception;
 
-	public List<Ubicacion> findByCriteriaInUbicacion(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Ubicacion> findByCriteriaInUbicacion(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Ubicacion> findPageUbicacion(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Ubicacion> findPageUbicacion(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberUbicacion() throws Exception;
@@ -589,10 +645,12 @@ public interface IBusinessDelegatorView {
 
 	public Usuarios getUsuarios(String usuaCodigo) throws Exception;
 
-	public List<Usuarios> findByCriteriaInUsuarios(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception;
+	public List<Usuarios> findByCriteriaInUsuarios(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception;
 
-	public List<Usuarios> findPageUsuarios(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Usuarios> findPageUsuarios(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception;
 
 	public Long findTotalNumberUsuarios() throws Exception;
@@ -622,7 +680,8 @@ public interface IBusinessDelegatorView {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id) throws Exception;
+	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id)
+			throws Exception;
 
 	/**
 	 * 
@@ -636,7 +695,8 @@ public interface IBusinessDelegatorView {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp, Long idTraba, Long idDosi) throws Exception;
+	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp,
+			Long idTraba, Long idDosi) throws Exception;
 
 	/**
 	 * 
@@ -648,7 +708,8 @@ public interface IBusinessDelegatorView {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa, Long idTrabajador) throws Exception;
+	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa,
+			Long idTrabajador) throws Exception;
 
 	/**
 	 * 
@@ -661,13 +722,15 @@ public interface IBusinessDelegatorView {
 	 * @return
 	 * @throws Exception
 	 */
-	public DosimetroDTO getDataDosimetroUltimo(Long idEmpresa, Long idTrabajador) throws Exception;
+	public DosimetroDTO getDataDosimetroUltimo(Long idEmpresa, Long idTrabajador)
+			throws Exception;
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 10/12/2016
-	 * @description 
+	 * @description
 	 * @param input
 	 * @param selectedDosExcel
 	 * @return
@@ -676,41 +739,49 @@ public interface IBusinessDelegatorView {
 	 * @throws JRException
 	 * @throws SQLException
 	 */
-	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, List<DosimetroDTO> selectedDosExcel)
-			throws AppBaseException, IOException, JRException, SQLException;
-	
+	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input,
+			List<DosimetroDTO> selectedDosExcel, Long anioDosimetro,
+			Long mesDosimetro) throws AppBaseException, IOException,
+			JRException, SQLException;
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 15/12/2016
-	 * @description 
+	 * @description
 	 * @param codEmpresa
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ContratosDTO> getDataContratosPorEmpresa(Long codEmpresa) throws Exception;
+	public List<ContratosDTO> getDataContratosPorEmpresa(Long codEmpresa)
+			throws Exception;
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 15/12/2016
-	 * @description 
+	 * @description
 	 * @param codEmpresa
 	 * @param codContrato
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa, Long codContrato) throws Exception;
+	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa,
+			Long codContrato) throws Exception;
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a> 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 17/12/2016
-	 * @description 
+	 * @description
 	 * @param codEmpresa
 	 * @param codDosimetro
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa, Long codDosimetro) throws Exception;
+	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa,
+			Long codDosimetro) throws Exception;
 }

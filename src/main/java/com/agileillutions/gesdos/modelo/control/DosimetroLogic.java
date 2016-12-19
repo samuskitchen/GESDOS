@@ -979,6 +979,8 @@ public class DosimetroLogic implements IDosimetroLogic {
 				dosimetroDTO2.setFechaInicioContrato(contratos.getConFec());
 				dosimetroDTO2.setFechaFacturacionContrato(contratos
 						.getConFecFac());
+				
+				dosimetroDTO2.setCodContrato(contratos.getId().getConNro());
 
 				Empresas empresas = new Empresas();
 				empresas = empresasDAO.findById(idEmp);

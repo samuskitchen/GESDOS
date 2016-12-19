@@ -256,14 +256,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return cargo;
 	}
 
-	public List<Cargo> findByCriteriaInCargo(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return cargoLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Cargo> findByCriteriaInCargo(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return cargoLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Cargo> findPageCargo(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Cargo> findPageCargo(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return cargoLogic.findPageCargo(sortColumnName, sortAscending, startRow, maxResults);
+		return cargoLogic.findPageCargo(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberCargo() throws Exception {
@@ -302,14 +306,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return ciuda;
 	}
 
-	public List<Ciuda> findByCriteriaInCiuda(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return ciudaLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Ciuda> findByCriteriaInCiuda(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return ciudaLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Ciuda> findPageCiuda(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Ciuda> findPageCiuda(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return ciudaLogic.findPageCiuda(sortColumnName, sortAscending, startRow, maxResults);
+		return ciudaLogic.findPageCiuda(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberCiuda() throws Exception {
@@ -324,23 +332,28 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return contratoDosimetroLogic.getContratoDosimetro();
 	}
 
-	public void saveContratoDosimetro(ContratoDosimetro entity) throws Exception {
+	public void saveContratoDosimetro(ContratoDosimetro entity)
+			throws Exception {
 		contratoDosimetroLogic.saveContratoDosimetro(entity);
 	}
 
-	public void deleteContratoDosimetro(ContratoDosimetro entity) throws Exception {
+	public void deleteContratoDosimetro(ContratoDosimetro entity)
+			throws Exception {
 		contratoDosimetroLogic.deleteContratoDosimetro(entity);
 	}
 
-	public void updateContratoDosimetro(ContratoDosimetro entity) throws Exception {
+	public void updateContratoDosimetro(ContratoDosimetro entity)
+			throws Exception {
 		contratoDosimetroLogic.updateContratoDosimetro(entity);
 	}
 
-	public ContratoDosimetro getContratoDosimetro(Long conDosi) throws Exception {
+	public ContratoDosimetro getContratoDosimetro(Long conDosi)
+			throws Exception {
 		ContratoDosimetro contratoDosimetro = null;
 
 		try {
-			contratoDosimetro = contratoDosimetroLogic.getContratoDosimetro(conDosi);
+			contratoDosimetro = contratoDosimetroLogic
+					.getContratoDosimetro(conDosi);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -348,21 +361,26 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return contratoDosimetro;
 	}
 
-	public List<ContratoDosimetro> findByCriteriaInContratoDosimetro(Object[] variables, Object[] variablesBetween,
+	public List<ContratoDosimetro> findByCriteriaInContratoDosimetro(
+			Object[] variables, Object[] variablesBetween,
 			Object[] variablesBetweenDates) throws Exception {
-		return contratoDosimetroLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+		return contratoDosimetroLogic.findByCriteria(variables,
+				variablesBetween, variablesBetweenDates);
 	}
 
-	public List<ContratoDosimetro> findPageContratoDosimetro(String sortColumnName, boolean sortAscending, int startRow,
+	public List<ContratoDosimetro> findPageContratoDosimetro(
+			String sortColumnName, boolean sortAscending, int startRow,
 			int maxResults) throws Exception {
-		return contratoDosimetroLogic.findPageContratoDosimetro(sortColumnName, sortAscending, startRow, maxResults);
+		return contratoDosimetroLogic.findPageContratoDosimetro(sortColumnName,
+				sortAscending, startRow, maxResults);
 	}
 
 	public Long findTotalNumberContratoDosimetro() throws Exception {
 		return contratoDosimetroLogic.findTotalNumberContratoDosimetro();
 	}
 
-	public List<ContratoDosimetroDTO> getDataContratoDosimetro() throws Exception {
+	public List<ContratoDosimetroDTO> getDataContratoDosimetro()
+			throws Exception {
 		return contratoDosimetroLogic.getDataContratoDosimetro();
 	}
 
@@ -394,14 +412,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return contratos;
 	}
 
-	public List<Contratos> findByCriteriaInContratos(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return contratosLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Contratos> findByCriteriaInContratos(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return contratosLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Contratos> findPageContratos(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Contratos> findPageContratos(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return contratosLogic.findPageContratos(sortColumnName, sortAscending, startRow, maxResults);
+		return contratosLogic.findPageContratos(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberContratos() throws Exception {
@@ -440,14 +462,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return depar;
 	}
 
-	public List<Depar> findByCriteriaInDepar(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return deparLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Depar> findByCriteriaInDepar(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return deparLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Depar> findPageDepar(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Depar> findPageDepar(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return deparLogic.findPageDepar(sortColumnName, sortAscending, startRow, maxResults);
+		return deparLogic.findPageDepar(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberDepar() throws Exception {
@@ -474,7 +500,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		detalleContratoLogic.updateDetalleContrato(entity);
 	}
 
-	public DetalleContrato getDetalleContrato(DetalleContratoId id) throws Exception {
+	public DetalleContrato getDetalleContrato(DetalleContratoId id)
+			throws Exception {
 		DetalleContrato detalleContrato = null;
 
 		try {
@@ -486,14 +513,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return detalleContrato;
 	}
 
-	public List<DetalleContrato> findByCriteriaInDetalleContrato(Object[] variables, Object[] variablesBetween,
+	public List<DetalleContrato> findByCriteriaInDetalleContrato(
+			Object[] variables, Object[] variablesBetween,
 			Object[] variablesBetweenDates) throws Exception {
-		return detalleContratoLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+		return detalleContratoLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<DetalleContrato> findPageDetalleContrato(String sortColumnName, boolean sortAscending, int startRow,
-			int maxResults) throws Exception {
-		return detalleContratoLogic.findPageDetalleContrato(sortColumnName, sortAscending, startRow, maxResults);
+	public List<DetalleContrato> findPageDetalleContrato(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
+			throws Exception {
+		return detalleContratoLogic.findPageDetalleContrato(sortColumnName,
+				sortAscending, startRow, maxResults);
 	}
 
 	public Long findTotalNumberDetalleContrato() throws Exception {
@@ -532,14 +563,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return dosimetro;
 	}
 
-	public List<Dosimetro> findByCriteriaInDosimetro(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return dosimetroLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Dosimetro> findByCriteriaInDosimetro(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return dosimetroLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Dosimetro> findPageDosimetro(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Dosimetro> findPageDosimetro(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return dosimetroLogic.findPageDosimetro(sortColumnName, sortAscending, startRow, maxResults);
+		return dosimetroLogic.findPageDosimetro(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberDosimetro() throws Exception {
@@ -578,14 +613,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return empresas;
 	}
 
-	public List<Empresas> findByCriteriaInEmpresas(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return empresasLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Empresas> findByCriteriaInEmpresas(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return empresasLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Empresas> findPageEmpresas(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Empresas> findPageEmpresas(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return empresasLogic.findPageEmpresas(sortColumnName, sortAscending, startRow, maxResults);
+		return empresasLogic.findPageEmpresas(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberEmpresas() throws Exception {
@@ -624,14 +663,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return estudios;
 	}
 
-	public List<Estudios> findByCriteriaInEstudios(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return estudiosLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Estudios> findByCriteriaInEstudios(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return estudiosLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Estudios> findPageEstudios(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Estudios> findPageEstudios(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return estudiosLogic.findPageEstudios(sortColumnName, sortAscending, startRow, maxResults);
+		return estudiosLogic.findPageEstudios(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberEstudios() throws Exception {
@@ -670,14 +713,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return factura;
 	}
 
-	public List<Factura> findByCriteriaInFactura(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return facturaLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Factura> findByCriteriaInFactura(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return facturaLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Factura> findPageFactura(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Factura> findPageFactura(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return facturaLogic.findPageFactura(sortColumnName, sortAscending, startRow, maxResults);
+		return facturaLogic.findPageFactura(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberFactura() throws Exception {
@@ -716,14 +763,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return facturapago;
 	}
 
-	public List<Facturapago> findByCriteriaInFacturapago(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return facturapagoLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Facturapago> findByCriteriaInFacturapago(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return facturapagoLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Facturapago> findPageFacturapago(String sortColumnName, boolean sortAscending, int startRow,
-			int maxResults) throws Exception {
-		return facturapagoLogic.findPageFacturapago(sortColumnName, sortAscending, startRow, maxResults);
+	public List<Facturapago> findPageFacturapago(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
+			throws Exception {
+		return facturapagoLogic.findPageFacturapago(sortColumnName,
+				sortAscending, startRow, maxResults);
 	}
 
 	public Long findTotalNumberFacturapago() throws Exception {
@@ -762,14 +813,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return geominas;
 	}
 
-	public List<Geominas> findByCriteriaInGeominas(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return geominasLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Geominas> findByCriteriaInGeominas(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return geominasLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Geominas> findPageGeominas(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Geominas> findPageGeominas(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return geominasLogic.findPageGeominas(sortColumnName, sortAscending, startRow, maxResults);
+		return geominasLogic.findPageGeominas(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberGeominas() throws Exception {
@@ -808,14 +863,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return grupdet;
 	}
 
-	public List<Grupdet> findByCriteriaInGrupdet(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return grupdetLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Grupdet> findByCriteriaInGrupdet(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return grupdetLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Grupdet> findPageGrupdet(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Grupdet> findPageGrupdet(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return grupdetLogic.findPageGrupdet(sortColumnName, sortAscending, startRow, maxResults);
+		return grupdetLogic.findPageGrupdet(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberGrupdet() throws Exception {
@@ -854,14 +913,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return grupos;
 	}
 
-	public List<Grupos> findByCriteriaInGrupos(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return gruposLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Grupos> findByCriteriaInGrupos(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return gruposLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Grupos> findPageGrupos(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Grupos> findPageGrupos(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return gruposLogic.findPageGrupos(sortColumnName, sortAscending, startRow, maxResults);
+		return gruposLogic.findPageGrupos(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberGrupos() throws Exception {
@@ -900,14 +963,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return numer;
 	}
 
-	public List<Numer> findByCriteriaInNumer(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return numerLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Numer> findByCriteriaInNumer(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return numerLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Numer> findPageNumer(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Numer> findPageNumer(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return numerLogic.findPageNumer(sortColumnName, sortAscending, startRow, maxResults);
+		return numerLogic.findPageNumer(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberNumer() throws Exception {
@@ -946,14 +1013,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return observa;
 	}
 
-	public List<Observa> findByCriteriaInObserva(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return observaLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Observa> findByCriteriaInObserva(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return observaLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Observa> findPageObserva(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Observa> findPageObserva(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return observaLogic.findPageObserva(sortColumnName, sortAscending, startRow, maxResults);
+		return observaLogic.findPageObserva(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberObserva() throws Exception {
@@ -992,14 +1063,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return permisos;
 	}
 
-	public List<Permisos> findByCriteriaInPermisos(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return permisosLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Permisos> findByCriteriaInPermisos(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return permisosLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Permisos> findPagePermisos(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Permisos> findPagePermisos(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return permisosLogic.findPagePermisos(sortColumnName, sortAscending, startRow, maxResults);
+		return permisosLogic.findPagePermisos(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberPermisos() throws Exception {
@@ -1038,14 +1113,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return practica;
 	}
 
-	public List<Practica> findByCriteriaInPractica(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return practicaLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Practica> findByCriteriaInPractica(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return practicaLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Practica> findPagePractica(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Practica> findPagePractica(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return practicaLogic.findPagePractica(sortColumnName, sortAscending, startRow, maxResults);
+		return practicaLogic.findPagePractica(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberPractica() throws Exception {
@@ -1084,14 +1163,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return programa1;
 	}
 
-	public List<Programa1> findByCriteriaInPrograma1(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return programa1Logic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Programa1> findByCriteriaInPrograma1(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return programa1Logic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Programa1> findPagePrograma1(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Programa1> findPagePrograma1(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return programa1Logic.findPagePrograma1(sortColumnName, sortAscending, startRow, maxResults);
+		return programa1Logic.findPagePrograma1(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberPrograma1() throws Exception {
@@ -1130,14 +1213,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return programas;
 	}
 
-	public List<Programas> findByCriteriaInProgramas(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return programasLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Programas> findByCriteriaInProgramas(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return programasLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Programas> findPageProgramas(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Programas> findPageProgramas(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return programasLogic.findPageProgramas(sortColumnName, sortAscending, startRow, maxResults);
+		return programasLogic.findPageProgramas(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberProgramas() throws Exception {
@@ -1176,14 +1263,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return radiacion;
 	}
 
-	public List<Radiacion> findByCriteriaInRadiacion(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return radiacionLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Radiacion> findByCriteriaInRadiacion(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return radiacionLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Radiacion> findPageRadiacion(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Radiacion> findPageRadiacion(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return radiacionLogic.findPageRadiacion(sortColumnName, sortAscending, startRow, maxResults);
+		return radiacionLogic.findPageRadiacion(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberRadiacion() throws Exception {
@@ -1222,14 +1313,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return revelado;
 	}
 
-	public List<Revelado> findByCriteriaInRevelado(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return reveladoLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Revelado> findByCriteriaInRevelado(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return reveladoLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Revelado> findPageRevelado(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Revelado> findPageRevelado(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return reveladoLogic.findPageRevelado(sortColumnName, sortAscending, startRow, maxResults);
+		return reveladoLogic.findPageRevelado(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberRevelado() throws Exception {
@@ -1268,14 +1363,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return socios;
 	}
 
-	public List<Socios> findByCriteriaInSocios(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return sociosLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Socios> findByCriteriaInSocios(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return sociosLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Socios> findPageSocios(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Socios> findPageSocios(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return sociosLogic.findPageSocios(sortColumnName, sortAscending, startRow, maxResults);
+		return sociosLogic.findPageSocios(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberSocios() throws Exception {
@@ -1314,14 +1413,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return traba;
 	}
 
-	public List<Traba> findByCriteriaInTraba(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return trabaLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Traba> findByCriteriaInTraba(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return trabaLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Traba> findPageTraba(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Traba> findPageTraba(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return trabaLogic.findPageTraba(sortColumnName, sortAscending, startRow, maxResults);
+		return trabaLogic.findPageTraba(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberTraba() throws Exception {
@@ -1360,14 +1463,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return ubicacion;
 	}
 
-	public List<Ubicacion> findByCriteriaInUbicacion(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return ubicacionLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Ubicacion> findByCriteriaInUbicacion(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return ubicacionLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Ubicacion> findPageUbicacion(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Ubicacion> findPageUbicacion(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return ubicacionLogic.findPageUbicacion(sortColumnName, sortAscending, startRow, maxResults);
+		return ubicacionLogic.findPageUbicacion(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberUbicacion() throws Exception {
@@ -1406,14 +1513,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return usuarios;
 	}
 
-	public List<Usuarios> findByCriteriaInUsuarios(Object[] variables, Object[] variablesBetween,
-			Object[] variablesBetweenDates) throws Exception {
-		return usuariosLogic.findByCriteria(variables, variablesBetween, variablesBetweenDates);
+	public List<Usuarios> findByCriteriaInUsuarios(Object[] variables,
+			Object[] variablesBetween, Object[] variablesBetweenDates)
+			throws Exception {
+		return usuariosLogic.findByCriteria(variables, variablesBetween,
+				variablesBetweenDates);
 	}
 
-	public List<Usuarios> findPageUsuarios(String sortColumnName, boolean sortAscending, int startRow, int maxResults)
+	public List<Usuarios> findPageUsuarios(String sortColumnName,
+			boolean sortAscending, int startRow, int maxResults)
 			throws Exception {
-		return usuariosLogic.findPageUsuarios(sortColumnName, sortAscending, startRow, maxResults);
+		return usuariosLogic.findPageUsuarios(sortColumnName, sortAscending,
+				startRow, maxResults);
 	}
 
 	public Long findTotalNumberUsuarios() throws Exception {
@@ -1452,7 +1563,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	 *      java.lang.Long)
 	 */
 	@Override
-	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id) throws Exception {
+	public List<DosimetroDTO> getDataDosimetroTipo(String tipo, Long id)
+			throws Exception {
 		return dosimetroLogic.getDataDosimetroTipo(tipo, id);
 	}
 
@@ -1469,7 +1581,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	 *      java.lang.Long)
 	 */
 	@Override
-	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp, Long idTraba, Long idDosi) throws Exception {
+	public List<DosimetroDTO> getDataDosimetroEmpTraba(Long idEmp,
+			Long idTraba, Long idDosi) throws Exception {
 		return dosimetroLogic.getDataDosimetroEmpTraba(idEmp, idTraba, idDosi);
 	}
 
@@ -1485,7 +1598,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	 *      java.lang.Long)
 	 */
 	@Override
-	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa, Long idTrabajador) throws Exception {
+	public List<EstudiosDTO> getDataEstudiosParam(Long idEmpresa,
+			Long idTrabajador) throws Exception {
 		return estudiosLogic.getDataEstudiosParam(idEmpresa, idTrabajador);
 	}
 
@@ -1502,13 +1616,15 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	 *      java.lang.Long)
 	 */
 	@Override
-	public DosimetroDTO getDataDosimetroUltimo(Long idEmpresa, Long idTrabajador) throws Exception {
+	public DosimetroDTO getDataDosimetroUltimo(Long idEmpresa, Long idTrabajador)
+			throws Exception {
 		return dosimetroLogic.getDataDosimetroUltimo(idEmpresa, idTrabajador);
 	}
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
 	 * @date 10/12/2016
 	 * @param input
 	 * @param arrayList
@@ -1517,78 +1633,99 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	 *      java.util.ArrayList)
 	 */
 	@Override
-	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input, List<DosimetroDTO> selectedDosExcel)
-			throws AppBaseException, IOException, JRException, SQLException {
+	public ByteArrayOutputStream generarArchivoAspromedica(InputStream input,
+			List<DosimetroDTO> selectedDosExcel, Long anioDosimetro,
+			Long mesDosimetro) throws AppBaseException, IOException,
+			JRException, SQLException {
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		
+
 		String cedulas = null;
 		String dosimetros = null;
-		Long empresa = null;
+		String empresas = null;
+		Long codEmpresa = null;
 		for (DosimetroDTO dosimetroDTO : selectedDosExcel) {
-			
-			if(null == cedulas){
+
+			if (null == cedulas) {
 				cedulas = "" + dosimetroDTO.getTraCed();
-			}else{
-				cedulas +=  ", " + dosimetroDTO.getTraCed();
+			} else {
+				cedulas += "," + dosimetroDTO.getTraCed();
 			}
-			
-			if(null == dosimetros){
+
+			if (null == dosimetros) {
 				dosimetros = "" + dosimetroDTO.getDosCod();
-			}else{
-				dosimetros +=  ", " + dosimetroDTO.getDosCod();
+			} else {
+				dosimetros += "," + dosimetroDTO.getDosCod();
 			}
 			
-			empresa = dosimetroDTO.getEmpCod();
+			if (null == empresas) {
+				empresas = "" + dosimetroDTO.getEmpCod();
+			} else {
+				empresas += "," + dosimetroDTO.getEmpCod();
+			}
+			
+			codEmpresa = dosimetroDTO.getEmpCod();
 		}
-		
-		parametros.put("cedulas", "(" + cedulas + ")");
-		parametros.put("dosimetros", "(" + dosimetros + ")");
-		parametros.put("empresa", empresa);
+
+		parametros.put("cedulas", "" + cedulas + "");
+		parametros.put("dosimetros", "" + dosimetros + "");
+		parametros.put("empresas", "" + empresas + "");
+		parametros.put("codEmpresa", codEmpresa);
+		parametros.put("anioDosimetro", anioDosimetro);
+		parametros.put("mesDosimetro", mesDosimetro);
 		return jasperService.generarExcel(input, parametros);
 	}
-	
+
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
-	 * @date 15/12/2016 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 15/12/2016
 	 * @param codEmpresa
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataContratosPorEmpresa(java.lang.Long)
 	 */
 	@Override
-	public List<ContratosDTO> getDataContratosPorEmpresa(Long codEmpresa) throws Exception {
+	public List<ContratosDTO> getDataContratosPorEmpresa(Long codEmpresa)
+			throws Exception {
 		return contratosLogic.getDataContratosPorEmpresa(codEmpresa);
 	}
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
-	 * @date 15/12/2016 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 15/12/2016
 	 * @param codEmpresa
 	 * @param codContrato
-	 * @return 
-	 * @throws Exception 
-	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataFacturaEmpresaContrato(java.lang.Long, java.lang.Long)
+	 * @return
+	 * @throws Exception
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataFacturaEmpresaContrato(java.lang.Long,
+	 *      java.lang.Long)
 	 */
 	@Override
-	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa, Long codContrato)  throws Exception{
-		return facturaLogic.getDataFacturaEmpresaContrato(codEmpresa, codContrato);
+	public List<FacturaDTO> getDataFacturaEmpresaContrato(Long codEmpresa,
+			Long codContrato) throws Exception {
+		return facturaLogic.getDataFacturaEmpresaContrato(codEmpresa,
+				codContrato);
 	}
 
 	/**
 	 * 
-	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava Suarez</a>
-	 * @date 17/12/2016 
+	 * @author <a href="mailto:daniel.samkit@gmail.com">Daniel De La Pava
+	 *         Suarez</a>
+	 * @date 17/12/2016
 	 * @param codEmpresa
 	 * @param codDosimetro
 	 * @return
-	 * @throws Exception 
-	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataDosimetroPrincipal(java.lang.Long, java.lang.Long)
+	 * @throws Exception
+	 * @see com.agileillutions.gesdos.presentation.businessDelegate.IBusinessDelegatorView#getDataDosimetroPrincipal(java.lang.Long,
+	 *      java.lang.Long)
 	 */
 	@Override
-	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa, Long codDosimetro)
-			throws Exception {
-		return dosimetroLogic.getDataDosimetroPrincipal(codEmpresa, codDosimetro);
+	public List<DosimetroDTO> getDataDosimetroPrincipal(Long codEmpresa,
+			Long codDosimetro) throws Exception {
+		return dosimetroLogic.getDataDosimetroPrincipal(codEmpresa,
+				codDosimetro);
 	}
 }

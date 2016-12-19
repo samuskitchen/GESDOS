@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="formatoAspromedicaDosimetria" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="629eab0a-23e0-418c-9fc0-e398b8957a7f">
-	<property name="ireport.zoom" value="1.0000000000000036"/>
+	<property name="ireport.zoom" value="1.3310000000000086"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="16"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.cell.border" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -24,35 +27,50 @@
 		</box>
 	</style>
 	<subDataset name="DatasetAspromedica" uuid="72c64a7a-f3d3-4824-a7e1-de2b2244591e">
-		<queryString>
-			<![CDATA[    SELECT
-          d.DosCod,
-          trim(t.TraApe1)||' '||trim(t.TraApe2) as TraApe,
+		<parameter name="cedulas" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dosimetros" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="empresas" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString language="plsql">
+			<![CDATA[SELECT
+	d.DosCod,
           t.TraApe1,
+          t.TraApe2,
           t.TraNom,
           t.TraSex,
           c.CarCod,
           t.TraCed,
-          t.TraFecIni,
+          t.TraFecIni TraFecIni,
+          t.TraFecIni TraFecIni,
+          t.TraFecIni TraFecIni,
           d.DosPerRec,
           u.UbiDes,
           r.RadCod,
-          e.EstDos
+          e.EstDos,
+          e.EmpCod,
+          max(e.EstAni),
+          max(e.EstMes)
       FROM  dosimetro d
       INNER JOIN traba t ON d.TraCed = t.TraCed
       INNER JOIN cargo c ON d.CarCod = c.CarCod
       INNER JOIN ubicacion u ON d.UbiCod = u.UbiCod
       INNER JOIN radiacion r ON d.RadCod = r.RadCod
       INNER JOIN estudios e ON d.DosCod = e.DosCod AND d.EmpCod = e.EmpCod AND d.TraCed = e.TraCed
-      WHERE e.EmpCod = 1
-      AND   t.TraCed IN (1082905328, 1082905328)
-      AND   d.DosCod IN (1, 2)
-      --AND   e.EstAni = 2016
-      --AND   e.EstMes = 12;]]>
+      WHERE e.EmpCod IN ($P!{empresas})
+      AND   t.TraCed IN ($P!{cedulas})
+      AND   d.DosCod IN ($P!{dosimetros})
+      GROUP BY d.DosCod, e.EmpCod, t.TraCed, t.TraApe1, t.TraApe2,
+               t.TraNom, t.TraSex, c.CarCod, t.TraFecIni, d.DosPerRec,
+               u.UbiDes, r.RadCod, e.EstDos]]>
 		</queryString>
 		<field name="DOSCOD" class="java.math.BigDecimal"/>
-		<field name="TRAAPE" class="java.lang.String"/>
 		<field name="TRAAPE1" class="java.lang.String"/>
+		<field name="TRAAPE2" class="java.lang.String"/>
 		<field name="TRANOM" class="java.lang.String"/>
 		<field name="TRASEX" class="java.lang.String"/>
 		<field name="CARCOD" class="java.lang.String"/>
@@ -62,34 +80,61 @@
 		<field name="UBIDES" class="java.lang.String"/>
 		<field name="RADCOD" class="java.lang.String"/>
 		<field name="ESTDOS" class="java.math.BigDecimal"/>
+		<field name="EMPCOD" class="java.math.BigDecimal"/>
+		<field name="MAX(E.ESTANI)" class="java.math.BigDecimal"/>
+		<field name="MAX(E.ESTMES)" class="java.math.BigDecimal"/>
 		<group name="pageBreakGroup" isStartNewPage="true">
 			<groupExpression><![CDATA[(int)($V{PAGE_COUNT} - 1)/19]]></groupExpression>
 		</group>
 	</subDataset>
 	<parameter name="cedulas" class="java.lang.String"/>
 	<parameter name="dosimetros" class="java.lang.String"/>
-	<parameter name="empresa" class="java.lang.Long"/>
-	<queryString language="SQL">
-		<![CDATA[SELECT 1 FROM DUAL]]>
+	<parameter name="empresas" class="java.lang.String"/>
+	<parameter name="anioDosimetro" class="java.lang.Long"/>
+	<parameter name="mesDosimetro" class="java.lang.Long"/>
+	<parameter name="codEmpresa" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+         e.EMPCOD,
+         e.EMPNIT,
+         d.DEPNOM,
+         c.CIUNOM,
+         e.EMPCARCON,
+         e.EMPNOMCON,
+         e.EMPAPE1CON,
+         e.EMPCARCON
+    FROM EMPRESAS e
+    INNER JOIN DEPAR d ON d.DEPCOD = e.DEPCOD
+    INNER JOIN CIUDA c ON c.DEPCOD = d.DEPCOD AND c.CIUCOD = e.CIUCOD
+    WHERE e.EMPCOD = $P{codEmpresa}]]>
 	</queryString>
+	<field name="EMPCOD" class="java.math.BigDecimal"/>
+	<field name="EMPNIT" class="java.math.BigDecimal"/>
+	<field name="DEPNOM" class="java.lang.String"/>
+	<field name="CIUNOM" class="java.lang.String"/>
+	<field name="EMPCARCON" class="java.lang.String"/>
+	<field name="EMPNOMCON" class="java.lang.String"/>
+	<field name="EMPAPE1CON" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="90" splitType="Stretch">
+		<band height="96" splitType="Stretch">
 			<image hAlign="Center" vAlign="Middle" isUsingCache="true">
 				<reportElement x="0" y="0" width="83" height="72" uuid="7843ba66-2617-4f6a-9687-408d7c6e8016"/>
 				<imageExpression><![CDATA["reportes/images/logo_excel.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="83" y="0" width="243" height="30" uuid="480c3a77-134a-44bc-903d-6b7a9e321914"/>
+				<reportElement x="83" y="0" width="288" height="30" uuid="480c3a77-134a-44bc-903d-6b7a9e321914"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="24" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ASPROMEDICA ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="83" y="30" width="243" height="10" uuid="8ef79fcd-e252-4afa-87f9-7c7b844e21e6"/>
+				<reportElement x="83" y="30" width="288" height="12" uuid="8ef79fcd-e252-4afa-87f9-7c7b844e21e6"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="7"/>
 				</textElement>
@@ -97,8 +142,8 @@
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="83" y="40" width="243" height="20" uuid="0cc5ce49-a0ff-4557-8bbe-291b63f2a77f"/>
-				<textElement>
+				<reportElement x="83" y="42" width="288" height="25" uuid="0cc5ce49-a0ff-4557-8bbe-291b63f2a77f"/>
+				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="5"/>
 				</textElement>
 				<text><![CDATA[Carrera 43 No 5C - 82 Cali - Colombia  S.A.        Teléfonos (572)  5532444 - celular 315 5536235
@@ -107,14 +152,14 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="83" y="60" width="243" height="11" uuid="6f1e1f6f-53c4-4cdd-84e3-cef6c15c29b6"/>
+				<reportElement x="83" y="67" width="288" height="11" uuid="6f1e1f6f-53c4-4cdd-84e3-cef6c15c29b6"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE DOSIMETRÍA  -  ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="15" width="107" height="11" uuid="0ffb151c-7bfe-4cbc-8e40-5d3a5640643a"/>
+				<reportElement x="374" y="14" width="107" height="11" uuid="0ffb151c-7bfe-4cbc-8e40-5d3a5640643a"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -128,7 +173,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				<text><![CDATA[No. de cuenta ó clave]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="26" width="107" height="12" uuid="533708ca-ffc3-40b6-a483-afdd6666a3d9"/>
+				<reportElement x="374" y="25" width="107" height="12" uuid="533708ca-ffc3-40b6-a483-afdd6666a3d9"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -142,7 +187,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				<text><![CDATA[NIT Entidad Usuaria]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="38" width="107" height="12" uuid="2248305e-7b13-4341-aa66-106db4ea3582"/>
+				<reportElement x="374" y="37" width="107" height="15" uuid="2248305e-7b13-4341-aa66-106db4ea3582"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -156,7 +201,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				<text><![CDATA[Municipio / Ciudad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="50" width="107" height="11" uuid="60b3b8be-5c2c-4fd2-a60d-4b4933decff2"/>
+				<reportElement x="374" y="52" width="107" height="15" uuid="60b3b8be-5c2c-4fd2-a60d-4b4933decff2"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -170,7 +215,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				<text><![CDATA[Persona Contacto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="61" width="107" height="11" uuid="2af07bf7-1fd4-4ad0-8fdb-da9846130f3d"/>
+				<reportElement x="374" y="67" width="107" height="11" uuid="2af07bf7-1fd4-4ad0-8fdb-da9846130f3d"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -183,8 +228,8 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				</textElement>
 				<text><![CDATA[Cargo del contacto]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="478" y="15" width="100" height="11" uuid="6af4424e-9580-4c81-81cd-16c619c047b6"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="482" y="14" width="100" height="11" uuid="6af4424e-9580-4c81-81cd-16c619c047b6"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -193,12 +238,12 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EMPCOD}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="478" y="26" width="100" height="12" uuid="f13f434c-8c9e-4e19-9495-1c27ee13ae00"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="482" y="25" width="100" height="12" uuid="f13f434c-8c9e-4e19-9495-1c27ee13ae00"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -207,12 +252,12 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EMPNIT}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="478" y="38" width="100" height="12" uuid="02d70ade-c6d1-47ee-8fc9-bd362d60c658"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="482" y="37" width="100" height="15" uuid="02d70ade-c6d1-47ee-8fc9-bd362d60c658"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -221,26 +266,26 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{DEPNOM} + " / " + $F{CIUNOM}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="478" y="50" width="100" height="11" uuid="0adf282b-068e-4e90-b796-b66315151892"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="482" y="52" width="40" height="15" uuid="0adf282b-068e-4e90-b796-b66315151892"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EMPNOMCON}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="478" y="61" width="100" height="11" uuid="e0ff3e2c-d120-4237-aecc-ef8d482a384a"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="482" y="67" width="100" height="11" uuid="e0ff3e2c-d120-4237-aecc-ef8d482a384a"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -249,9 +294,9 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EMPCARCON}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="588" y="15" width="80" height="11" uuid="506939cd-c911-49db-a2e8-a9678114f990"/>
@@ -282,7 +327,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				<text><![CDATA[Fecha del reporte]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="588" y="38" width="80" height="33" uuid="265d32f5-da49-483b-b257-2d289c94ee62"/>
+				<reportElement x="588" y="38" width="80" height="40" uuid="265d32f5-da49-483b-b257-2d289c94ee62"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -295,7 +340,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				</textElement>
 				<text><![CDATA[German Ramirez,  MSc   Fisico-Medico.        Lic.  MINPROTECCION      1150  de  2006]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="668" y="15" width="82" height="11" uuid="459b7005-bc9c-479d-8bb0-00354a88334c"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -305,9 +350,9 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="668" y="26" width="82" height="12" uuid="3e5475a6-b9d6-4acb-98b5-3dc7ef8f067e"/>
@@ -324,7 +369,7 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="668" y="60" width="82" height="11" uuid="fa9a55bb-9e8b-41a7-b19c-42b20ed4dbd2"/>
+				<reportElement x="668" y="60" width="82" height="18" uuid="fa9a55bb-9e8b-41a7-b19c-42b20ed4dbd2"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -351,6 +396,24 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="79" width="752" height="15" uuid="8c5980d7-6c8d-4407-85ac-9dd144252004"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="522" y="52" width="60" height="15" uuid="2607ebb9-3bde-4259-b958-e83f66f44585"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMPAPE1CON}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -360,28 +423,44 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="106" splitType="Stretch">
+		<band height="133" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table" style="table" x="0" y="0" width="752" height="106" uuid="71efbcc0-dd27-49cc-a9a2-7f932907ed25"/>
+				<reportElement key="table" style="table" mode="Opaque" x="0" y="0" width="752" height="110" backcolor="#F0F8FF" uuid="71efbcc0-dd27-49cc-a9a2-7f932907ed25"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
-					<datasetRun subDataset="DatasetAspromedica" uuid="b5ecfe4f-591a-4d26-8078-f07cbb696f40">
+					<datasetRun subDataset="DatasetAspromedica" uuid="8b144447-0c25-45f2-b678-2773d15a855c">
+						<datasetParameter name="empresas">
+							<datasetParameterExpression><![CDATA[$P{empresas}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="cedulas">
+							<datasetParameterExpression><![CDATA[$P{cedulas}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="dosimetros">
+							<datasetParameterExpression><![CDATA[$P{dosimetros}]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="28" uuid="21f6cd9e-453a-4843-b01a-53ed9351ed8a">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="28" height="87" uuid="8cd69cd7-c195-4e32-94a6-2e00d2b8bfe4"/>
+								<reportElement mode="Opaque" x="0" y="0" width="28" height="87" backcolor="#F0F8FF" uuid="8cd69cd7-c195-4e32-94a6-2e00d2b8bfe4"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Código]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="28" height="15" uuid="73ebaef7-aad4-4c05-84ff-dbe12da57e94"/>
-								<textElement verticalAlignment="Middle" rotation="None">
-									<font fontName="Arial Narrow"/>
+								<reportElement x="0" y="0" width="28" height="15" uuid="295de756-df91-4d04-aadf-b5e5694ffad4"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{DOSCOD}]]></textFieldExpression>
@@ -389,41 +468,55 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="9803356d-efa4-4a26-a8c2-72972b8bf5cf">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="87" uuid="878e6874-805c-4627-a290-38ee38849595"/>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="87" backcolor="#F0F8FF" uuid="878e6874-805c-4627-a290-38ee38849595"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Apellidos]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="90" height="15" uuid="874b0ae8-dff9-4366-a921-3801d56cd77a"/>
+								<reportElement x="0" y="0" width="90" height="15" uuid="daa4cb11-df47-43b3-af1c-07764a360568"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{TRAAPE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{TRAAPE1} != null ? $F{TRAAPE1} : "" + " " + $F{TRAAPE2} != null ? $F{TRAAPE2} : ""]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="8d6cd973-2a59-4213-87c1-6a3feaedc268">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="87" uuid="da46f30c-eb70-4fc8-afb1-733775e21816"/>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="87" backcolor="#F0F8FF" uuid="da46f30c-eb70-4fc8-afb1-733775e21816"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Nombres]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="90" height="15" uuid="27f16411-f993-4556-85a3-5c6851ac44ac"/>
+								<reportElement x="0" y="0" width="90" height="15" uuid="97cd9e38-7674-4b06-866a-6374f10da0fc"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{TRANOM}]]></textFieldExpression>
@@ -431,20 +524,27 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="30" uuid="036e860c-315a-4922-894e-43f5401a202e">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="30" height="87" uuid="dac7fb8a-8376-4d0a-b2d5-ca01cf58f15d"/>
+								<reportElement mode="Opaque" x="0" y="0" width="30" height="87" backcolor="#F0F8FF" uuid="dac7fb8a-8376-4d0a-b2d5-ca01cf58f15d"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Género]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="30" height="15" uuid="3c9e8837-ebec-4c8e-89e3-90775f213e50"/>
+								<reportElement x="0" y="0" width="30" height="15" uuid="41720f77-e448-4f84-816d-c0de91f637a2"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{TRASEX}]]></textFieldExpression>
@@ -452,53 +552,83 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="28" uuid="3bc02bd3-1fa6-4fab-9c5b-927b5848940f">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="28" height="87" uuid="d5980e7a-3b52-4279-a468-e01f25cbc33c"/>
+								<reportElement mode="Opaque" x="0" y="0" width="28" height="87" backcolor="#F0F8FF" uuid="d5980e7a-3b52-4279-a468-e01f25cbc33c"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Ocupación]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="28" height="15" uuid="19b4c0c6-7af7-4173-b6ff-fabae28e480d"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CARCOD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="de3906b5-39b5-4e43-b241-e895f2d2188a">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+					<jr:column width="52" uuid="de3906b5-39b5-4e43-b241-e895f2d2188a">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="87" uuid="5e14213a-0a07-4d29-8595-a17da7ff07bf"/>
+								<reportElement mode="Opaque" x="0" y="0" width="52" height="87" backcolor="#F0F8FF" uuid="5e14213a-0a07-4d29-8595-a17da7ff07bf"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Documento de Identidad]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="15" uuid="417a1bfc-201a-4745-9204-7aca321a4e52"/>
+								<reportElement x="0" y="0" width="52" height="15" uuid="7ed972b5-3490-49f5-a2c7-0ad8009b9526"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{TRACED}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="45" uuid="1f1682ec-0054-4a95-9487-f3fd91f2e2d5">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+					<jr:column width="48" uuid="1f1682ec-0054-4a95-9487-f3fd91f2e2d5">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="45" height="87" uuid="912c07d3-b26c-4664-84e4-62037a304629"/>
+								<reportElement mode="Opaque" x="0" y="0" width="48" height="87" backcolor="#F0F8FF" uuid="912c07d3-b26c-4664-84e4-62037a304629"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Fecha de Ingreso al Servicio]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="45" height="15" uuid="7f8e3e7d-3ae0-44d5-9b35-6693b5c90c27"/>
+								<reportElement x="0" y="0" width="48" height="15" uuid="c805263e-ffad-42f6-81ea-4c1902105c1c"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{TRAFECINI}]]></textFieldExpression>
@@ -507,22 +637,36 @@ Sitio web: www.aspromedica.masopciones.com  o en www.google.com  buscar  ASPROME
 					</jr:column>
 					<jr:columnGroup width="70" uuid="6368687f-b6ff-4569-bdc9-d5bbdbd26560">
 						<jr:columnGroup width="70" uuid="bb8c4294-0925-4642-a790-02218adc84cb">
-							<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<jr:tableHeader height="31" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="70" height="30" uuid="11da3812-d852-48c5-b53f-1d97c8540f2d"/>
+									<reportElement mode="Opaque" x="0" y="0" width="70" height="30" backcolor="#F0F8FF" uuid="11da3812-d852-48c5-b53f-1d97c8540f2d"/>
+									<box>
+										<pen lineWidth="1.0"/>
+										<topPen lineWidth="1.0"/>
+										<leftPen lineWidth="1.0"/>
+										<bottomPen lineWidth="0.0"/>
+										<rightPen lineWidth="1.0"/>
+									</box>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Arial Narrow" size="10"/>
+										<font fontName="Arial Narrow" size="8"/>
 									</textElement>
 									<text><![CDATA[Periodo de uso
 del dosímetro]]></text>
 								</staticText>
 							</jr:tableHeader>
 							<jr:column width="35" uuid="829f2f97-a821-4640-882e-9c100e097f7e">
-								<jr:tableHeader style="table_TH" height="57" rowSpan="1">
+								<jr:tableHeader height="57" rowSpan="1">
 									<staticText>
-										<reportElement x="0" y="0" width="35" height="57" uuid="2930bcdf-30e1-4861-8f19-b224aa517c1b"/>
+										<reportElement mode="Opaque" x="0" y="0" width="35" height="56" backcolor="#F0F8FF" uuid="2930bcdf-30e1-4861-8f19-b224aa517c1b"/>
+										<box>
+											<pen lineWidth="1.0"/>
+											<topPen lineWidth="1.0"/>
+											<leftPen lineWidth="1.0"/>
+											<bottomPen lineWidth="1.0"/>
+											<rightPen lineWidth="1.0"/>
+										</box>
 										<textElement textAlignment="Center" verticalAlignment="Middle">
-											<font fontName="Arial Narrow" size="9"/>
+											<font fontName="Arial Narrow" size="8"/>
 										</textElement>
 										<text><![CDATA[Primer día]]></text>
 									</staticText>
@@ -530,11 +674,18 @@ del dosímetro]]></text>
 								<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 							</jr:column>
 							<jr:column width="35" uuid="ab372f76-6a98-4316-9e79-59c30a6807d4">
-								<jr:tableHeader style="table_TH" height="57" rowSpan="1">
+								<jr:tableHeader height="57" rowSpan="1">
 									<staticText>
-										<reportElement x="0" y="0" width="35" height="57" uuid="30c66b53-64c9-4f79-aa6e-9871ac207558"/>
+										<reportElement mode="Opaque" x="0" y="0" width="35" height="56" backcolor="#F0F8FF" uuid="30c66b53-64c9-4f79-aa6e-9871ac207558"/>
+										<box>
+											<pen lineWidth="1.0"/>
+											<topPen lineWidth="1.0"/>
+											<leftPen lineWidth="1.0"/>
+											<bottomPen lineWidth="1.0"/>
+											<rightPen lineWidth="1.0"/>
+										</box>
 										<textElement textAlignment="Center" verticalAlignment="Middle">
-											<font fontName="Arial Narrow" size="9"/>
+											<font fontName="Arial Narrow" size="8"/>
 										</textElement>
 										<text><![CDATA[Último día]]></text>
 									</staticText>
@@ -544,32 +695,55 @@ del dosímetro]]></text>
 						</jr:columnGroup>
 					</jr:columnGroup>
 					<jr:column width="36" uuid="3280ed66-1a61-4796-9ad2-e3d2caab8fec">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="36" height="87" uuid="0cfe8e29-baf2-4051-9340-13da5698fdf7"/>
+								<reportElement mode="Opaque" x="0" y="0" width="36" height="87" backcolor="#F0F8FF" uuid="0cfe8e29-baf2-4051-9340-13da5698fdf7"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Periodo de recambio]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="36" height="15" uuid="8ffa699b-5e57-472e-88f4-06ab9721deca"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DOSPERREC}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="48" uuid="94009881-21dc-4866-b160-ebfc3fcc94c2">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="48" height="87" uuid="e025ca10-be44-4f0f-9c85-c808a9829b5e"/>
+								<reportElement mode="Opaque" x="0" y="0" width="48" height="87" backcolor="#F0F8FF" uuid="e025ca10-be44-4f0f-9c85-c808a9829b5e"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Ubicación del dosímetro]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="48" height="15" uuid="a04f3f72-a9f3-45ec-82e1-a21faf898242"/>
+								<reportElement x="0" y="0" width="48" height="15" uuid="a0a9f705-57ba-4f09-8bcb-5de1363eb69d"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{UBIDES}]]></textFieldExpression>
@@ -577,86 +751,136 @@ del dosímetro]]></text>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="39" uuid="98e59587-342b-4f8d-8055-c1b76c8d19df">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="39" height="87" uuid="e8d65b5e-7d3f-402a-8d5b-652cea2a514c"/>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="87" backcolor="#F0F8FF" uuid="e8d65b5e-7d3f-402a-8d5b-652cea2a514c"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Energía ó calidad de radiación]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="39" height="15" uuid="4da1154d-14e0-4111-b0a0-0a11259af24a"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+									<paragraph leftIndent="2" rightIndent="2"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{RADCOD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="53" uuid="544dcaaf-36af-4866-9e5a-8483ebf30335">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="53" height="70" uuid="1179c4e7-754c-4e35-8592-5a634be9a8a3"/>
+								<reportElement mode="Opaque" x="0" y="0" width="53" height="69" backcolor="#F0F8FF" uuid="1179c4e7-754c-4e35-8592-5a634be9a8a3"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Dosis del Periodo (mSv)]]></text>
 							</staticText>
 							<staticText>
-								<reportElement x="0" y="69" width="53" height="18" uuid="e3892912-9117-4acb-9f4e-6ea7623434ad"/>
+								<reportElement mode="Opaque" x="0" y="69" width="53" height="18" backcolor="#F0F8FF" uuid="e3892912-9117-4acb-9f4e-6ea7623434ad"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Hp(10)]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="53" height="15" uuid="7463cd00-7ce3-476f-a23c-15f31728b53c"/>
+								<reportElement x="0" y="0" width="53" height="15" uuid="780f0cc5-2791-4c09-96a8-fbfcd8e7fc38"/>
 								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
-									<paragraph leftIndent="2" rightIndent="2"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{DOSPERREC}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="56" uuid="f3dce54d-4e77-4644-bb4e-d7ce2b1f5ff6">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
-							<staticText>
-								<reportElement x="0" y="0" width="56" height="70" uuid="a84d5e54-75df-412b-aae6-0840d7be2a54"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
-								</textElement>
-								<text><![CDATA[Dosis acumulada en lo transcurrido del año (mSv)]]></text>
-							</staticText>
-							<staticText>
-								<reportElement x="0" y="69" width="56" height="18" uuid="a8f9b9d1-52d0-4f8f-8e10-e14a30342b17"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow" size="10"/>
-								</textElement>
-								<text><![CDATA[Hp(10)]]></text>
-							</staticText>
-						</jr:tableHeader>
-						<jr:detailCell style="table_TD" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="56" height="15" uuid="6aee0248-33f1-41a1-bed4-14724366781c"/>
-								<textElement verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font size="8"/>
 									<paragraph leftIndent="2" rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{ESTDOS}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="56" uuid="1ad87716-1d14-459d-9a86-9997cad52f69">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+					<jr:column width="56" uuid="f3dce54d-4e77-4644-bb4e-d7ce2b1f5ff6">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="56" height="70" uuid="e77a5390-32d1-4495-95b0-8ee451228a68"/>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="69" backcolor="#F0F8FF" uuid="a84d5e54-75df-412b-aae6-0840d7be2a54"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="Arial Narrow" size="8"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Dosis acumulada en lo transcurrido del año (mSv)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="69" width="56" height="18" backcolor="#F0F8FF" uuid="a8f9b9d1-52d0-4f8f-8e10-e14a30342b17"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font fontName="Arial Narrow" size="8"/>
+								</textElement>
+								<text><![CDATA[Hp(10)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="56" uuid="1ad87716-1d14-459d-9a86-9997cad52f69">
+						<jr:tableHeader height="88" rowSpan="2">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="69" backcolor="#F0F8FF" uuid="e77a5390-32d1-4495-95b0-8ee451228a68"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Dosis Acumulada desde el Ingreso (mSv)]]></text>
 							</staticText>
 							<staticText>
-								<reportElement x="0" y="69" width="56" height="18" uuid="f67b0c9a-e5e2-4280-8bdd-4cbde8d40204"/>
+								<reportElement mode="Opaque" x="0" y="69" width="56" height="18" backcolor="#F0F8FF" uuid="f67b0c9a-e5e2-4280-8bdd-4cbde8d40204"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial Narrow"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[Hp(10)]]></text>
 							</staticText>
@@ -664,11 +888,18 @@ del dosímetro]]></text>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1"/>
 					</jr:column>
 					<jr:column width="28" uuid="a9dbb4a0-5b08-4480-bb06-99e5df770f65">
-						<jr:tableHeader style="table_TH" height="87" rowSpan="2">
+						<jr:tableHeader height="88" rowSpan="2">
 							<staticText>
-								<reportElement x="0" y="0" width="28" height="87" uuid="e1fdb4dd-f472-46ee-a5b5-47ea97cd2380"/>
+								<reportElement mode="Opaque" x="0" y="0" width="28" height="87" backcolor="#F0F8FF" uuid="e1fdb4dd-f472-46ee-a5b5-47ea97cd2380"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
-									<font fontName="Arial Narrow"/>
+									<font fontName="Arial Narrow" size="8"/>
 								</textElement>
 								<text><![CDATA[notas]]></text>
 							</staticText>
@@ -677,10 +908,14 @@ del dosímetro]]></text>
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="120" width="752" height="10" uuid="70a5d90d-8c0a-4ac3-b361-9e93a06d0151"/>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="126" splitType="Stretch">
+		<band height="150" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="752" height="15" uuid="19bd9adb-961a-4648-9c5f-a7ca629b4a83"/>
 				<textElement verticalAlignment="Middle">
@@ -689,7 +924,7 @@ del dosímetro]]></text>
 				<text><![CDATA[Nomenclatura:  ND=No Detectable, NP=No Presentado, DNL=Dosímetro No Legible, DCNE=Dosímetro Control No Evaluable, VA=Vacaciones, LI=Licencia, NO=Normal, ED=Exposicion Directa, IN=Investigar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="20" width="478" height="37" uuid="010af4a9-3baf-4cc1-aa96-72cb287ae321"/>
+				<reportElement x="0" y="20" width="478" height="52" uuid="010af4a9-3baf-4cc1-aa96-72cb287ae321"/>
 				<box rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -697,7 +932,7 @@ del dosímetro]]></text>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement textAlignment="Justified">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[[1]  Un dosimetro reportado con ND=No Detectable, significa que la lectura está entre cero y el nivel de detección (0.05 mSv).
@@ -707,7 +942,7 @@ del dosímetro]]></text>
     ubicación en la sala de examen, quedando el dosimetro fuera del delantal plomado y expuesto al haz de radiacion primario. Se debe investigar.               ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="498" y="21" width="254" height="10" uuid="fd5b0488-5da8-4bee-a0af-8fe4ad634308"/>
+				<reportElement x="498" y="21" width="254" height="9" uuid="fd5b0488-5da8-4bee-a0af-8fe4ad634308"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -719,19 +954,20 @@ del dosímetro]]></text>
 				<text><![CDATA[Una Nota Importante:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="498" y="30" width="254" height="27" uuid="a50180f8-760f-4cc9-b398-1700d7b25b41"/>
+				<reportElement x="498" y="30" width="254" height="42" uuid="a50180f8-760f-4cc9-b398-1700d7b25b41"/>
 				<box>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="Arial Narrow" size="6"/>
 				</textElement>
-				<text><![CDATA[La razón por la cual la ICRP=Comisión Internacional de Protección Radiológica, recomienda que el límite de dosis para Trabajadores Ocupacionalmente Expuestos sea de 20 mSv/año obedece a estimar que la vida laboral de una persona es de 50 años y que en toda la vida debe recibirse como máximo una dosis de 1.0 Sievert. ]]></text>
+				<text><![CDATA[Una Nota Importante:  La razón por la cual la ICRP=Comisión Internacional de Protección Radiológica, recomienda que el límite de dosis para Trabajadores Ocupacionalmente Expuestos sea de 20 mSv/año obedece a estimar que la vida laboral de una persona es de 50 años y que en toda la vida debe recibirse como máximo una dosis de 1.0 Sievert. ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="69" width="752" height="10" uuid="b0623d26-e88e-4aac-8db3-d3b19293d6d0"/>
+				<reportElement x="0" y="85" width="752" height="10" uuid="b0623d26-e88e-4aac-8db3-d3b19293d6d0"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -743,13 +979,13 @@ del dosímetro]]></text>
 				<text><![CDATA[Información de interés general:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="79" width="371" height="45" uuid="d97fbdd6-c1f7-4565-be33-b811b930a3dd"/>
+				<reportElement x="0" y="95" width="371" height="50" uuid="d97fbdd6-c1f7-4565-be33-b811b930a3dd"/>
 				<box>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Top">
+				<textElement textAlignment="Justified" verticalAlignment="Top">
 					<font fontName="Arial Narrow" size="6"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
@@ -761,13 +997,13 @@ del dosímetro]]></text>
     radiación ubicados en el tronco, el cual debe estar protegido por el delantal plomado. ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="79" width="381" height="45" uuid="f5e5aade-5475-4fa0-aba6-f49ebea65134"/>
+				<reportElement x="371" y="95" width="381" height="50" uuid="f5e5aade-5475-4fa0-aba6-f49ebea65134"/>
 				<box>
 					<leftPen lineWidth="0.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Top">
+				<textElement textAlignment="Justified" verticalAlignment="Top">
 					<font fontName="Arial Narrow" size="6"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
@@ -777,6 +1013,14 @@ del dosímetro]]></text>
     acciones que reduzcan o eviten la exposición o la probabilidad de exposición.
 *   La periodicidad de recambio de los dosímetros, reviste importancia ante la necesidad de investigar registros de dosis fuera de los
     rangos recomendados, ante un incidente, un accidente o una situación de emergencia.  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="74" width="752" height="10" uuid="a163b478-d4f7-40f1-b848-a145b88390ea"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="752" height="4" uuid="d6b9822f-58cc-4571-81f9-9b92313711d0"/>
+				<text><![CDATA[]]></text>
 			</staticText>
 		</band>
 	</columnFooter>
