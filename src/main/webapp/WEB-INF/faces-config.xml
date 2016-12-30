@@ -13,6 +13,12 @@
 			<view-handler>
 				org.primefaces.application.DialogViewHandler
 			</view-handler>
+			
+			<locale-config>
+				<default-locale>es</default-locale>
+				<supported-locale>en</supported-locale>
+				<supported-locale>es_CO</supported-locale>
+	  		</locale-config>
 		</application>
  
         <navigation-rule>
@@ -1264,10 +1270,4 @@
             </navigation-case>
         </navigation-rule>
         
-        <locale-config>
-			<default-locale>es</default-locale>
-			<supported-locale>en</supported-locale>
-			<supported-locale>es_CO</supported-locale>
-		</locale-config>
-        
-    </faces-config>
+</faces-config>
